@@ -1,0 +1,20 @@
+# .NET
+bin/
+obj/
+
+# User-specific files
+.vs/
+.vscode/
+.idea/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# User-specific files
+.user
+.userosscache
+.suo
+.userprefs
