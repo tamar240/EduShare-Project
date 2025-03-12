@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "3pSbpIgYkZ9NcA0oXaLhLcrJr0RxCsEGRHnTACLHsHA=",
+  "Source": "EduShare.API",
+  "BasePath": "_content/EduShare.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
