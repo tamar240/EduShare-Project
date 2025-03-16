@@ -1,22 +1,20 @@
-﻿using EduShare.Core.Entities;
-using EduShare.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using EduShare.Core.Entities;
+using EduShare.Core.Models;
 
 namespace EduShare.Core.Services
 {
     public interface IFileService
     {
-        Task<List<UploadedFile>> GetAllFiles();  // קבלת כל הקבצים
-        Task<UploadedFile> GetFileById(int id);  // קבלת קובץ לפי ID
-        Task<List<UploadedFile>> GetFilesByUserId(int userId);  // קבלת כל הקבצים של משתמש מסוים
-        Task AddFile(UploadedFile file);  // הוספת קובץ
-        Task UpdateFile(int id, UploadedFile file);  // עדכון קובץ
-        Task DeleteFile(int id);  // מחיקת קובץ
-        Task UpdateFileAccessType(int fileId, FileAccessTypeEnum accessType);
+        Task<UploadedFile> AddFileAsync(UploadedFile file);
+        Task<List<UploadedFile>> GetFilesByUserIdAsync(int userId);
+        Task<List<UploadedFile>> GetFilesByLessonIdAsync(int id);
+        Task<List<UploadedFile>> GetAllFilesAsync();
+        Task UpdateFileAsync(int id, UploadedFile file);
+        Task DeleteFileAsync(int id);
+        //Task UpdateFileAccessTypeAsync(int fileId, FileAccessTypeEnum newAccessType);
+
 
     }
 }

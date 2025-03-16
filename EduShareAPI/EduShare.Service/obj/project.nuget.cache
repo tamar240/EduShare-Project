@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "WzNlsysLkBU=",
+  "dgSpecHash": "jdKX1lQcuos=",
   "success": true,
-  "projectFilePath": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShareAPI\\EduShare.Service\\EduShare.Service.csproj",
+  "projectFilePath": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShare.Service\\EduShare.Service.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\user1\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\awssdk.core\\3.7.402.17\\awssdk.core.3.7.402.17.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\awssdk.s3\\3.7.415.16\\awssdk.s3.3.7.415.16.nupkg.sha512",
     "C:\\Users\\user1\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0\\microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\user1\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\user1\\.nuget\\packages\\microsoft.extensions.options\\8.0.0\\microsoft.extensions.options.8.0.0.nupkg.sha512",

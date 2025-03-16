@@ -4,6 +4,7 @@ using EduShare.Core.Services;
 using EduShare.Data;
 using EduShare.Data.Repositories;
 using EduShare.Data.Services;
+using EduShare.Infrastructure.Repositories;
 using EduShare.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -46,8 +47,10 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Services.AddScoped<IFileService, FileService>();
-builder.Services.AddScoped<IFileRepository, FileRepository>();
+//builder.Services.AddScoped<IFileService, FileService>();
+//builder.Services.AddScoped<IFileRepository, FileRepository>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<UserContextRepository>();
 
 
 builder.Services.AddScoped<IInstitutionService, InstitutionService>();
@@ -57,13 +60,24 @@ builder.Services.AddScoped<IInstitutionRepository, InstitutionRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-builder.Services.AddScoped<IRoleRpository, RoleRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+
 
 builder.Services.AddScoped<IUserRolesRepository, UserRolesRepository>();
 
+// הזרקות לשירותים (Services)
+builder.Services.AddScoped<ISubjectService, SubjectService>();
+builder.Services.AddScoped<ILessonService, LessonService>();
+builder.Services.AddScoped<IFileService, FileService>();
+
+// הזרקות לרפוזיטוריות (Repositories)
+builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+builder.Services.AddScoped<ILessonRepository, LessonRepository>();
+builder.Services.AddScoped<IFileRepository, FileRepository>();
 
 
 builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
+
 builder.Services.AddScoped<AuthService>();
 
 
@@ -94,19 +108,23 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
     options.AddPolicy("TeacherOnly", policy => policy.RequireRole("Teacher"));
 });
-
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllOrigins",
-        builder => builder.AllowAnyOrigin()
-                          .AllowAnyMethod()
-                          .AllowAnyHeader());
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.AllowAnyOrigin() // מתיר גישה מכל דומיין
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                      });
 });
+
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
-
+app.UseCors(MyAllowSpecificOrigins);
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

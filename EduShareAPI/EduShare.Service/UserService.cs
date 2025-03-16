@@ -44,10 +44,13 @@ namespace EduShare.Service
         {
             var user2 = _mapper.Map<User>(user);
             if (await GetUserByIdAsync(user.Id) != null)
-                 return null;
+                return null;
+
             User u = await _managerRepository.Users.AddUserAsync(user2);
+
             if (u == null)
                 return null;
+
             var role = await _managerRepository.Roles.GetIdByRoleAsync(roleName);
             var userRole = await _managerRepository.UserRoles.AddAsync(new UserRoles { Role = role, User = u });
             await _managerRepository.SaveAsync();

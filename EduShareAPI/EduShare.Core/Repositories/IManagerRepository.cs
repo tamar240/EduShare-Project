@@ -1,6 +1,5 @@
 ﻿using EduShare.Core.Entities;
-
-
+using System.Threading.Tasks;
 
 namespace EduShare.Core.Repositories
 {
@@ -9,8 +8,8 @@ namespace EduShare.Core.Repositories
         IFileRepository Files { get; }
         IUserRepository Users { get; }
         IInstitutionRepository Institutions { get; }
-         IUserRolesRepository UserRoles { get; }
-         IRoleRpository Roles { get; }
-        Task SaveAsync();
+        IUserRolesRepository UserRoles { get; }
+        IRoleRepository Roles { get; }  // עדכון השם מ-IRoleRpository ל-IRoleRepository
+        Task SaveAsync();  // שמירת שינויים במאגר הנתונים
     }
 }

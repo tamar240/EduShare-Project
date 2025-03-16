@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using EduShare.Core.Entities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -24,10 +25,12 @@ namespace EduShare.Service
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
+
             var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, username)
-        };
+    {
+        new Claim(ClaimTypes.Name, username),
+        //new Claim("email", email) // הוספת ה-ID של המשתמש
+    };
 
             // הוספת תפקידים כ-Claims
             foreach (var role in roles)

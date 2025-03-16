@@ -13,14 +13,14 @@ namespace EduShare.Data.Repositories
         public IUserRepository Users { get; }
         public IInstitutionRepository Institutions { get; }
         public IUserRolesRepository UserRoles { get; }
-        public IRoleRpository Roles { get; }
+        public IRoleRepository Roles { get; }
 
         public ManagerRepository(DataContext context,
             IFileRepository fileRepository,
             IUserRepository userRepository,
             IInstitutionRepository institutionRepository,
             IUserRolesRepository userRolesRepository,
-            IRoleRpository roleRpository)
+            IRoleRepository roleRpository)
         {
             _context = context;
             Files = fileRepository;
@@ -32,7 +32,15 @@ namespace EduShare.Data.Repositories
 
         public async Task SaveAsync()
         {
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving changes: {ex.Message}");
+                throw;
+            }
         }
     }
 }

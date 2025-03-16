@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EduShare.Data.Repositories
 {
-    public class RoleRepository : IRoleRpository
+    public class RoleRepository : IRoleRepository
     {
         protected readonly DbSet<Roles> _dbSet;
 

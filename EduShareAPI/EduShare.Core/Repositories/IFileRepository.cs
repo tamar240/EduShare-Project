@@ -10,12 +10,15 @@ namespace EduShare.Core.Repositories
 {
     public interface IFileRepository
     {
-        Task<List<UploadedFile>> GetAllFilesAsync();
+        Task<UploadedFile> AddAsync(UploadedFile file);
+        Task<List<UploadedFile>> GetFilesByLessonIdAsync(int folderId);
+        Task<List<UploadedFile>> GetAllByUserIdAsync(int id);
         Task<UploadedFile> GetFileByIdAsync(int id);
-        Task<List<UploadedFile>> GetFilesByUserIdAsync(int userId);
-        Task AddFileAsync(UploadedFile file);
-        Task UpdateFileAsync(int id, UploadedFile file);
-        Task DeleteFileAsync(int id);
-        Task UpdateFileAccessTypeAsync(int fileId, FileAccessTypeEnum newAccessType);
+        Task UpdateAsync(int id, UploadedFile file);
+        Task DeleteAsync(int id);
+        Task<List<UploadedFile>> GetAllFilesAsync();
+        //Task UpdateFileAccessTypeAsync(int fileId, FileAccessTypeEnum newAccessType);
+
     }
+
 }

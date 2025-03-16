@@ -55,8 +55,10 @@ namespace EduShare.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateUser(int id, [FromBody] User user)
+        public async Task<ActionResult> UpdateUser(int id, [FromBody] UserDTO userDTO)
         {
+            var user=_mapper.Map<User>(userDTO);
+
             var existingUser = await _userService.GetUserByIdAsync(id);
             if (existingUser == null)
             {

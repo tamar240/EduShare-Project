@@ -2,91 +2,94 @@
 using EduShare.Core.Models;
 using EduShare.Core.Repositories;
 using EduShare.Data;
+using EduShare.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
-
 
 public class FileRepository : IFileRepository
 {
     private readonly DataContext _context;
+    private readonly UserContextRepository _userContextRepository;
+    //private readonly int userId;
 
-    public FileRepository(DataContext context)
+
+    public FileRepository(DataContext context,UserContextRepository userContextRepository)
     {
         _context = context;
+        _userContextRepository = userContextRepository;
+        
     }
 
-    // קבלת כל הקבצים
+    public async Task<UploadedFile> AddAsync(UploadedFile file)
+    {
+        var userId = _userContextRepository.GetCurrentUserId();
+        file.OwnerId = userId;
+        _context.Files.Add(file);
+        await _context.SaveChangesAsync();
+        return file;
+    }
+    public async Task<UploadedFile> GetFileByIdAsync(int id)
+    {
+        var file = await _context.Files.FindAsync(id);
+        if (file == null)
+        {
+            throw new KeyNotFoundException($"File with ID {id} not found.");
+        }
+        var userId = _userContextRepository.GetCurrentUserId();
+
+        if (file.OwnerId != userId)
+        {
+            throw new UnauthorizedAccessException("You do not have permission to access this file.");
+        }
+
+        return file;
+    }
+
+    public async Task<List<UploadedFile>> GetFilesByLessonIdAsync(int lessonId)
+    {
+        return await _context.Files
+            .Where(f => f.LessonId == lessonId) // מסנן רק קבצים ששייכים לשיעור
+            .ToListAsync();
+    }
+
+    public async Task<List<UploadedFile>> GetAllByUserIdAsync(int id)//מיותר בעיקרון
+    {
+        return await _context.Files.Where(f => f.OwnerId==id).ToListAsync();
+    }
     public async Task<List<UploadedFile>> GetAllFilesAsync()
     {
         return await _context.Files.ToListAsync();
     }
 
-    // קבלת קובץ לפי ID
-    public async Task<UploadedFile> GetFileByIdAsync(int id)
+    public async Task UpdateAsync(int id, UploadedFile updatedFile)
     {
-        var file = await _context.Files.FirstOrDefaultAsync(f => f.Id == id);
-        if (file == null)
-            throw new KeyNotFoundException($"File with id {id} was not found.");
-
-        return file;
-    }
-
-    // קבלת כל הקבצים לפי UserId
-    public async Task<List<UploadedFile>> GetFilesByUserIdAsync(int userId)
-    {
-        return await _context.Files.Where(f => f.UserId == userId).ToListAsync();
-    }
-
-    // הוספת קובץ חדש
-    public async Task AddFileAsync(UploadedFile file)
-    {
-        await _context.Files.AddAsync(file);
-    }
-
-    // עדכון קובץ
-    public async Task UpdateFileAsync(int id, UploadedFile file)
-    {
-        var existingFile = await _context.Files.SingleOrDefaultAsync(f => f.Id == id);
-
-        if (existingFile != null)
+        var existingFile = await _context.Files.FindAsync(id);
+        if (existingFile == null)
         {
-            existingFile.FileName = file.FileName;
-            existingFile.FileType = file.FileType;
-            existingFile.FilePath = file.FilePath;
-            existingFile.UploadedAt = file.UploadedAt;
-            existingFile.UserId = file.UserId;
+            throw new KeyNotFoundException($"File with ID {id} not found.");
         }
-        else
-        {
-            throw new KeyNotFoundException($"File with id {id} was not found.");
-        }
+
+        // עדכון שדות רלוונטיים בלבד
+        existingFile.FileName = updatedFile.FileName;
+        existingFile.FileType = updatedFile.FileType;
+        //existingFile.FilePath = updatedFile.FilePath; // אם הנתיב השתנה
+        //existingFile.IsDeleted = updatedFile.IsDeleted;
+        existingFile.UpdatedAt = DateTime.UtcNow; // עדכון זמן העריכה
+        //existingFile.S3Key = updatedFile.S3Key; // במידה והקובץ הועלה מחדש
+        //existingFile.Size = updatedFile.Size; // עדכון גודל קובץ במקרה של העלאה מחודשת
+
+        await _context.SaveChangesAsync();
     }
 
-    // מחיקת קובץ
-    public async Task DeleteFileAsync(int id)
+    public async Task DeleteAsync(int id)
     {
-        var file = await _context.Files.SingleOrDefaultAsync(f => f.Id == id);
-
+        var file = await _context.Files.FindAsync(id);
         if (file != null)
         {
-            _context.Files.Remove(file);
-        }
-        else
-        {
-            throw new KeyNotFoundException($"File with id {id} was not found.");
+           file.IsDeleted = true;
+            await _context.SaveChangesAsync();
         }
     }
-
-    public async Task UpdateFileAccessTypeAsync(int fileId, FileAccessTypeEnum newAccessType)
-    {
-        var file = await _context.Files.FindAsync(fileId);
-        if (file == null)
-        {
-            throw new KeyNotFoundException("File not found");
-        }
-
-        file.AccessType = newAccessType;
-    }
-
+ 
 
 
 

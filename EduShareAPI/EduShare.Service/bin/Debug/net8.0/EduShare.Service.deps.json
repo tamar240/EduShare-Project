@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v8.0": {
       "EduShare.Service/1.0.0": {
         "dependencies": {
+          "AWSSDK.S3": "3.7.415.16",
           "EduShare.Core": "1.0.0",
           "Microsoft.Extensions.Configuration.Abstractions": "8.0.0",
           "Microsoft.IdentityModel.Tokens": "8.0.1",
@@ -26,6 +27,25 @@
           "lib/net8.0/AutoMapper.dll": {
             "assemblyVersion": "14.0.0.0",
             "fileVersion": "14.0.0.0"
+          }
+        }
+      },
+      "AWSSDK.Core/3.7.402.17": {
+        "runtime": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.402.17"
+          }
+        }
+      },
+      "AWSSDK.S3/3.7.415.16": {
+        "dependencies": {
+          "AWSSDK.Core": "3.7.402.17"
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.S3.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.415.16"
           }
         }
       },
@@ -154,6 +174,20 @@
       "sha512": "sha512-OC+1neAPM4oCCqQj3g2GJ2shziNNhOkxmNB9cVS8jtx4JbgmRzLcUOxB9Tsz6cVPHugdkHgCaCrTjjSI0Z5sCQ==",
       "path": "automapper/14.0.0",
       "hashPath": "automapper.14.0.0.nupkg.sha512"
+    },
+    "AWSSDK.Core/3.7.402.17": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-NsANA2x7IraBItys/6A99bYp4uSEgtQFwYXsdZodnsZd5Shq2UessLGXr6H4hXKEuDJE50sdtrHJ+8cDWzBFBQ==",
+      "path": "awssdk.core/3.7.402.17",
+      "hashPath": "awssdk.core.3.7.402.17.nupkg.sha512"
+    },
+    "AWSSDK.S3/3.7.415.16": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rwvPi21JQrDFLhYE/pyANlY9B3ic3zvIDKrB2hnQlmJz0Cxhp4ByQ9yMV/OHXIX80tJIFhXmW4rBWlrooSU4Pg==",
+      "path": "awssdk.s3/3.7.415.16",
+      "hashPath": "awssdk.s3.3.7.415.16.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration.Abstractions/8.0.0": {
       "type": "package",

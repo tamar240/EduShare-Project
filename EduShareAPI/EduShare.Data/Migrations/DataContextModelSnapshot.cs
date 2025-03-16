@@ -43,6 +43,44 @@ namespace EduShare.Data.Migrations
                     b.ToTable("Institutions");
                 });
 
+            modelBuilder.Entity("EduShare.Core.Entities.Lesson", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccessType")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Lessons");
+                });
+
             modelBuilder.Entity("EduShare.Core.Entities.Roles", b =>
                 {
                     b.Property<int>("Id")
@@ -70,6 +108,38 @@ namespace EduShare.Data.Migrations
                     b.ToTable("Roles");
                 });
 
+            modelBuilder.Entity("EduShare.Core.Entities.Subject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Subjects");
+                });
+
             modelBuilder.Entity("EduShare.Core.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -83,7 +153,7 @@ namespace EduShare.Data.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("InstitutionCode")
                         .HasColumnType("nvarchar(max)");
@@ -91,9 +161,12 @@ namespace EduShare.Data.Migrations
                     b.Property<int?>("InstitutionId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -104,7 +177,13 @@ namespace EduShare.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.HasIndex("InstitutionId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -140,12 +219,10 @@ namespace EduShare.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AccessType")
-                        .HasColumnType("int");
-
                     b.Property<string>("FileName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("FilePath")
                         .IsRequired()
@@ -155,17 +232,58 @@ namespace EduShare.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("LessonId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("S3Key")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("UploadedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("LessonId");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("EduShare.Core.Entities.Lesson", b =>
+                {
+                    b.HasOne("EduShare.Core.Entities.Subject", "Subject")
+                        .WithMany("Lessons")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("EduShare.Core.Entities.Subject", b =>
+                {
+                    b.HasOne("EduShare.Core.Entities.User", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("EduShare.Core.Entities.User", b =>
@@ -196,16 +314,36 @@ namespace EduShare.Data.Migrations
 
             modelBuilder.Entity("EduShare.Core.Models.UploadedFile", b =>
                 {
-                    b.HasOne("EduShare.Core.Entities.User", null)
-                        .WithMany("UploadedFiles")
-                        .HasForeignKey("UserId")
+                    b.HasOne("EduShare.Core.Entities.Lesson", "Lesson")
+                        .WithMany("Files")
+                        .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("EduShare.Core.Entities.User", "Owner")
+                        .WithMany("UploadedFiles")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lesson");
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("EduShare.Core.Entities.Institution", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("EduShare.Core.Entities.Lesson", b =>
+                {
+                    b.Navigation("Files");
+                });
+
+            modelBuilder.Entity("EduShare.Core.Entities.Subject", b =>
+                {
+                    b.Navigation("Lessons");
                 });
 
             modelBuilder.Entity("EduShare.Core.Entities.User", b =>

@@ -30,23 +30,25 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> LoginAsync([FromBody] LoginModel model)
     {
         var userRole = await _userService.GetUserByNameAndPassword(model.Name, model.Password);
+        if (userRole != null)
+        {
 
-        if (userRole.Role.RoleName == "Admin")
-        {
-            var token = _authService.GenerateJwtToken(model.Name, new[] { "Admin" });
-            return Ok(new { Token = token ,User = userRole.User});
+            if (userRole.Role.RoleName == "Admin")
+            {
+                var token = _authService.GenerateJwtToken(model.Name, new[] { "Admin" });
+                return Ok(new { Token = token, User = userRole.User });
+            }
+            else if (userRole.Role.RoleName == "Editor")
+            {
+                var token = _authService.GenerateJwtToken(model.Name, new[] { "Editor" });
+                return Ok(new { Token = token });
+            }
+            else if (userRole.Role.RoleName == "Viewer")
+            {
+                var token = _authService.GenerateJwtToken(model.Name, new[] { "Viewer" });
+                return Ok(new { Token = token });
+            }
         }
-        else if (userRole.Role.RoleName == "Editor")
-        {
-            var token = _authService.GenerateJwtToken(model.Name, new[] { "Editor" });
-            return Ok(new { Token = token });
-        }
-        else if (userRole.Role.RoleName == "Viewer")
-        {
-            var token = _authService.GenerateJwtToken(model.Name, new[] { "Viewer" });
-            return Ok(new { Token = token });
-        }
-
         return Unauthorized();
     }
 
@@ -64,7 +66,7 @@ public class AuthController : ControllerBase
         if (existingUser == null)
             return BadRequest();
       
-        var token = _authService.GenerateJwtToken(model.Name, new[] { model.RoleName });
+        var token = _authService.GenerateJwtToken(model.Name,new[] { model.RoleName });
         return Ok(new { Token = token });
 
 

@@ -1,5 +1,6 @@
 ﻿using EduShare.Core.Entities;
 using EduShare.Core.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace EduShare.Data.Repositories
         {
             _context = context;
         }
+
 
         public async Task<List<User>> GetAllUsersAsync()
         {
@@ -48,7 +50,21 @@ namespace EduShare.Data.Repositories
 
         public async Task<User> AddUserAsync(User user)
         {
+            // בדיקה אם השם קיים
+            if (await _context.Users.AnyAsync(u => u.Name == user.Name))
+            {
+                throw new InvalidOperationException("שם זה כבר קיים.");
+            }
+
+            // בדיקה אם האימייל קיים
+            if (await _context.Users.AnyAsync(u => u.Email == user.Email))
+            {
+                throw new InvalidOperationException("אימייל זה כבר קיים.");
+            }
+
             var u = await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync(); // חשוב לשמור את השינויים ב-DB
+
             return user;
         }
 
@@ -73,7 +89,8 @@ namespace EduShare.Data.Repositories
                 throw new KeyNotFoundException($"User with id {id} not found.");
             }
 
-            _context.Users.Remove(user);
+            user.IsDeleted = true;
+            await _context.SaveChangesAsync();
         }
     }
 }

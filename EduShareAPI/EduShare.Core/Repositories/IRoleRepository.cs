@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EduShare.Core.Repositories
 {
-    public interface IRoleRpository
+    public interface IRoleRepository
     {
         Task<IEnumerable<Roles>> GetAllAsync();
         public Task<Roles> GetRoleByIdAsync(int id);
