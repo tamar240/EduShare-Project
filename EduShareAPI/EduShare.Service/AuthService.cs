@@ -19,7 +19,6 @@ namespace EduShare.Service
         {
             _configuration = configuration;
         }
-
         public string GenerateJwtToken(string username, string[] roles)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -28,7 +27,7 @@ namespace EduShare.Service
 
             var claims = new List<Claim>
     {
-        new Claim(ClaimTypes.Name, username),
+        new Claim(ClaimTypes.NameIdentifier, username),
         //new Claim("email", email) // הוספת ה-ID של המשתמש
     };
 

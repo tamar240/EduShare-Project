@@ -29,3 +29,5 @@ C:\Users\user1\Documents\programing\second year\EduShare\EduShareAPI\EduShare.Se
 C:\Users\user1\Documents\programing\second year\EduShare\EduShareAPI\EduShare.Service\obj\Debug\net8.0\refint\EduShare.Service.dll
 C:\Users\user1\Documents\programing\second year\EduShare\EduShareAPI\EduShare.Service\obj\Debug\net8.0\EduShare.Service.pdb
 C:\Users\user1\Documents\programing\second year\EduShare\EduShareAPI\EduShare.Service\obj\Debug\net8.0\ref\EduShare.Service.dll
+C:\Users\user1\Documents\programing\second year\EduShare\EduShareAPI\EduShare.Service\bin\Debug\net8.0\EduShare.Data.dll
+C:\Users\user1\Documents\programing\second year\EduShare\EduShareAPI\EduShare.Service\bin\Debug\net8.0\EduShare.Data.pdb

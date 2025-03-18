@@ -10,10 +10,13 @@ namespace EduShare.Core.Repositories
     public interface ILessonRepository
     {
         Task<Lesson> AddAsync(Lesson lesson);
-        Task<List<Lesson>> GetAllBySubjectIdAsync(int subjectId);
-        Task<Lesson> GetByIdAsync(int id);
+        Task<List<Lesson>> GetAllPublicLessonsAsyncBySubject(int userId, int subjectId);
+        Task<List<Lesson>> GetMyLessonsAsyncBySubject(int userId, int subjectId);
+        Task<List<Lesson>> GetAllLessonsBySubjectAsync(int subjectId);//admin
+        Task<Lesson> GetByIdAsync(int id,int userId);
         Task UpdateAsync(Lesson lesson);
         Task DeleteAsync(int id);
     }
-
 }
+
+

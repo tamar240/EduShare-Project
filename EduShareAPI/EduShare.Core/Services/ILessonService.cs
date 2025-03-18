@@ -7,9 +7,12 @@ namespace EduShare.Core.Services
     public interface ILessonService
     {
         Task<Lesson> AddLessonAsync(Lesson lesson);
-        Task<List<Lesson>> GetLessonsBySubjectIdAsync(int subjectId);
-        Task<Lesson> GetLessonByIdAsync(int id);
-        Task UpdateLessonAsync(Lesson lesson);
-        Task DeleteLessonAsync(int id);
+        Task<List<Lesson>> GetAllPublicLessonsAsyncBySubject (int subjectId);
+        Task<List<Lesson>> GetMyLessonsAsyncBySubject( int subjectId);
+        Task<List<Lesson>> GetAllLessonsBySubjectAsync(int subjectId);//admin
+        Task<Lesson> GetByIdAsync(int id);
+        Task UpdateAsync(int id,Lesson lesson);
+        Task DeleteAsync(int id);
+
     }
 }

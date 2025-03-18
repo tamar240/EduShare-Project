@@ -11,21 +11,18 @@ namespace EduShare.Data.Repositories
 
         public IFileRepository Files { get; }
         public IUserRepository Users { get; }
-        public IInstitutionRepository Institutions { get; }
         public IUserRolesRepository UserRoles { get; }
         public IRoleRepository Roles { get; }
 
         public ManagerRepository(DataContext context,
             IFileRepository fileRepository,
             IUserRepository userRepository,
-            IInstitutionRepository institutionRepository,
             IUserRolesRepository userRolesRepository,
             IRoleRepository roleRpository)
         {
             _context = context;
             Files = fileRepository;
             Users = userRepository;
-            Institutions = institutionRepository;
             UserRoles = userRolesRepository;
             Roles = roleRpository;
         }

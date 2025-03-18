@@ -1,7 +1,6 @@
 ﻿using EduShare.Core.Entities;
 using EduShare.Core.Models;
-using EduShare.Core.Repositories;
-using EduShare.Data;
+using EduShare.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,11 +12,11 @@ namespace EduShareAPI.Controllers
     [ApiController]
     public class UploadedFileController : ControllerBase
     {
-        private readonly IFileRepository _fileRepository;
+        private readonly IFileService _fileService;
 
-        public UploadedFileController(IFileRepository fileRepository)
+        public UploadedFileController(IFileService fileService)
         {
-            _fileRepository = fileRepository;
+            _fileService = fileService;
         }
 
         // הוספת קובץ
@@ -29,7 +28,7 @@ namespace EduShareAPI.Controllers
                 return BadRequest("Invalid file data.");
             }
 
-            var addedFile = await _fileRepository.AddAsync(file);
+            var addedFile = await _fileService.AddFileAsync(file);
             return CreatedAtAction(nameof(GetFileByIdAsync), new { id = addedFile.Id }, addedFile);
         }
 
@@ -39,7 +38,7 @@ namespace EduShareAPI.Controllers
         {
             try
             {
-                var file = await _fileRepository.GetFileByIdAsync(id);
+                var file = await _fileService.GetFilesByUserIdAsync(id); // יש לתקן אם מדובר בקובץ לפי ID
                 return Ok(file);
             }
             catch (KeyNotFoundException ex)
@@ -48,11 +47,19 @@ namespace EduShareAPI.Controllers
             }
         }
 
+        // קבלת כל הקבצים של משתמש מסוים
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetFilesByUserIdAsync(int userId)
+        {
+            var files = await _fileService.GetFilesByUserIdAsync(userId);
+            return Ok(files);
+        }
+
         // קבלת כל הקבצים של שיעור מסוים
         [HttpGet("lesson/{lessonId}")]
         public async Task<IActionResult> GetFilesByLessonIdAsync(int lessonId)
         {
-            var files = await _fileRepository.GetFilesByLessonIdAsync(lessonId);
+            var files = await _fileService.GetFilesByLessonIdAsync(lessonId);
             return Ok(files);
         }
 
@@ -60,7 +67,7 @@ namespace EduShareAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllFilesAsync()
         {
-            var files = await _fileRepository.GetAllFilesAsync();
+            var files = await _fileService.GetAllFilesAsync();
             return Ok(files);
         }
 
@@ -70,7 +77,7 @@ namespace EduShareAPI.Controllers
         {
             try
             {
-                await _fileRepository.UpdateAsync(id, updatedFile);
+                await _fileService.UpdateFileAsync(id, updatedFile);
                 return NoContent(); // עדכון מוצלח
             }
             catch (KeyNotFoundException ex)
@@ -85,7 +92,7 @@ namespace EduShareAPI.Controllers
         {
             try
             {
-                await _fileRepository.DeleteAsync(id);
+                await _fileService.DeleteFileAsync(id);
                 return NoContent(); // מחיקה מוצלחת
             }
             catch (KeyNotFoundException ex)

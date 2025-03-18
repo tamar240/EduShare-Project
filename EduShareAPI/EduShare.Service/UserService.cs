@@ -29,7 +29,18 @@ namespace EduShare.Service
         {
             return await _managerRepository.Users.GetUserByIdAsync(id);
         }
+        public async Task<UserRoles?> GetUserByNameAndPassword(string username, string password)
+        {
+            var users = await _managerRepository.Users.GetAllUsersAsync();
+            var user = users.FirstOrDefault(u => u.Name == username &&
+            u.Password == password);
 
+            if (user == null)
+                return null;
+
+            var role = _managerRepository.UserRoles.GetAllAsync().Result.FirstOrDefault(u => u.UserId == user.Id);
+            return role;
+        }
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _managerRepository.Users.GetUserByEmailAsync(email);
@@ -53,8 +64,11 @@ namespace EduShare.Service
 
             var role = await _managerRepository.Roles.GetIdByRoleAsync(roleName);
             var userRole = await _managerRepository.UserRoles.AddAsync(new UserRoles { Role = role, User = u });
+
             await _managerRepository.SaveAsync();
+
             var user3 = _mapper.Map<UserDTO>(u);
+
             return user3;
         }
 
@@ -69,17 +83,6 @@ namespace EduShare.Service
             await _managerRepository.Users.DeleteUserAsync(id);
             await _managerRepository.SaveAsync();
         }
-        public async Task<UserRoles?> GetUserByNameAndPassword(string username, string password)
-        {
-            // חיפוש המשתמש לפי שם המשתמש
-            var users = await _managerRepository.Users.GetAllUsersAsync();
-            var user = users.FirstOrDefault(u => u.Name == username &&
-            u.Password == password);
-            // אם לא נמצא משתמש או שהסיסמה שגויה
-            if (user == null)
-                return null;
-            var role = _managerRepository.UserRoles.GetAllAsync().Result.FirstOrDefault(u => u.UserId == user.Id);
-            return role;
-        }
+
     }
 }

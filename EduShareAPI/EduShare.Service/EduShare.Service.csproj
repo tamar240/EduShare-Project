@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EduShare.Core\EduShare.Core.csproj" />
+    <ProjectReference Include="..\EduShare.Data\EduShare.Data.csproj" />
   </ItemGroup>
 
 </Project>

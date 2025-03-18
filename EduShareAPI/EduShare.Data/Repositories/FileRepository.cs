@@ -24,7 +24,6 @@ public class FileRepository : IFileRepository
         var userId = _userContextRepository.GetCurrentUserId();
         file.OwnerId = userId;
         _context.Files.Add(file);
-        await _context.SaveChangesAsync();
         return file;
     }
     public async Task<UploadedFile> GetFileByIdAsync(int id)
@@ -77,7 +76,6 @@ public class FileRepository : IFileRepository
         //existingFile.S3Key = updatedFile.S3Key; // במידה והקובץ הועלה מחדש
         //existingFile.Size = updatedFile.Size; // עדכון גודל קובץ במקרה של העלאה מחודשת
 
-        await _context.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(int id)
@@ -86,7 +84,6 @@ public class FileRepository : IFileRepository
         if (file != null)
         {
            file.IsDeleted = true;
-            await _context.SaveChangesAsync();
         }
     }
  

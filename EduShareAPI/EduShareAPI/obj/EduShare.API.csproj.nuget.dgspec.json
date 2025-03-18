@@ -200,6 +200,9 @@
             "projectReferences": {
               "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShare.Core\\EduShare.Core.csproj": {
                 "projectPath": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShare.Core\\EduShare.Core.csproj"
+              },
+              "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShare.Data\\EduShare.Data.csproj": {
+                "projectPath": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShare.Data\\EduShare.Data.csproj"
               }
             }
           }

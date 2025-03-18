@@ -11,6 +11,8 @@ namespace EduShare.Core.Repositories
         Task<User> GetUserByIdAsync(int id);
         Task<User> GetUserByEmailAsync(string email);
         Task<List<User>> GetUsersByInstitutionAsync(string institutionCode);
+        Task<User> GetUserByUsernameAsync(string userName);
+
         Task<User> AddUserAsync(User user);
         Task UpdateUserAsync(int id, User user);
         Task DeleteUserAsync(int id);

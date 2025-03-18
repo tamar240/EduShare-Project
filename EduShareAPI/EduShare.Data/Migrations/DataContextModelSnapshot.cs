@@ -51,9 +51,6 @@ namespace EduShare.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AccessType")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -66,6 +63,9 @@ namespace EduShare.Data.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Permission")
                         .HasColumnType("int");
 
                     b.Property<int>("SubjectId")
@@ -255,24 +255,25 @@ namespace EduShare.Data.Migrations
                     b.Property<DateTime>("UploadedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("LessonId");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Files");
                 });
 
             modelBuilder.Entity("EduShare.Core.Entities.Lesson", b =>
                 {
-                    b.HasOne("EduShare.Core.Entities.Subject", "Subject")
+                    b.HasOne("EduShare.Core.Entities.Subject", null)
                         .WithMany("Lessons")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("EduShare.Core.Entities.Subject", b =>
@@ -314,21 +315,15 @@ namespace EduShare.Data.Migrations
 
             modelBuilder.Entity("EduShare.Core.Models.UploadedFile", b =>
                 {
-                    b.HasOne("EduShare.Core.Entities.Lesson", "Lesson")
+                    b.HasOne("EduShare.Core.Entities.Lesson", null)
                         .WithMany("Files")
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EduShare.Core.Entities.User", "Owner")
+                    b.HasOne("EduShare.Core.Entities.User", null)
                         .WithMany("UploadedFiles")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Lesson");
-
-                    b.Navigation("Owner");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("EduShare.Core.Entities.Institution", b =>

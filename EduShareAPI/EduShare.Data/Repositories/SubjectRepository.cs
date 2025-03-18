@@ -52,8 +52,8 @@ namespace EduShare.Infrastructure.Repositories
         {
             var lessons = await _context.Lessons
                 .Where(lesson => lesson.SubjectId == subjectId)
-                .Where(lesson => lesson.AccessType == FileAccessTypeEnum.Public ||
-                                (lesson.AccessType == FileAccessTypeEnum.Private && lesson.OwnerId == userId))
+                .Where(lesson => lesson.Permission == FileAccessTypeEnum.Public ||
+                                (lesson.Permission == FileAccessTypeEnum.Private && lesson.OwnerId == userId))
                 .ToListAsync();
 
             return lessons;

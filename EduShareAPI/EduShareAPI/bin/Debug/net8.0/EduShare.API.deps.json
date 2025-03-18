@@ -1450,6 +1450,7 @@
         "dependencies": {
           "AWSSDK.S3": "3.7.415.16",
           "EduShare.Core": "1.0.0",
+          "EduShare.Data": "1.0.0",
           "Microsoft.Extensions.Configuration.Abstractions": "8.0.0",
           "Microsoft.IdentityModel.Tokens": "8.0.1",
           "Portable.BouncyCastle": "1.9.0",

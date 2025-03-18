@@ -10,7 +10,6 @@ namespace EduShare.Core.Entities
     {
         Private,
         Public, 
-        Institution
     }
 }
 

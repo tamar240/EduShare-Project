@@ -42,6 +42,11 @@ namespace EduShare.Data.Repositories
             }
             return user;
         }
+        public async Task<User> GetUserByUsernameAsync(string userName)
+        {
+            return await _context.Users.SingleOrDefaultAsync(u => u.Name == userName);
+
+        }
 
         public async Task<List<User>> GetUsersByInstitutionAsync(string institutionCode)
         {
@@ -50,20 +55,17 @@ namespace EduShare.Data.Repositories
 
         public async Task<User> AddUserAsync(User user)
         {
-            // בדיקה אם השם קיים
             if (await _context.Users.AnyAsync(u => u.Name == user.Name))
             {
                 throw new InvalidOperationException("שם זה כבר קיים.");
             }
 
-            // בדיקה אם האימייל קיים
             if (await _context.Users.AnyAsync(u => u.Email == user.Email))
             {
                 throw new InvalidOperationException("אימייל זה כבר קיים.");
             }
 
             var u = await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync(); // חשוב לשמור את השינויים ב-DB
 
             return user;
         }
@@ -78,7 +80,7 @@ namespace EduShare.Data.Repositories
 
             existingUser.Name = user.Name;
             existingUser.Email = user.Email;
-            //existingUser.InstitutionCode = user.InstitutionCode;
+
         }
 
         public async Task DeleteUserAsync(int id)
@@ -90,7 +92,6 @@ namespace EduShare.Data.Repositories
             }
 
             user.IsDeleted = true;
-            await _context.SaveChangesAsync();
         }
     }
 }

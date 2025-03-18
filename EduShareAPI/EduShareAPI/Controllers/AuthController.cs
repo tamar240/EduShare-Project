@@ -67,6 +67,7 @@ public class AuthController : ControllerBase
             return BadRequest();
       
         var token = _authService.GenerateJwtToken(model.Name,new[] { model.RoleName });
+        //add user and return it
         return Ok(new { Token = token });
 
 

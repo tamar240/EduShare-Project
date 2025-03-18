@@ -1,3 +1,4 @@
+using EduShare.Core.Entities;
 using EduShare.Core.Mappings;
 using EduShare.Core.Repositories;
 using EduShare.Core.Services;
@@ -15,46 +16,41 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var configuration = builder.Configuration;
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddSwaggerGen(options =>
 {
-    // הגדרת ה-Security Definition עבור Bearer Token
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Please enter your JWT token"
+        Name = "Authorization",
+        Description = "Bearer Authentication with JWT Token",
+        Type = SecuritySchemeType.Http
     });
 
-    // הגדרת ה-Security Requirement כדי להחיל את הטוקן על כל הבקשות
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             new OpenApiSecurityScheme
             {
                 Reference = new OpenApiReference
                 {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme
                 }
             },
-            new string[] {}
+            new List<string>()
         }
     });
 });
 
-//builder.Services.AddScoped<IFileService, FileService>();
-//builder.Services.AddScoped<IFileRepository, FileRepository>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<UserContextRepository>();
 
 
-builder.Services.AddScoped<IInstitutionService, InstitutionService>();
-builder.Services.AddScoped<IInstitutionRepository, InstitutionRepository>();
 
 
 builder.Services.AddScoped<IUserService, UserService>();
@@ -66,20 +62,25 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IUserRolesRepository, UserRolesRepository>();
 
 // הזרקות לשירותים (Services)
-builder.Services.AddScoped<ISubjectService, SubjectService>();
-builder.Services.AddScoped<ILessonService, LessonService>();
+
 builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<ILessonService, LessonService>();
+builder.Services.AddScoped<ISubjectService, SubjectService>();
+
 
 // הזרקות לרפוזיטוריות (Repositories)
-builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
-builder.Services.AddScoped<ILessonRepository, LessonRepository>();
 builder.Services.AddScoped<IFileRepository, FileRepository>();
+
+builder.Services.AddScoped<ILessonRepository, LessonRepository>();
+builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+
 
 
 builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 
 builder.Services.AddScoped<AuthService>();
 
+builder.Services.AddHttpContextAccessor();//???
 
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
@@ -104,6 +105,7 @@ builder.Services.AddAuthentication(options =>
 
 // הוספת הרשאות מבוססות-תפקידים
 builder.Services.AddAuthorization(options =>
+
 {
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
     options.AddPolicy("TeacherOnly", policy => policy.RequireRole("Teacher"));
@@ -130,6 +132,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("_myAllowSpecificOrigins");
 app.UseHttpsRedirection();
 
 app.UseAuthentication();//JWT

@@ -30,11 +30,12 @@ namespace EduShare.Core.Models
 
         [Required]
         public int LessonId { get; set; } // הקובץ שייך לשיעור
-        public virtual Lesson Lesson { get; set; }
+
+        //public virtual Lesson Lesson { get; set; }
 
         [Required]
         public int OwnerId { get; set; }
-        public virtual User Owner { get; set; }
+        //public virtual User Owner { get; set; }
 
         public bool IsDeleted { get; set; } = false;
     }
