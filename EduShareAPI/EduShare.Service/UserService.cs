@@ -41,15 +41,19 @@ namespace EduShare.Service
             var role = _managerRepository.UserRoles.GetAllAsync().Result.FirstOrDefault(u => u.UserId == user.Id);
             return role;
         }
+        public async Task<User?> GetUserByNameAsync(string name)
+        { 
+            var users = await _managerRepository.Users.GetAllUsersAsync();
+            var user = users.FirstOrDefault(u => u.Name == name);
+
+            return user;
+        }
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _managerRepository.Users.GetUserByEmailAsync(email);
         }
 
-        public async Task<List<User>> GetUsersByInstitutionAsync(string institutionCode)
-        {
-            return await _managerRepository.Users.GetUsersByInstitutionAsync(institutionCode);
-        }
+
 
         public async Task<UserDTO> AddAsync(UserDTO user, string roleName)
         {

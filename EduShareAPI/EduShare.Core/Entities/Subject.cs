@@ -13,7 +13,7 @@ namespace EduShare.Core.Entities
         public string Name { get; set; } // שם המקצוע
 
         public int OwnerId { get; set; }
-        public virtual User Owner { get; set; }
+        //public virtual User Owner { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;

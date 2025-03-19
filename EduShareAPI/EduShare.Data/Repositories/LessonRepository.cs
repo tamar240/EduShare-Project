@@ -54,6 +54,7 @@ namespace EduShare.Infrastructure.Repositories
 
             if (lesson.OwnerId != userId)
                 throw new System.Exception("You are not the owner of this lesson");
+
             return lesson;
         }
 

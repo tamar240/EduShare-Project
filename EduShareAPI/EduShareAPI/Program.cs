@@ -48,7 +48,6 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddScoped<UserContextRepository>();
 
 
 

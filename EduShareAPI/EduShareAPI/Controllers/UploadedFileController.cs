@@ -13,7 +13,6 @@ namespace EduShareAPI.Controllers
     public class UploadedFileController : ControllerBase
     {
         private readonly IFileService _fileService;
-
         public UploadedFileController(IFileService fileService)
         {
             _fileService = fileService;
@@ -33,12 +32,12 @@ namespace EduShareAPI.Controllers
         }
 
         // קבלת קובץ לפי ID
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetFileByIdAsync(int id)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetFilesByIdUserAsync(int id)
         {
             try
             {
-                var file = await _fileService.GetFilesByUserIdAsync(id); // יש לתקן אם מדובר בקובץ לפי ID
+                var file = await _fileService.GetFilesByUserIdAsync(id); // מערך של קבצים????? אמור להיות
                 return Ok(file);
             }
             catch (KeyNotFoundException ex)
@@ -47,6 +46,19 @@ namespace EduShareAPI.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetFileByIdAsync(int id)
+        {
+            try
+            {
+                var file = await _fileService.GetFileByIdAsync(id); // יש לתקן אם מדובר בקובץ לפי ID
+                return Ok(file);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
         // קבלת כל הקבצים של משתמש מסוים
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetFilesByUserIdAsync(int userId)

@@ -8,32 +8,27 @@ using Microsoft.EntityFrameworkCore;
 public class FileRepository : IFileRepository
 {
     private readonly DataContext _context;
-    private readonly UserContextRepository _userContextRepository;
     //private readonly int userId;
 
 
-    public FileRepository(DataContext context,UserContextRepository userContextRepository)
+    public FileRepository(DataContext context)
     {
         _context = context;
-        _userContextRepository = userContextRepository;
-        
     }
 
     public async Task<UploadedFile> AddAsync(UploadedFile file)
     {
-        var userId = _userContextRepository.GetCurrentUserId();
-        file.OwnerId = userId;
+     
         _context.Files.Add(file);
         return file;
     }
-    public async Task<UploadedFile> GetFileByIdAsync(int id)
+    public async Task<UploadedFile> GetFileByIdAsync(int id,int userId)
     {
         var file = await _context.Files.FindAsync(id);
         if (file == null)
         {
             throw new KeyNotFoundException($"File with ID {id} not found.");
         }
-        var userId = _userContextRepository.GetCurrentUserId();
 
         if (file.OwnerId != userId)
         {

@@ -3,6 +3,7 @@ using EduShare.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace EduShare.API.Controllers
@@ -13,6 +14,7 @@ namespace EduShare.API.Controllers
     public class LessonController : ControllerBase
     {
         private readonly ILessonService _lessonService;
+        private string GetUserName() => User.FindFirst(ClaimTypes.Name)?.Value ??"0";
 
         public LessonController(ILessonService lessonService)
         {
@@ -23,8 +25,10 @@ namespace EduShare.API.Controllers
         //[Authorize(Policy = "AdminOnly")] // גישה רק למנהלים
         public async Task<IActionResult> AddLesson([FromBody] Lesson lesson)
         {
-            var newLesson = await _lessonService.AddLessonAsync(lesson);
-            return Ok(newLesson);
+            var userName= GetUserName();
+
+            var newLesson = await _lessonService.AddLessonAsync(lesson,userName);
+             return Ok(newLesson);
         }
 
         [HttpGet("public/{subjectId}")]
@@ -41,7 +45,7 @@ namespace EduShare.API.Controllers
             return Ok(lessons);
         }
 
-        [HttpGet("all/{subjectId}")]
+        [HttpGet("all-admin/{subjectId}")]
         [Authorize(Policy = "AdminOnly")] // גישה רק למנהלים
         public async Task<ActionResult<List<Lesson>>> GetAllLessonsBySubject(int subjectId)
         {

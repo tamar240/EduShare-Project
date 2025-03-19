@@ -8,17 +8,24 @@ namespace EduShare.Core.Services
     public class SubjectService : ISubjectService
     {
         private readonly ISubjectRepository _subjectRepository;
+        private readonly ILessonService _lessonService;
+        private readonly IManagerRepository _managerRepository;
 
-        public SubjectService(ISubjectRepository subjectRepository)
+        public SubjectService(ISubjectRepository subjectRepository, ILessonService lessonService, IManagerRepository managerRepository)
         {
             _subjectRepository = subjectRepository;
+            _lessonService = lessonService;
+            _managerRepository = managerRepository;
         }
 
         public async Task<Subject> AddSubjectAsync(Subject subject)
         {
-            return await _subjectRepository.AddAsync(subject);
-        }
+            
+            var newSubject=await _subjectRepository.AddAsync(subject);
+            await _managerRepository.SaveAsync();
+            return newSubject;
 
+        }
         public async Task<List<Subject>> GetAllSubjectsAsync()
         {
             return await _subjectRepository.GetAllAsync();
@@ -29,18 +36,22 @@ namespace EduShare.Core.Services
             return await _subjectRepository.GetByIdAsync(id);
         }
 
-        public async Task UpdateSubjectAsync(Subject subject)
+        public async Task UpdateSubjectAsync(int id,Subject subject)
         {
-            await _subjectRepository.UpdateAsync(subject);
+            subject.UpdatedAt = DateTime.UtcNow;
+            await _subjectRepository.UpdateAsync(id,subject);
+
+            await _managerRepository.SaveAsync();
         }
 
         public async Task DeleteSubjectAsync(int id)
         {
             await _subjectRepository.DeleteAsync(id);
+            await _managerRepository.SaveAsync();
         }
-        public async Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId, int userId)
+        public async Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId)
         {
-            return await _subjectRepository.GetLessonsBySubjectAsync(subjectId,userId);
+            return await _lessonService.GetAllPublicLessonsAsyncBySubject(subjectId);
         }
 
     }

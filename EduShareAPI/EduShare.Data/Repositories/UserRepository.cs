@@ -48,10 +48,6 @@ namespace EduShare.Data.Repositories
 
         }
 
-        public async Task<List<User>> GetUsersByInstitutionAsync(string institutionCode)
-        {
-            return await _context.Users.Where(u => u.InstitutionCode == institutionCode).ToListAsync();
-        }
 
         public async Task<User> AddUserAsync(User user)
         {
@@ -93,5 +89,7 @@ namespace EduShare.Data.Repositories
 
             user.IsDeleted = true;
         }
+
+       
     }
 }

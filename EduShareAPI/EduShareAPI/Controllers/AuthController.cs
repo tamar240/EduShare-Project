@@ -44,7 +44,7 @@ public class AuthController : ControllerBase
                 return Ok(new { Token = token });
             }
             else if (userRole.Role.RoleName == "Viewer")
-            {
+            {  
                 var token = _authService.GenerateJwtToken(model.Name, new[] { "Viewer" });
                 return Ok(new { Token = token });
             }

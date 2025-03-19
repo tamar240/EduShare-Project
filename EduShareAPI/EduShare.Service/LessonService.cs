@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using EduShare.Core.Entities;
 using EduShare.Core.Repositories;
 using EduShare.Data.Repositories;
+using EduShare.Service;
 
 namespace EduShare.Core.Services
 {
@@ -11,33 +13,45 @@ namespace EduShare.Core.Services
 
         private readonly ILessonRepository _lessonRepository;
         private readonly IManagerRepository _repositoryManager;
-        private readonly UserContextRepository _userContextRepository;//בעיה
+        //private readonly UserContextRepository _userContextRepository;//בעיה
+        private readonly IUserService _userService;
 
-        public LessonService(ILessonRepository lessonRepository, IManagerRepository repositoryManager,UserContextRepository userContextRepository)
+        public LessonService(ILessonRepository lessonRepository, IManagerRepository repositoryManager, IUserService userService)
         {
             _lessonRepository = lessonRepository;
             _repositoryManager = repositoryManager;
-            _userContextRepository = userContextRepository;
+            _userService = userService;
+            //_userContextRepository = userContextRepository;
         }
-
-        public async Task<Lesson> AddLessonAsync(Lesson lesson)
+        private int GetUserId()
         {
-            lesson.OwnerId=_userContextRepository.GetCurrentUserId();
+            var n = ClaimTypes.Name;
+          
+
+            var urlParts = ClaimTypes.Name.Split("/");
+            var userName = urlParts[urlParts.Length - 1];
+           return _userService.GetUserByNameAsync(userName).Result.Id;
+        }
+        public async Task<Lesson> AddLessonAsync(Lesson lesson, string userName)
+        {
+            //var id = GetUserId();
+
+            //lesson.OwnerId = userId;
+
             var newLesson= await _lessonRepository.AddAsync(lesson);
             await  _repositoryManager.SaveAsync();
             return newLesson;
         }
 
-
         public async Task<List<Lesson>> GetAllPublicLessonsAsyncBySubject(int subjectId)
         {
-            var userId =  _userContextRepository.GetCurrentUserId();
+            var userId = GetUserId();
             return await _lessonRepository.GetAllPublicLessonsAsyncBySubject(userId, subjectId);
         }
 
         public async Task<List<Lesson>> GetMyLessonsAsyncBySubject( int subjectId)
         {
-            var userId = _userContextRepository.GetCurrentUserId();
+            var userId = GetUserId();
             return await _lessonRepository.GetMyLessonsAsyncBySubject(userId, subjectId);
         }
 
@@ -48,15 +62,15 @@ namespace EduShare.Core.Services
 
         public async Task<Lesson> GetByIdAsync(int id)
         {
-            var userId = _userContextRepository.GetCurrentUserId();
-            return await _lessonRepository.GetByIdAsync(id,userId);
+            var userId = GetUserId();
+            return await  _lessonRepository.GetByIdAsync(id,userId);
         }
 
         public async Task UpdateAsync(int id,Lesson lesson)
         {
-            var userId = _userContextRepository.GetCurrentUserId();
+            var userId = GetUserId();
 
-            if(lesson.OwnerId != userId)
+            if (lesson.OwnerId != userId)
                 throw new Exception("You are not the owner of this lesson");
 
             await _lessonRepository.UpdateAsync(lesson);
@@ -65,8 +79,10 @@ namespace EduShare.Core.Services
 
         public async Task DeleteAsync(int id)
         {
-            var userId = _userContextRepository.GetCurrentUserId();
+          
+            var userId =GetUserId();
             var lesson = await _lessonRepository.GetByIdAsync(id, userId);
+
             if(lesson != null)
             {
                 if (lesson.OwnerId != userId)

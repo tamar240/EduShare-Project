@@ -12,8 +12,7 @@ namespace EduShare.Core.Repositories
         Task<Subject> AddAsync(Subject subject);
         Task<List<Subject>> GetAllAsync();
         Task<Subject> GetByIdAsync(int id);
-        Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId, int userId);
-        Task UpdateAsync(Subject subject);
+        Task UpdateAsync(int id, Subject subject);
         Task DeleteAsync(int id);
     }
 

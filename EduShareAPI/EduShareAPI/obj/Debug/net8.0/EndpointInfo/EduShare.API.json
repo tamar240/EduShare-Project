@@ -248,7 +248,7 @@
         }
       }
     },
-    "/api/Lesson/all/{subjectId}": {
+    "/api/Lesson/all-admin/{subjectId}": {
       "get": {
         "tags": [
           "Lesson"
@@ -441,6 +441,113 @@
         }
       }
     },
+    "/api/Subject/{id}": {
+      "get": {
+        "tags": [
+          "Subject"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Subject"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Subject"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Subject"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Subject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Subject"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Subject/{id}/lessons": {
+      "get": {
+        "tags": [
+          "Subject"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/upload/presigned-url": {
       "get": {
         "tags": [
@@ -495,6 +602,36 @@
       "get": {
         "tags": [
           "UploadedFile"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/UploadedFile/{userId}": {
+      "get": {
+        "tags": [
+          "UploadedFile"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -916,9 +1053,6 @@
             "type": "integer",
             "format": "int32"
           },
-          "owner": {
-            "$ref": "#/components/schemas/User"
-          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -1014,10 +1148,6 @@
             "format": "email",
             "nullable": true
           },
-          "institutionCode": {
-            "type": "string",
-            "nullable": true
-          },
           "password": {
             "type": "string",
             "nullable": true
@@ -1029,13 +1159,6 @@
           "updatedAt": {
             "type": "string",
             "format": "date-time"
-          },
-          "uploadedFiles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/UploadedFile"
-            },
-            "nullable": true
           },
           "isDeleted": {
             "type": "boolean"

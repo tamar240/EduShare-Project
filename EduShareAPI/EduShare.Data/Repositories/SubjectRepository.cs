@@ -18,8 +18,8 @@ namespace EduShare.Infrastructure.Repositories
 
         public async Task<Subject> AddAsync(Subject subject)
         {
-            _context.Subjects.Add(subject);
-            await _context.SaveChangesAsync();
+
+          await  _context.Subjects.AddAsync(subject);
             return subject;
         }
 
@@ -33,10 +33,15 @@ namespace EduShare.Infrastructure.Repositories
             return await _context.Subjects.FindAsync(id);
         }
 
-        public async Task UpdateAsync(Subject subject)
+        public async Task UpdateAsync(int id,Subject subject)
         {
-            _context.Subjects.Update(subject);
-            await _context.SaveChangesAsync();
+            var currentSubject = await GetByIdAsync(id);
+
+            if(currentSubject==null)
+                throw new KeyNotFoundException($"Subject with ID {id} was not found.");
+
+            currentSubject.UpdatedAt = DateTime.UtcNow;
+            currentSubject.Name = subject.Name;
         }
 
         public async Task DeleteAsync(int id)
@@ -44,20 +49,19 @@ namespace EduShare.Infrastructure.Repositories
             var subject = await _context.Subjects.FindAsync(id);
             if (subject != null)
             {
-                _context.Subjects.Remove(subject);
-                await _context.SaveChangesAsync();
+                subject.IsDeleted = true;
             }
         }
-        public async Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId, int userId)
-        {
-            var lessons = await _context.Lessons
-                .Where(lesson => lesson.SubjectId == subjectId)
-                .Where(lesson => lesson.Permission == FileAccessTypeEnum.Public ||
-                                (lesson.Permission == FileAccessTypeEnum.Private && lesson.OwnerId == userId))
-                .ToListAsync();
+        //public async Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId, int userId)
+        //{
+        //    var lessons = await _context.Lessons
+        //        .Where(lesson => lesson.SubjectId == subjectId)
+        //        .Where(lesson => lesson.Permission == FileAccessTypeEnum.Public ||
+        //                        (lesson.Permission == FileAccessTypeEnum.Private && lesson.OwnerId == userId))
+        //        .ToListAsync();
 
-            return lessons;
-        }
+        //    return lessons;
+        //}
 
     }
 }
