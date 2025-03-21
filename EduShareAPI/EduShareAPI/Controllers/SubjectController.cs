@@ -1,4 +1,5 @@
-﻿using EduShare.Core.Entities;
+﻿using AutoMapper;
+using EduShare.Core.Entities;
 using EduShare.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -11,17 +12,21 @@ namespace EduShare.API.Controllers
     public class SubjectController : ControllerBase
     {
         private readonly ISubjectService _subjectService;
+        private readonly IMapper _mapper;
 
-        public SubjectController(ISubjectService subjectService)
+        public SubjectController(ISubjectService subjectService,IMapper mapper)
         {
             _subjectService = subjectService;
+            _mapper = mapper;
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddSubject([FromBody] Subject subject)
+        public async Task<IActionResult> AddSubject([FromBody] SubjectDTO subjectDTO)
         {
-            if (subject == null)
+            if (subjectDTO == null)
                 return BadRequest("Invalid subject data.");
+
+            var subject = _mapper.Map<Subject>(subjectDTO);
 
             var subjectResult = await _subjectService.AddSubjectAsync(subject);
             return Ok(subjectResult);
@@ -31,7 +36,13 @@ namespace EduShare.API.Controllers
         public async Task<IActionResult> GetSubjects()
         {
             var subjects = await _subjectService.GetAllSubjectsAsync();
-            return Ok(subjects);
+            return Ok(_mapper.Map<List<SubjectGetDTO>>(subjects));
+        }
+        [HttpGet("user")]
+        public async Task<IActionResult> GetUserSubjects()
+        {
+            var subjects = await _subjectService.GetAllMyAsync();
+            return Ok(_mapper.Map<List<SubjectGetDTO>>(subjects));
         }
 
         [HttpGet("{id}")]
@@ -41,14 +52,16 @@ namespace EduShare.API.Controllers
             if (subject == null)
                 return NotFound($"Subject with ID {id} not found.");
 
-            return Ok(subject);
+            return Ok(_mapper.Map<SubjectGetDTO>(subject));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateSubject(int id, [FromBody] Subject subject)
+        public async Task<IActionResult> UpdateSubject(int id, [FromBody] SubjectDTO subjectDTO)
         {
-            if (subject == null)
+            if (subjectDTO == null)
                 return BadRequest("Invalid subject data.");
+
+            var subject = _mapper.Map<Subject>(subjectDTO);
 
             await _subjectService.UpdateSubjectAsync(id, subject);
             return NoContent();
@@ -61,19 +74,19 @@ namespace EduShare.API.Controllers
             return NoContent();
         }
 
-        [HttpGet("{id}/lessons")]
-        public async Task<IActionResult> GetLessonsBySubject(int id)
-        {
-            var subject = await _subjectService.GetSubjectByIdAsync(id);
-            if (subject == null)
-                return NotFound($"Subject with ID {id} not found.");
+        //[HttpGet("{id}/lessons")]
+        //public async Task<IActionResult> GetLessonsBySubject(int id)
+        //{
+        //    var subject = await _subjectService.GetSubjectByIdAsync(id);
+        //    if (subject == null)
+        //        return NotFound($"Subject with ID {id} not found.");
 
-            var lessons = await _subjectService.GetLessonsBySubjectAsync(id);
-            return Ok(new
-            {
-                subject,
-                lessons
-            });
-        }
+        //    var lessons = await _subjectService.GetLessonsBySubjectAsync(id);
+        //    return Ok(new
+        //    {
+        //        subject,
+        //        lessons
+        //    });
+        //}
     }
 }

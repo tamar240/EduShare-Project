@@ -19,7 +19,7 @@ namespace EduShare.Service
         {
             _configuration = configuration;
         }
-        public string GenerateJwtToken(string username, string[] roles)
+        public string GenerateJwtToken(string username,int userId, string[] roles)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -28,6 +28,7 @@ namespace EduShare.Service
             var claims = new List<Claim>
     {
         new Claim(ClaimTypes.Name, username),
+        new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
         //new Claim("email", email) // הוספת ה-ID של המשתמש
     };
 
@@ -41,7 +42,7 @@ namespace EduShare.Service
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddHours(24),
                 signingCredentials: credentials
             );
 

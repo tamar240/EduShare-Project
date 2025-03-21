@@ -16,9 +16,7 @@ namespace EduShare.Core.Entities
         public string Email { get; set; }
 
         //public UserRoleEnum Role { get; set; }
-        //= UserRoleEnum.Teacher; // ברירת מחדל - מורה
 
-        //public string? InstitutionCode { get; set; }
         public string Password { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;

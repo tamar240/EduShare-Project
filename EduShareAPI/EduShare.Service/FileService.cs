@@ -24,10 +24,12 @@ namespace EduShare.Data.Services
 
         public async Task<UploadedFile> AddFileAsync(UploadedFile file)
         {
-            var userName = ClaimTypes.Name;
-            var userId = _userService.GetUserByNameAsync(userName).Result.Id;
+            //var userName = ClaimTypes.Name;
+            //var userId = _userService.GetUserByNameAsync(userName).Result.Id;
 
-            file.OwnerId = userId;
+            //file.OwnerId = userId;
+            //file.OwnerId = 37;//למחוקקקק
+            file.OwnerId = int.Parse(ClaimTypes.NameIdentifier);
 
             await _repositoryManager.Files.AddAsync(file);
             await _repositoryManager.SaveAsync();

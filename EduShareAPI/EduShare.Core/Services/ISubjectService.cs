@@ -10,19 +10,16 @@ namespace EduShare.Core.Services
 
         Task<Subject> AddSubjectAsync(Subject subject);
 
-
         Task<List<Subject>> GetAllSubjectsAsync();
-
-
-        Task<Subject> GetSubjectByIdAsync(int id);
-
+        Task<List<Subject>> GetAllMyAsync();
+        
+            Task<Subject> GetSubjectByIdAsync(int id);
 
         Task UpdateSubjectAsync(int id, Subject subject);
 
-
         Task DeleteSubjectAsync(int id);
 
-        Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId);
+        Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId);//מיותר
 
 
 

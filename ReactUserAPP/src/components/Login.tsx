@@ -2,19 +2,22 @@ import { useState } from 'react';
 import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
+export const getCookie=(name: string) =>{
+
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+
+    if (parts.length === 2) {
+        return parts.pop()?.split(';').shift() || '';
+    }
+    return '';
+}
 
 const Login = () => {
 
-    function getCookie(name: string) {
-
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-
-        if (parts.length === 2) {
-            return parts.pop()?.split(';').shift() || '';
-        }
-        return '';
-    }
+  
 
     const resetForm = () => {
         setName('');
@@ -31,6 +34,8 @@ const Login = () => {
     const [status, setStatus] = useState('login');
     const [open, setOpen] = useState(false);
 
+    const navigate = useNavigate();
+    
     const urlAuthAPI = "https://localhost:7249/api/Auth/";
 
     const handleLogin = async (e: any) => {
@@ -46,6 +51,7 @@ const Login = () => {
             console.log("Login successful", getCookie("auth_token"));
             setOpen(false);
             resetForm();
+            navigate('/userFilesPage');
         } catch (error) {
             setError('שם משתמש או סיסמה לא נכונים');
         }
@@ -63,6 +69,8 @@ const Login = () => {
 
             setOpen(false);
             resetForm();
+            navigate('/userFilesPage');
+          
         } catch (error) {
             setError('הרשמה נכשלה, נסה שנית');
         }

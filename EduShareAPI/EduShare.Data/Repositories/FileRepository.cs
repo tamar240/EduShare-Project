@@ -18,14 +18,22 @@ public class FileRepository : IFileRepository
 
     public async Task<UploadedFile> AddAsync(UploadedFile file)
     {
-     
+        //var lesson = await _context.Lessons
+        //            .Include(l => l.Files) // לוודא שטוענים את רשימת השיעורים
+        //            .FirstOrDefaultAsync(l => l.Id == file.LessonId);
+
+        //if (lesson != null)
+        //{
+        //   lesson.Files.Add(file); // להוסיף את השיעור לרשימה של המקצוע
+        //}
+
         _context.Files.Add(file);
         return file;
     }
     public async Task<UploadedFile> GetFileByIdAsync(int id,int userId)
     {
         var file = await _context.Files.FindAsync(id);
-        if (file == null)
+        if (file == null || file.IsDeleted)
         {
             throw new KeyNotFoundException($"File with ID {id} not found.");
         }
@@ -41,13 +49,13 @@ public class FileRepository : IFileRepository
     public async Task<List<UploadedFile>> GetFilesByLessonIdAsync(int lessonId)
     {
         return await _context.Files
-            .Where(f => f.LessonId == lessonId) // מסנן רק קבצים ששייכים לשיעור
+            .Where(f => f.LessonId == lessonId  && !f.IsDeleted) // מסנן רק קבצים ששייכים לשיעור
             .ToListAsync();
     }
 
     public async Task<List<UploadedFile>> GetAllByUserIdAsync(int id)//מיותר בעיקרון
     {
-        return await _context.Files.Where(f => f.OwnerId==id).ToListAsync();
+        return await _context.Files.Where(f => f.OwnerId == id && !f.IsDeleted).ToListAsync();
     }
     public async Task<List<UploadedFile>> GetAllFilesAsync()
     {
@@ -57,7 +65,7 @@ public class FileRepository : IFileRepository
     public async Task UpdateAsync(int id, UploadedFile updatedFile)
     {
         var existingFile = await _context.Files.FindAsync(id);
-        if (existingFile == null)
+        if (existingFile == null || existingFile.IsDeleted)
         {
             throw new KeyNotFoundException($"File with ID {id} not found.");
         }
@@ -82,7 +90,4 @@ public class FileRepository : IFileRepository
         }
     }
  
-
-
-
 }

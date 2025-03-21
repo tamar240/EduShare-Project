@@ -18,8 +18,11 @@ namespace EduShare.Core.Mappings
             CreateMap<UserDTO, User>().ReverseMap();
             CreateMap<UserDTO, UserPostDTO>().ReverseMap();
             CreateMap<UserDTO, RegisterModel>().ReverseMap();
-            CreateMap<InstitutionDTO, Institution>().ReverseMap();
-
+            CreateMap<LessonDTO, Lesson>().ReverseMap();
+            CreateMap<LessonGetDTO, Lesson>().ReverseMap();
+            CreateMap<Subject, SubjectDTO>().ReverseMap();
+            CreateMap<Subject, SubjectGetDTO>().ReverseMap();
+            //CreateMap<InstitutionDTO, Institution>().ReverseMap();
         }
     }
 }

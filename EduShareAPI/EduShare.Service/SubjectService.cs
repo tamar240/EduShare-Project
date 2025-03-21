@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using EduShare.Core.Entities;
 using EduShare.Core.Repositories;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace EduShare.Core.Services
 {
@@ -10,12 +13,14 @@ namespace EduShare.Core.Services
         private readonly ISubjectRepository _subjectRepository;
         private readonly ILessonService _lessonService;
         private readonly IManagerRepository _managerRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public SubjectService(ISubjectRepository subjectRepository, ILessonService lessonService, IManagerRepository managerRepository)
+        public SubjectService(ISubjectRepository subjectRepository, ILessonService lessonService, IManagerRepository managerRepository,IHttpContextAccessor httpContextAccessor)
         {
             _subjectRepository = subjectRepository;
             _lessonService = lessonService;
             _managerRepository = managerRepository;
+            _httpContextAccessor=httpContextAccessor;
         }
 
         public async Task<Subject> AddSubjectAsync(Subject subject)
@@ -35,7 +40,28 @@ namespace EduShare.Core.Services
         {
             return await _subjectRepository.GetByIdAsync(id);
         }
+        public async Task<List<Subject>> GetAllMyAsync()
+        {
+            //var c = ClaimTypes.Name;
+            //var c2 = ClaimTypes.NameIdentifier;
 
+            //var userId = int.Parse(ClaimTypes.NameIdentifier);
+            var userId = 37;//delete!!!
+            return await _subjectRepository.GetAllMyAsync(userId);
+        }
+        //public async Task<List<Subject>> GetAllMyAsync()
+        //{
+        //    // 🔥 קבלת ה-UserId מה-Claims של המשתמש
+
+        //    var userIdClaim = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier);
+        //    if (userIdClaim == null)
+        //    {
+        //        throw new UnauthorizedAccessException("User is not authenticated.");
+        //    }
+
+        //    int userId = int.Parse(userIdClaim.Value); // ✅ שליפת ה-ID של המשתמש
+        //    return await _subjectRepository.GetAllMyAsync(userId);
+        //}
         public async Task UpdateSubjectAsync(int id,Subject subject)
         {
             subject.UpdatedAt = DateTime.UtcNow;
@@ -49,7 +75,7 @@ namespace EduShare.Core.Services
             await _subjectRepository.DeleteAsync(id);
             await _managerRepository.SaveAsync();
         }
-        public async Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId)
+        public async Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId)//מיותר
         {
             return await _lessonService.GetAllPublicLessonsAsyncBySubject(subjectId);
         }

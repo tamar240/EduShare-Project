@@ -14,7 +14,7 @@ namespace EduShare.Core.Repositories
         Task<List<Lesson>> GetMyLessonsAsyncBySubject(int userId, int subjectId);
         Task<List<Lesson>> GetAllLessonsBySubjectAsync(int subjectId);//admin
         Task<Lesson> GetByIdAsync(int id,int userId);
-        Task UpdateAsync(Lesson lesson);
+        Task UpdateAsync(int id,Lesson lesson);
         Task DeleteAsync(int id);
     }
 }

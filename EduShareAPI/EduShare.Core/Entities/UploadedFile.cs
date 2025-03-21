@@ -29,11 +29,14 @@ namespace EduShare.Core.Models
         public string S3Key { get; set; } // מפתח לקובץ ב-S3 אם רלוונטי
 
         [Required]
+        [ForeignKey("Lesson")]
         public int LessonId { get; set; } // הקובץ שייך לשיעור
+        //public Lesson Lesson { get; set; } //
 
         //public virtual Lesson Lesson { get; set; }
 
         [Required]
+        [ForeignKey("User")]
         public int OwnerId { get; set; }
         //public virtual User Owner { get; set; }
 

@@ -35,17 +35,17 @@ public class AuthController : ControllerBase
 
             if (userRole.Role.RoleName == "Admin")
             {
-                var token = _authService.GenerateJwtToken(model.Name, new[] { "Admin" });
+                var token = _authService.GenerateJwtToken(model.Name,userRole.User.Id,new[] { "Admin" });
                 return Ok(new { Token = token, User = userRole.User });
             }
             else if (userRole.Role.RoleName == "Editor")
             {
-                var token = _authService.GenerateJwtToken(model.Name, new[] { "Editor" });
+                var token = _authService.GenerateJwtToken(model.Name, userRole.User.Id,new[] { "Editor" });
                 return Ok(new { Token = token });
             }
             else if (userRole.Role.RoleName == "Viewer")
             {  
-                var token = _authService.GenerateJwtToken(model.Name, new[] { "Viewer" });
+                var token = _authService.GenerateJwtToken(model.Name, userRole.User.Id, new[] { "Viewer" });
                 return Ok(new { Token = token });
             }
         }
@@ -66,7 +66,7 @@ public class AuthController : ControllerBase
         if (existingUser == null)
             return BadRequest();
       
-        var token = _authService.GenerateJwtToken(model.Name,new[] { model.RoleName });
+        var token = _authService.GenerateJwtToken(model.Name,existingUser.Id,new [] { model.RoleName });
         //add user and return it
         return Ok(new { Token = token });
 

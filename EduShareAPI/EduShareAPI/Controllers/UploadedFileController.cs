@@ -28,7 +28,7 @@ namespace EduShareAPI.Controllers
             }
 
             var addedFile = await _fileService.AddFileAsync(file);
-            return CreatedAtAction(nameof(GetFileByIdAsync), new { id = addedFile.Id }, addedFile);
+            return Ok(addedFile);
         }
 
         // קבלת קובץ לפי ID

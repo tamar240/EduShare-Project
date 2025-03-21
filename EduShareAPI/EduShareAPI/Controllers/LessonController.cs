@@ -1,4 +1,5 @@
-﻿using EduShare.Core.Entities;
+﻿using AutoMapper;
+using EduShare.Core.Entities;
 using EduShare.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,17 +15,20 @@ namespace EduShare.API.Controllers
     public class LessonController : ControllerBase
     {
         private readonly ILessonService _lessonService;
+        private readonly IMapper _mapper;
         private string GetUserName() => User.FindFirst(ClaimTypes.Name)?.Value ??"0";
 
-        public LessonController(ILessonService lessonService)
+        public LessonController(ILessonService lessonService,IMapper mapper)
         {
             _lessonService = lessonService;
+            _mapper = mapper;
         }
 
         [HttpPost]
         //[Authorize(Policy = "AdminOnly")] // גישה רק למנהלים
-        public async Task<IActionResult> AddLesson([FromBody] Lesson lesson)
+        public async Task<IActionResult> AddLesson([FromBody] LessonDTO lessonDTO)
         {
+            var lesson=_mapper.Map<Lesson>(lessonDTO);
             var userName= GetUserName();
 
             var newLesson = await _lessonService.AddLessonAsync(lesson,userName);
@@ -35,14 +39,15 @@ namespace EduShare.API.Controllers
         public async Task<ActionResult<List<Lesson>>> GetAllPublicLessonsBySubject(int subjectId)
         {
             var lessons = await _lessonService.GetAllPublicLessonsAsyncBySubject(subjectId);
-            return Ok(lessons);
+
+            return Ok(_mapper.Map<List<LessonGetDTO>>(lessons));
         }
 
         [HttpGet("my/{subjectId}")]
         public async Task<ActionResult<List<Lesson>>> GetMyLessonsBySubject(int subjectId)
         {
             var lessons = await _lessonService.GetMyLessonsAsyncBySubject(subjectId);
-            return Ok(lessons);
+            return Ok(_mapper.Map<List<LessonGetDTO>>(lessons));
         }
 
         [HttpGet("all-admin/{subjectId}")]
@@ -50,7 +55,7 @@ namespace EduShare.API.Controllers
         public async Task<ActionResult<List<Lesson>>> GetAllLessonsBySubject(int subjectId)
         {
             var lessons = await _lessonService.GetAllLessonsBySubjectAsync(subjectId);
-            return Ok(lessons);
+          return Ok(_mapper.Map<List<LessonGetDTO>>(lessons));
         }
 
         [HttpGet("{id}")]
@@ -60,12 +65,13 @@ namespace EduShare.API.Controllers
             if (lesson == null)
                 return NotFound();
 
-            return Ok(lesson);
+            return Ok(_mapper.Map<LessonGetDTO>(lesson));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateLesson(int id, [FromBody] Lesson lesson)
+        public async Task<IActionResult> UpdateLesson(int id, [FromBody] LessonDTO lessonDTO)
         {
+            var lesson = _mapper.Map<Lesson>(lessonDTO);
             try
             {
                 await _lessonService.UpdateAsync(id, lesson);
