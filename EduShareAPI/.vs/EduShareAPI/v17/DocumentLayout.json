@@ -264,8 +264,7 @@
               "RelativeToolTip": "EduShare.Service\\LessonService.cs",
               "ViewState": "AgIAADkAAAAAAAAAAAAawFIAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T23:55:23.824Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-15T23:55:23.824Z"
             },
             {
               "$type": "Document",
@@ -277,8 +276,7 @@
               "RelativeToolTip": "EduShare.Core\\Mappings\\MappingProfile.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-10T09:52:48.74Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-10T09:52:48.74Z"
             },
             {
               "$type": "Document",
@@ -302,8 +300,7 @@
               "RelativeToolTip": "EduShare.Core\\Entities\\Lesson.cs",
               "ViewState": "AgIAABQAAAAAAAAAAAAewCAAAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T21:22:34.701Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-15T21:22:34.701Z"
             },
             {
               "$type": "Document",
@@ -315,8 +312,7 @@
               "RelativeToolTip": "EduShare.Data\\Repositories\\LessonRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T23:54:00.049Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-15T23:54:00.049Z"
             },
             {
               "$type": "Document",
@@ -328,8 +324,7 @@
               "RelativeToolTip": "EduShare.Core\\Repositories\\ILessonRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T23:38:58.527Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-15T23:38:58.527Z"
             },
             {
               "$type": "Document",
@@ -339,7 +334,7 @@
               "RelativeDocumentMoniker": "EduShareAPI\\Controllers\\LessonController.cs",
               "ToolTip": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShareAPI\\Controllers\\LessonController.cs",
               "RelativeToolTip": "EduShareAPI\\Controllers\\LessonController.cs",
-              "ViewState": "AgIAAD0AAAAAAAAAAAAcwE4AAAANAAAAAAAAAA==",
+              "ViewState": "AgIAACgAAAAAAAAAAAAkwE4AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-17T16:23:05.324Z",
               "EditorCaption": ""
@@ -354,8 +349,7 @@
               "RelativeToolTip": "EduShareAPI\\Controllers\\SubjectController.cs",
               "ViewState": "AgIAAC0AAAAAAAAAAAAiwEQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T22:57:24.785Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-15T22:57:24.785Z"
             },
             {
               "$type": "Document",
@@ -367,8 +361,7 @@
               "RelativeToolTip": "EduShare.Data\\Repositories\\FileRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-09T11:44:19.703Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-09T11:44:19.703Z"
             },
             {
               "$type": "Document",
@@ -380,8 +373,7 @@
               "RelativeToolTip": "EduShare.Core\\EntitiesDTO\\SubjectGetDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-21T13:20:24.831Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-21T13:20:24.831Z"
             },
             {
               "$type": "Document",
@@ -393,8 +385,7 @@
               "RelativeToolTip": "EduShare.Core\\EntitiesDTO\\LessonGetDTO.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAAAqwBYAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-19T15:57:01.892Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-19T15:57:01.892Z"
             },
             {
               "$type": "Document",
@@ -406,8 +397,7 @@
               "RelativeToolTip": "EduShare.Core\\EntitiesDTO\\SubjectDTO.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-20T15:37:54.291Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-20T15:37:54.291Z"
             },
             {
               "$type": "Document",
@@ -419,8 +409,7 @@
               "RelativeToolTip": "EduShare.Service\\SubjectService.cs",
               "ViewState": "AgIAAB0AAAAAAAAAAAAgwDAAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T23:43:34.057Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-15T23:43:34.057Z"
             },
             {
               "$type": "Document",
@@ -432,8 +421,7 @@
               "RelativeToolTip": "EduShare.Core\\Services\\ILessonService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T23:51:12.121Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-15T23:51:12.121Z"
             },
             {
               "$type": "Document",
@@ -445,8 +433,7 @@
               "RelativeToolTip": "EduShare.Core\\EntitiesDTO\\LessonDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-19T15:16:10.691Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-19T15:16:10.691Z"
             },
             {
               "$type": "Document",
@@ -458,8 +445,7 @@
               "RelativeToolTip": "EduShare.Core\\Services\\ISubjectService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T23:50:47.235Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-15T23:50:47.235Z"
             },
             {
               "$type": "Document",

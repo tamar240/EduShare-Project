@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{3D4E15F5-B8C6-4619-AC87-934D9C62C3B9}|EduShareAPI\\EduShare.API.csproj|c:\\users\\user1\\documents\\programing\\second year\\edushare\\edushareapi\\edushareapi\\controllers\\lessoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3D4E15F5-B8C6-4619-AC87-934D9C62C3B9}|EduShareAPI\\EduShare.API.csproj|solutionrelative:edushareapi\\controllers\\lessoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D9BF5768-3C65-4EF8-865F-F0C71108E498}|EduShare.Service\\EduShare.Service.csproj|c:\\users\\user1\\documents\\programing\\second year\\edushare\\edushareapi\\edushare.service\\lessonservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9BF5768-3C65-4EF8-865F-F0C71108E498}|EduShare.Service\\EduShare.Service.csproj|solutionrelative:edushare.service\\lessonservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -13,10 +17,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{F2FE28B6-EDEF-48BD-9CA3-78F9BACE1F9B}|EduShare.Data\\EduShare.Data.csproj|c:\\users\\user1\\documents\\programing\\second year\\edushare\\edushareapi\\edushare.data\\repositories\\lessonrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F2FE28B6-EDEF-48BD-9CA3-78F9BACE1F9B}|EduShare.Data\\EduShare.Data.csproj|solutionrelative:edushare.data\\repositories\\lessonrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3D4E15F5-B8C6-4619-AC87-934D9C62C3B9}|EduShareAPI\\EduShare.API.csproj|c:\\users\\user1\\documents\\programing\\second year\\edushare\\edushareapi\\edushareapi\\controllers\\lessoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3D4E15F5-B8C6-4619-AC87-934D9C62C3B9}|EduShareAPI\\EduShare.API.csproj|solutionrelative:edushareapi\\controllers\\lessoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F5936D28-B3E2-4EBB-A76F-50D2B001765C}|EduShare.Core\\EduShare.Core.csproj|c:\\users\\user1\\documents\\programing\\second year\\edushare\\edushareapi\\edushare.core\\entities\\lesson.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -252,32 +252,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "LessonService.cs",
               "DocumentMoniker": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShare.Service\\LessonService.cs",
               "RelativeDocumentMoniker": "EduShare.Service\\LessonService.cs",
-              "ToolTip": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShare.Service\\LessonService.cs*",
-              "RelativeToolTip": "EduShare.Service\\LessonService.cs*",
+              "ToolTip": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShare.Service\\LessonService.cs",
+              "RelativeToolTip": "EduShare.Service\\LessonService.cs",
               "ViewState": "AgIAADkAAAAAAAAAAAAawFIAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-15T23:55:23.824Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "SubjectController.cs",
-              "DocumentMoniker": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShareAPI\\Controllers\\SubjectController.cs",
-              "RelativeDocumentMoniker": "EduShareAPI\\Controllers\\SubjectController.cs",
-              "ToolTip": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShareAPI\\Controllers\\SubjectController.cs",
-              "RelativeToolTip": "EduShareAPI\\Controllers\\SubjectController.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAiwEQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T22:57:24.785Z",
               "EditorCaption": ""
             },
             {
@@ -320,12 +307,12 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "LessonRepository.cs",
               "DocumentMoniker": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShare.Data\\Repositories\\LessonRepository.cs",
               "RelativeDocumentMoniker": "EduShare.Data\\Repositories\\LessonRepository.cs",
-              "ToolTip": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShare.Data\\Repositories\\LessonRepository.cs*",
-              "RelativeToolTip": "EduShare.Data\\Repositories\\LessonRepository.cs*",
+              "ToolTip": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShare.Data\\Repositories\\LessonRepository.cs",
+              "RelativeToolTip": "EduShare.Data\\Repositories\\LessonRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-15T23:54:00.049Z",
@@ -333,12 +320,12 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ILessonRepository.cs",
               "DocumentMoniker": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShare.Core\\Repositories\\ILessonRepository.cs",
               "RelativeDocumentMoniker": "EduShare.Core\\Repositories\\ILessonRepository.cs",
-              "ToolTip": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShare.Core\\Repositories\\ILessonRepository.cs*",
-              "RelativeToolTip": "EduShare.Core\\Repositories\\ILessonRepository.cs*",
+              "ToolTip": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShare.Core\\Repositories\\ILessonRepository.cs",
+              "RelativeToolTip": "EduShare.Core\\Repositories\\ILessonRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-15T23:38:58.527Z",
@@ -346,15 +333,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "LessonController.cs",
               "DocumentMoniker": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShareAPI\\Controllers\\LessonController.cs",
               "RelativeDocumentMoniker": "EduShareAPI\\Controllers\\LessonController.cs",
               "ToolTip": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShareAPI\\Controllers\\LessonController.cs",
               "RelativeToolTip": "EduShareAPI\\Controllers\\LessonController.cs",
-              "ViewState": "AgIAAD0AAAAAAAAAAAAcwEwAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAcwE4AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-17T16:23:05.324Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SubjectController.cs",
+              "DocumentMoniker": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShareAPI\\Controllers\\SubjectController.cs",
+              "RelativeDocumentMoniker": "EduShareAPI\\Controllers\\SubjectController.cs",
+              "ToolTip": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShareAPI\\Controllers\\SubjectController.cs",
+              "RelativeToolTip": "EduShareAPI\\Controllers\\SubjectController.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAiwEQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T22:57:24.785Z",
               "EditorCaption": ""
             },
             {

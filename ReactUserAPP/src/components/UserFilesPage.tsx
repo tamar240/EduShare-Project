@@ -4,7 +4,7 @@ import { getCookie } from "./Login";
 import { Box, Drawer, Menu, MenuItem } from "@mui/material";
 import SubjectList from "./SubjectList";
 import LessonList from "./LessonList";
-import LessonDetails from "./LessonDetails";
+// import LessonDetails from "./LessonDetails";
 
 export type Subject = {
   id: number;
@@ -124,16 +124,16 @@ const UserFilesPage = () => {
       </Box>
       <Menu anchorEl={menuAnchor} open={Boolean(menuAnchor)} onClose={handleMenuClose}>
         <MenuItem onClick={() => console.log("Download", selectedLesson)}>הורדה</MenuItem>
-        <MenuItem onClick={() => { setEditLesson(selectedLesson); handleMenuClose(); }}>עריכה</MenuItem>
+        <MenuItem onClick={() => { setEditLesson(selectedLesson); handleMenuClose(); }}>פרטים</MenuItem>
       </Menu>
-      <LessonDetails
+      {/* <LessonDetails
         lesson={selectedLesson}
         editLesson={editLesson}
         setEditLesson={setEditLesson}
         handleSubmitEdit={handleSubmitEdit}
         handleCancelEdit={handleCancelEdit}
         loadingUpdate={loadingUpdate}
-      />
+      /> */}
     </Box>
   );
 };
