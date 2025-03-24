@@ -14,7 +14,7 @@ namespace EduShare.API.Controllers
         private readonly ISubjectService _subjectService;
         private readonly IMapper _mapper;
 
-        public SubjectController(ISubjectService subjectService,IMapper mapper)
+        public SubjectController(ISubjectService subjectService, IMapper mapper)
         {
             _subjectService = subjectService;
             _mapper = mapper;
@@ -55,6 +55,14 @@ namespace EduShare.API.Controllers
             return Ok(_mapper.Map<SubjectGetDTO>(subject));
         }
 
+
+        [HttpGet("public")]
+        public async Task<IActionResult> GetPublicSubjects()
+        {
+            var subjects = await _subjectService.GetPublicSubjectsAsync();
+            return Ok(_mapper.Map<List<SubjectGetDTO>>(subjects));
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSubject(int id, [FromBody] SubjectDTO subjectDTO)
         {
@@ -73,6 +81,10 @@ namespace EduShare.API.Controllers
             await _subjectService.DeleteSubjectAsync(id);
             return NoContent();
         }
+
+
+
+
 
         //[HttpGet("{id}/lessons")]
         //public async Task<IActionResult> GetLessonsBySubject(int id)

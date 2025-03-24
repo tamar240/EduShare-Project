@@ -16,6 +16,7 @@ namespace EduShare.Core.Repositories
 
         Task UpdateAsync(int id, Subject subject);
         Task DeleteAsync(int id);
+        Task<List<Subject>> GetPublicSubjectsAsync();
     }
 
 }

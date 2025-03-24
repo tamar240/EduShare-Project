@@ -10,7 +10,6 @@ namespace EduShare.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<UploadedFile> Files { get; set; }
-        //public DbSet<Institution> Institutions { get; set; }
         public DbSet<Roles> Roles { get; set; }
         public DbSet<UserRoles> UserRoles { get; set; }
         public DbSet<Subject> Subjects { get; set; }

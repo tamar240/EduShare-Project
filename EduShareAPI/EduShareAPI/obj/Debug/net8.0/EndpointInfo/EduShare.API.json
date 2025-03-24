@@ -67,7 +67,7 @@
         }
       }
     },
-    "/api/File/generate-presigned-url": {
+    "/api/file/generate-presigned-url": {
       "get": {
         "tags": [
           "File"
@@ -81,37 +81,6 @@
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/File/upload-file": {
-      "post": {
-        "tags": [
-          "File"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UploadedFile"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UploadedFile"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UploadedFile"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "OK"
@@ -529,6 +498,18 @@
               "format": "int32"
             }
           }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Subject/public": {
+      "get": {
+        "tags": [
+          "Subject"
         ],
         "responses": {
           "200": {

@@ -32,9 +32,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "EduShareAPI.Controllers.FileController",
+    "ContainingType": "FileController",
     "Method": "GeneratePresignedUrl",
-    "RelativePath": "api/File/generate-presigned-url",
+    "RelativePath": "api/file/generate-presigned-url",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -43,22 +43,6 @@
         "Name": "fileName",
         "Type": "System.String",
         "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EduShareAPI.Controllers.FileController",
-    "Method": "UploadFile",
-    "RelativePath": "api/File/upload-file",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "file",
-        "Type": "EduShare.Core.Models.UploadedFile",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -297,6 +281,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EduShare.API.Controllers.SubjectController",
+    "Method": "GetPublicSubjects",
+    "RelativePath": "api/Subject/public",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

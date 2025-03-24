@@ -70,7 +70,13 @@ namespace EduShare.Infrastructure.Repositories
             }
         }
 
-
+        public async Task<List<Subject>> GetPublicSubjectsAsync()
+        {
+            return await _context.Subjects
+                .Where(s => s.Lessons.Any(l => l.Permission==FileAccessTypeEnum.Public)) // מחזיר רק מקצועות עם שיעורים ציבוריים
+                .Include(s => s.Lessons.Where(l => l.Permission == FileAccessTypeEnum.Public)) // טוען רק את השיעורים הציבוריים
+                .ToListAsync();
+        }
         //public async Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId, int userId)
         //{
         //    var lessons = await _context.Lessons

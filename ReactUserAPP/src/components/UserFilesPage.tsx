@@ -4,7 +4,6 @@ import { getCookie } from "./Login";
 import { Box, Drawer, Menu, MenuItem } from "@mui/material";
 import SubjectList from "./SubjectList";
 import LessonList from "./LessonList";
-// import LessonDetails from "./LessonDetails";
 
 export type Subject = {
   id: number;

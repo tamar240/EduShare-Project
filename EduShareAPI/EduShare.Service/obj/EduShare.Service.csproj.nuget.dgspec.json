@@ -225,7 +225,7 @@
           "dependencies": {
             "AWSSDK.S3": {
               "target": "Package",
-              "version": "[3.7.415.16, )"
+              "version": "[3.7.415.23, )"
             },
             "Microsoft.Extensions.Configuration.Abstractions": {
               "target": "Package",

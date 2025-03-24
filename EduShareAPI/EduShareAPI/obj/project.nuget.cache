@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "2ExL/+gReDw=",
+  "dgSpecHash": "cqzXA2hsq5g=",
   "success": true,
   "projectFilePath": "C:\\Users\\user1\\Documents\\programing\\second year\\EduShare\\EduShareAPI\\EduShareAPI\\EduShare.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\user1\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
-    "C:\\Users\\user1\\.nuget\\packages\\awssdk.core\\3.7.402.17\\awssdk.core.3.7.402.17.nupkg.sha512",
-    "C:\\Users\\user1\\.nuget\\packages\\awssdk.s3\\3.7.415.16\\awssdk.s3.3.7.415.16.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\awssdk.core\\4.0.0-preview.7\\awssdk.core.4.0.0-preview.7.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\awssdk.s3\\4.0.0-preview.7\\awssdk.s3.4.0.0-preview.7.nupkg.sha512",
     "C:\\Users\\user1\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\user1\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
     "C:\\Users\\user1\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

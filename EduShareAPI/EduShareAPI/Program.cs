@@ -1,4 +1,5 @@
-using EduShare.Core.Entities;
+using Amazon.Runtime;
+using Amazon.S3;
 using EduShare.Core.Mappings;
 using EduShare.Core.Repositories;
 using EduShare.Core.Services;
@@ -78,11 +79,10 @@ builder.Services.AddScoped<IFileRepository, FileRepository>();
 builder.Services.AddScoped<ILessonRepository, LessonRepository>();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 
-
-
 builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<S3Service>();
 builder.Services.AddScoped<LessonRepository>();
 
 builder.Services.AddHttpContextAccessor();//???
@@ -132,13 +132,32 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+var awsRegion = Environment.GetEnvironmentVariable("AWS_REGION");
+
+var credentials = new BasicAWSCredentials(
+builder.Configuration["AWS:AccessKey"],
+builder.Configuration["AWS:SecretKey"]
+//AccessKey,
+//SecretAccess
+);
+
+var region = Amazon.RegionEndpoint.GetBySystemName(builder.Configuration["AWS:Region"]);
+//var region = Amazon.RegionEndpoint.GetBySystemName(awsRegion);
+
+var s3Client = new AmazonS3Client(credentials, region);
+
+builder.Services.AddSingleton<IAmazonS3>(s3Client);
+Console.WriteLine(s3Client);
+
 var app = builder.Build();
 app.UseCors(MyAllowSpecificOrigins);
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseCors("_myAllowSpecificOrigins");
 app.UseHttpsRedirection();
 

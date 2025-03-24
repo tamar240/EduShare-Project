@@ -1,53 +1,36 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
-using EduShare.Core.Entities;
-using EduShare.Core.Models;
-using EduShare.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Threading.Tasks;
 
-namespace EduShareAPI.Controllers
+[ApiController]
+[Route("api/file")]
+public class FileController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class FileController : ControllerBase
+    private readonly IAmazonS3 _s3Client;
+    private readonly string _bucketName;
+
+    public FileController(IAmazonS3 s3Client, IConfiguration config)
     {
-        private readonly IAmazonS3 _s3Client;
-        private readonly DataContext _context;  
-        public FileController(IAmazonS3 s3Client, DataContext context)
+        _s3Client = s3Client;
+        _bucketName = config["AWS:BucketName"];  // להגדיר ב-appsettings.json
+    }
+
+    [HttpGet("generate-presigned-url")]
+    public IActionResult GeneratePresignedUrl([FromQuery] string fileName)
+    {
+        var request = new GetPreSignedUrlRequest
         {
-            _s3Client = s3Client;
-            _context = context;  
-        }
+            BucketName = _bucketName,
+            Key = fileName,
+            Verb = HttpVerb.PUT,
+            Expires = DateTime.UtcNow.AddMinutes(15),
+            ContentType = "application/octet-stream"
+        };
 
-        [HttpGet("generate-presigned-url")]
-        public async Task<IActionResult> GeneratePresignedUrl([FromQuery] string fileName)
-        {
-            var request = new GetPreSignedUrlRequest
-            {
-                BucketName = "your-bucket-name",  // שם ה-Bucket שלך
-                Key = fileName,
-                Verb = HttpVerb.PUT,
-                Expires = DateTime.UtcNow.AddMinutes(15),
-                ContentType = "application/octet-stream"  // עדכון לפי סוג הקובץ
-            };
-
-            string presignedUrl = _s3Client.GetPreSignedURL(request);
-            return Ok(new { url = presignedUrl });
-        }
-
-        [HttpPost("upload-file")]
-        public async Task<IActionResult> UploadFile([FromBody] UploadedFile file)
-        {
-            if (file == null)
-                return BadRequest("Invalid file data.");
-
-            // הוספת הקובץ למסד הנתונים
-            _context.Files.Add(file);
-            await _context.SaveChangesAsync();
-
-            return Ok(file);
-        }
+        string presignedUrl = _s3Client.GetPreSignedURL(request);
+        return Ok(new { url = presignedUrl });
     }
 }

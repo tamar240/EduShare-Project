@@ -15,18 +15,18 @@ namespace EduShare.Core.Services
         private readonly IManagerRepository _managerRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public SubjectService(ISubjectRepository subjectRepository, ILessonService lessonService, IManagerRepository managerRepository,IHttpContextAccessor httpContextAccessor)
+        public SubjectService(ISubjectRepository subjectRepository, ILessonService lessonService, IManagerRepository managerRepository, IHttpContextAccessor httpContextAccessor)
         {
             _subjectRepository = subjectRepository;
             _lessonService = lessonService;
             _managerRepository = managerRepository;
-            _httpContextAccessor=httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<Subject> AddSubjectAsync(Subject subject)
         {
-            
-            var newSubject=await _subjectRepository.AddAsync(subject);
+
+            var newSubject = await _subjectRepository.AddAsync(subject);
             await _managerRepository.SaveAsync();
             return newSubject;
 
@@ -62,10 +62,10 @@ namespace EduShare.Core.Services
         //    int userId = int.Parse(userIdClaim.Value); // ✅ שליפת ה-ID של המשתמש
         //    return await _subjectRepository.GetAllMyAsync(userId);
         //}
-        public async Task UpdateSubjectAsync(int id,Subject subject)
+        public async Task UpdateSubjectAsync(int id, Subject subject)
         {
             subject.UpdatedAt = DateTime.UtcNow;
-            await _subjectRepository.UpdateAsync(id,subject);
+            await _subjectRepository.UpdateAsync(id, subject);
 
             await _managerRepository.SaveAsync();
         }
@@ -78,6 +78,11 @@ namespace EduShare.Core.Services
         public async Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId)//מיותר
         {
             return await _lessonService.GetAllPublicLessonsAsyncBySubject(subjectId);
+        }
+        public async Task<List<Subject>> GetPublicSubjectsAsync()
+        {
+            return await _subjectRepository.GetPublicSubjectsAsync();
+
         }
 
     }

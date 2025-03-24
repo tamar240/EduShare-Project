@@ -22,6 +22,7 @@ namespace EduShare.Core.Mappings
             CreateMap<LessonGetDTO, Lesson>().ReverseMap();
             CreateMap<Subject, SubjectDTO>().ReverseMap();
             CreateMap<Subject, SubjectGetDTO>().ReverseMap();
+
             //CreateMap<InstitutionDTO, Institution>().ReverseMap();
         }
     }

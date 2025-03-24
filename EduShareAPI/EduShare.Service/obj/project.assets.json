@@ -18,7 +18,7 @@
           }
         }
       },
-      "AWSSDK.Core/3.7.402.17": {
+      "AWSSDK.Core/3.7.402.24": {
         "type": "package",
         "compile": {
           "lib/net8.0/AWSSDK.Core.dll": {
@@ -31,10 +31,10 @@
           }
         }
       },
-      "AWSSDK.S3/3.7.415.16": {
+      "AWSSDK.S3/3.7.415.23": {
         "type": "package",
         "dependencies": {
-          "AWSSDK.Core": "[3.7.402.17, 4.0.0)"
+          "AWSSDK.Core": "[3.7.402.24, 4.0.0)"
         },
         "compile": {
           "lib/net8.0/AWSSDK.S3.dll": {
@@ -3396,15 +3396,15 @@
         "lib/net8.0/AutoMapper.xml"
       ]
     },
-    "AWSSDK.Core/3.7.402.17": {
-      "sha512": "NsANA2x7IraBItys/6A99bYp4uSEgtQFwYXsdZodnsZd5Shq2UessLGXr6H4hXKEuDJE50sdtrHJ+8cDWzBFBQ==",
+    "AWSSDK.Core/3.7.402.24": {
+      "sha512": "xcUx7ntQE7DYcdlL0/IPb4DXPpQfH/OL11M9Swcm6iDPhX1S/Hu0neWVf5gBuRe58Sei0cX24qKjol+mDhcNwA==",
       "type": "package",
-      "path": "awssdk.core/3.7.402.17",
+      "path": "awssdk.core/3.7.402.24",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "awssdk.core.3.7.402.17.nupkg.sha512",
+        "awssdk.core.3.7.402.24.nupkg.sha512",
         "awssdk.core.nuspec",
         "images/AWSLogo.png",
         "lib/net35/AWSSDK.Core.dll",
@@ -3425,17 +3425,17 @@
         "tools/account-management.ps1"
       ]
     },
-    "AWSSDK.S3/3.7.415.16": {
-      "sha512": "rwvPi21JQrDFLhYE/pyANlY9B3ic3zvIDKrB2hnQlmJz0Cxhp4ByQ9yMV/OHXIX80tJIFhXmW4rBWlrooSU4Pg==",
+    "AWSSDK.S3/3.7.415.23": {
+      "sha512": "ME1KxEwaxO5HMzjJSADVWl1oyfnEjqU3vOkVwot5jJZNQiz9Fhlbv8itpRmcoI23UCkDC3FDzzlrHvSjLewNaQ==",
       "type": "package",
-      "path": "awssdk.s3/3.7.415.16",
+      "path": "awssdk.s3/3.7.415.23",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "analyzers/dotnet/cs/AWSSDK.S3.CodeAnalysis.dll",
         "analyzers/dotnet/cs/SharedAnalysisCode.dll",
-        "awssdk.s3.3.7.415.16.nupkg.sha512",
+        "awssdk.s3.3.7.415.23.nupkg.sha512",
         "awssdk.s3.nuspec",
         "images/AWSLogo.png",
         "lib/net35/AWSSDK.S3.dll",
@@ -9353,7 +9353,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "AWSSDK.S3 >= 3.7.415.16",
+      "AWSSDK.S3 >= 3.7.415.23",
       "EduShare.Core >= 1.0.0",
       "EduShare.Data >= 1.0.0",
       "Microsoft.Extensions.Configuration.Abstractions >= 8.0.0",
@@ -9421,7 +9421,7 @@
         "dependencies": {
           "AWSSDK.S3": {
             "target": "Package",
-            "version": "[3.7.415.16, )"
+            "version": "[3.7.415.23, )"
           },
           "Microsoft.Extensions.Configuration.Abstractions": {
             "target": "Package",

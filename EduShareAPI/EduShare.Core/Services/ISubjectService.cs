@@ -20,8 +20,7 @@ namespace EduShare.Core.Services
         Task DeleteSubjectAsync(int id);
 
         Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId);//מיותר
-
-
+        Task<List<Subject>> GetPublicSubjectsAsync();
 
 
     }

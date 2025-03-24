@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Grid, Paper, Box, Typography, IconButton, TextField } from "@mui/material";
+import { Grid, Paper, Box, Typography, IconButton, TextField, Menu, MenuItem, Tooltip } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Lesson } from "./UserFilesPage";
 import axios from "axios";
@@ -7,12 +7,14 @@ import { getCookie } from "./Login";
 
 interface LessonListProps {
   selectedSubjectLessons: Lesson[] | null;
-  handleMenuOpen: (event: React.MouseEvent<HTMLButtonElement>, lesson: Lesson) => void;
 }
 
-const LessonList = ({ selectedSubjectLessons, handleMenuOpen }: LessonListProps) => {
+const LessonList = ({ selectedSubjectLessons }: LessonListProps) => {
   const [editingLessonId, setEditingLessonId] = useState<number | null>(null);
   const [lessonName, setLessonName] = useState<string>("");
+  const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
+  const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
 
   const handleDoubleClick = (lesson: Lesson) => {
     setEditingLessonId(lesson.id);
@@ -33,7 +35,7 @@ const LessonList = ({ selectedSubjectLessons, handleMenuOpen }: LessonListProps)
             "Content-Type": "application/json",
           },
         });
-        lesson.name = lessonName; // עדכון המידע מקומית בלי צורך ברענון נוסף
+        lesson.name = lessonName;
       } catch (error) {
         console.error("Failed to update lesson", error);
       }
@@ -45,6 +47,16 @@ const LessonList = ({ selectedSubjectLessons, handleMenuOpen }: LessonListProps)
     if (event.key === "Enter") {
       handleBlur(lesson);
     }
+  };
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>, lesson: Lesson) => {
+    setMenuAnchor(event.currentTarget);
+    setSelectedLesson(lesson);
+  };
+
+  const handleMenuClose = () => {
+    setMenuAnchor(null);
+    setTooltipOpen(false);
   };
 
   if (!selectedSubjectLessons) return null;
@@ -72,6 +84,42 @@ const LessonList = ({ selectedSubjectLessons, handleMenuOpen }: LessonListProps)
             <IconButton onClick={(event) => handleMenuOpen(event, lesson)}>
               <MoreVertIcon />
             </IconButton>
+
+            {/* תפריט */}
+            <Menu
+  anchorEl={menuAnchor}
+  open={Boolean(menuAnchor)}
+  onClose={handleMenuClose}
+  PaperProps={{ elevation: 1 }} // מסיר את הצל
+>
+  <MenuItem>⬇️ הורדה</MenuItem>
+
+  <Tooltip
+    title={
+      <Box sx={{ textAlign: "right", p: 1 }}>
+        <Typography variant="subtitle2" fontWeight="bold">פרטי שיעור</Typography>
+        <Typography variant="body2">שם: {selectedLesson?.name ?? "לא ידוע"}</Typography>
+        <Typography variant="body2">תאריך יצירה: {selectedLesson?.createdAt ?? "לא ידוע"}</Typography>
+        <Typography variant="body2">מורה: {selectedLesson?.ownerId ?? "לא ידוע"}</Typography>
+        <Typography variant="body2">v: {selectedLesson?.ownerId ?? "לא ידוע"}</Typography>
+      </Box>
+    }
+    placement="left"
+    arrow
+    open={tooltipOpen}
+    onOpen={() => setTooltipOpen(true)}
+    onClose={() => setTooltipOpen(false)}
+  >
+    <MenuItem
+      onMouseEnter={() => setTooltipOpen(true)}
+      onMouseLeave={() => setTooltipOpen(false)}
+    >
+      ⬅️ פרטים
+    </MenuItem>
+  </Tooltip>
+</Menu>
+
+
           </Paper>
         </Grid>
       ))}
