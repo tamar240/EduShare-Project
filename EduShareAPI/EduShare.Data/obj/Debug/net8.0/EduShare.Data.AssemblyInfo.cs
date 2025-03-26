@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EduShare.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+97b80c9227a368cdf9743a1358111d20e0ec4eeb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b9621d2953a88ba7c594429d7b6cf31ef7a23c1d")]
 [assembly: System.Reflection.AssemblyProductAttribute("EduShare.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EduShare.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -102,6 +102,18 @@ namespace EduShare.Infrastructure.Repositories
             }
         }
 
+     public async Task UpdatePermissionAsync(int id, int userId)
+        {
+            var currentLesson = await _context.Lessons.FindAsync(id);
+           
+            if(currentLesson.OwnerId!=userId)
+                throw new UnauthorizedAccessException("You do not have permission to modify this object.");
 
+            var newPermission = currentLesson.Permission == FileAccessTypeEnum.Private ? FileAccessTypeEnum.Public : FileAccessTypeEnum.Private;
+
+            currentLesson.Permission = newPermission;
+            currentLesson.UpdatedAt = DateTime.Now;
+
+        }
     }
 }

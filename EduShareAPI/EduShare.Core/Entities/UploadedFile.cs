@@ -20,8 +20,8 @@ namespace EduShare.Core.Models
         [Required]
         public string FilePath { get; set; } // הנתיב לקובץ
 
-        public DateTime UploadedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; }
+        public DateTime UploadedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
         public long Size { get; set; }
 

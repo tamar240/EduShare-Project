@@ -32,22 +32,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "FileController",
-    "Method": "GeneratePresignedUrl",
-    "RelativePath": "api/file/generate-presigned-url",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "fileName",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "EduShare.API.Controllers.LessonController",
     "Method": "AddLesson",
     "RelativePath": "api/Lesson",
@@ -180,6 +164,22 @@
   },
   {
     "ContainingType": "EduShare.API.Controllers.LessonController",
+    "Method": "UpdateLessonPermission",
+    "RelativePath": "api/Lesson/permission/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EduShare.API.Controllers.LessonController",
     "Method": "GetAllPublicLessonsBySubject",
     "RelativePath": "api/Lesson/public/{subjectId}",
     "HttpMethod": "GET",
@@ -285,6 +285,16 @@
   },
   {
     "ContainingType": "EduShare.API.Controllers.SubjectController",
+    "Method": "GetUserSubjects",
+    "RelativePath": "api/Subject/my",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EduShare.API.Controllers.SubjectController",
     "Method": "GetPublicSubjects",
     "RelativePath": "api/Subject/public",
     "HttpMethod": "GET",
@@ -294,13 +304,24 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "EduShare.API.Controllers.SubjectController",
-    "Method": "GetUserSubjects",
-    "RelativePath": "api/Subject/user",
+    "ContainingType": "UploadController",
+    "Method": "GetDownloadUrl",
+    "RelativePath": "api/upload/download-url/{fileName}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "fileName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -313,6 +334,11 @@
     "Parameters": [
       {
         "Name": "fileName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "contentType",
         "Type": "System.String",
         "IsRequired": false
       }
@@ -328,8 +354,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "file",
-        "Type": "EduShare.Core.Models.UploadedFile",
+        "Name": "fileDTO",
+        "Type": "EduShare.Core.EntitiesDTO.UploadedFilePostDTO",
         "IsRequired": true
       }
     ],

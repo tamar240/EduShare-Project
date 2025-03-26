@@ -10,13 +10,13 @@ namespace EduShare.Core.Repositories
     public interface ISubjectRepository
     {
         Task<Subject> AddAsync(Subject subject);
-        Task<List<Subject>> GetAllAsync();
+        Task<List<Subject>> GetAllAsync( int userId);
         Task<List<Subject>> GetAllMyAsync(int userId);
-        Task<Subject> GetByIdAsync(int id);
+        Task<Subject> GetByIdAsync(int id, int userId);
 
-        Task UpdateAsync(int id, Subject subject);
-        Task DeleteAsync(int id);
-        Task<List<Subject>> GetPublicSubjectsAsync();
+        Task UpdateAsync(int id, Subject subject, int userId);
+        Task DeleteAsync(int id, int userId);
+        Task<List<Subject>> GetPublicSubjectsAsync( int userId);
     }
 
 }

@@ -1,33 +1,43 @@
-﻿using EduShare.Core.Entities;
+﻿using AutoMapper;
+using EduShare.Core.Entities;
+using EduShare.Core.EntitiesDTO;
 using EduShare.Core.Models;
 using EduShare.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace EduShareAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UploadedFileController : ControllerBase
     {
         private readonly IFileService _fileService;
-        public UploadedFileController(IFileService fileService)
+        private readonly IMapper _mapper;
+        public UploadedFileController(IFileService fileService,IMapper mapper)
         {
             _fileService = fileService;
+            _mapper = mapper;
         }
 
         // הוספת קובץ
         [HttpPost]
-        public async Task<IActionResult> AddFileAsync([FromBody] UploadedFile file)
+        public async Task<IActionResult> AddFileAsync([FromBody] UploadedFilePostDTO fileDTO)
         {
-            if (file == null)
+            if (fileDTO == null)
             {
                 return BadRequest("Invalid file data.");
             }
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            var addedFile = await _fileService.AddFileAsync(file);
+            var file =_mapper.Map<UploadedFile>(fileDTO);
+
+            var addedFile = await _fileService.AddFileAsync(file,userId);
             return Ok(addedFile);
         }
 

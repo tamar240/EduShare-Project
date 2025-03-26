@@ -7,7 +7,7 @@ namespace EduShare.Core.Services
 {
     public interface IFileService
     {
-        Task<UploadedFile> AddFileAsync(UploadedFile file);
+        Task<UploadedFile> AddFileAsync(UploadedFile file,int userId);
         Task<List<UploadedFile>> GetFilesByUserIdAsync(int userId);
         Task<List<UploadedFile>> GetFilesByLessonIdAsync(int id);
         Task<List<UploadedFile>> GetAllFilesAsync();

@@ -15,6 +15,7 @@ namespace EduShare.Core.Mappings
         public MappingProfile()
         {
             CreateMap<UploadedFile, UploadedFileDTO>().ReverseMap();
+            CreateMap<UploadedFile, UploadedFilePostDTO>().ReverseMap();
             CreateMap<UserDTO, User>().ReverseMap();
             CreateMap<UserDTO, UserPostDTO>().ReverseMap();
             CreateMap<UserDTO, RegisterModel>().ReverseMap();

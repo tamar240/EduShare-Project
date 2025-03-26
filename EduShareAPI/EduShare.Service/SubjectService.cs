@@ -23,65 +23,48 @@ namespace EduShare.Core.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<Subject> AddSubjectAsync(Subject subject)
+        public async Task<Subject> AddSubjectAsync(Subject subject, int userId)
         {
-
+            subject.OwnerId = userId;
             var newSubject = await _subjectRepository.AddAsync(subject);
             await _managerRepository.SaveAsync();
             return newSubject;
 
         }
-        public async Task<List<Subject>> GetAllSubjectsAsync()
+        public async Task<List<Subject>> GetAllSubjectsAsync(int userId)
         {
-            return await _subjectRepository.GetAllAsync();
+            return await _subjectRepository.GetAllAsync(userId);
         }
 
-        public async Task<Subject> GetSubjectByIdAsync(int id)
+        public async Task<Subject> GetSubjectByIdAsync(int id, int userId)
         {
-            return await _subjectRepository.GetByIdAsync(id);
+            return await _subjectRepository.GetByIdAsync(id,userId);
         }
-        public async Task<List<Subject>> GetAllMyAsync()
+        public async Task<List<Subject>> GetAllMyAsync(int userId)
         {
-            //var c = ClaimTypes.Name;
-            //var c2 = ClaimTypes.NameIdentifier;
-
-            //var userId = int.Parse(ClaimTypes.NameIdentifier);
-            var userId = 37;//delete!!!
             return await _subjectRepository.GetAllMyAsync(userId);
         }
-        //public async Task<List<Subject>> GetAllMyAsync()
-        //{
-        //    // 🔥 קבלת ה-UserId מה-Claims של המשתמש
-
-        //    var userIdClaim = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier);
-        //    if (userIdClaim == null)
-        //    {
-        //        throw new UnauthorizedAccessException("User is not authenticated.");
-        //    }
-
-        //    int userId = int.Parse(userIdClaim.Value); // ✅ שליפת ה-ID של המשתמש
-        //    return await _subjectRepository.GetAllMyAsync(userId);
-        //}
-        public async Task UpdateSubjectAsync(int id, Subject subject)
+       
+        public async Task UpdateSubjectAsync(int id, Subject subject, int userId)
         {
             subject.UpdatedAt = DateTime.UtcNow;
-            await _subjectRepository.UpdateAsync(id, subject);
+            await _subjectRepository.UpdateAsync(id, subject, userId);
 
             await _managerRepository.SaveAsync();
         }
 
-        public async Task DeleteSubjectAsync(int id)
+        public async Task DeleteSubjectAsync(int id, int userId)
         {
-            await _subjectRepository.DeleteAsync(id);
+            await _subjectRepository.DeleteAsync(id, userId);
             await _managerRepository.SaveAsync();
         }
-        public async Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId)//מיותר
+        //public async Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId)//מיותר
+        //{
+        //    return await _lessonService.GetAllPublicLessonsAsyncBySubject(subjectId);
+        //}
+        public async Task<List<Subject>> GetPublicSubjectsAsync(int userId)
         {
-            return await _lessonService.GetAllPublicLessonsAsyncBySubject(subjectId);
-        }
-        public async Task<List<Subject>> GetPublicSubjectsAsync()
-        {
-            return await _subjectRepository.GetPublicSubjectsAsync();
+            return await _subjectRepository.GetPublicSubjectsAsync(userId);
 
         }
 

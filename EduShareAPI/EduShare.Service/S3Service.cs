@@ -1,6 +1,7 @@
 ﻿using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
@@ -21,18 +22,32 @@ public class S3Service
         );
     }
 
-    public async Task<string> UploadFileAsync(Stream fileStream, string fileName)
+    public async Task<string> UploadFileAsync(Stream fileStream, string fileName,string contentType,int userId)
     {
         var request = new PutObjectRequest
         {
             BucketName = bucketName,
-            Key = fileName,
+            Key = $"{userId}/{fileName}",
             InputStream = fileStream,
-            ContentType = "application/octet-stream",
+            ContentType = contentType,
+
             CannedACL = S3CannedACL.Private
         };
 
         await s3Client.PutObjectAsync(request);
         return $"https://{bucketName}.s3.amazonaws.com/{fileName}";
+    }
+
+    public async Task<string> GetDownloadUrlAsync(string userId, string fileName)
+    {
+        var request = new GetPreSignedUrlRequest
+        {
+            BucketName = "edushare-files",
+            Key = fileName,
+            Verb = HttpVerb.GET,
+            Expires = DateTime.UtcNow.AddDays(7),
+        };
+
+        return await s3Client.GetPreSignedURLAsync(request);
     }
 }

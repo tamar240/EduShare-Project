@@ -25,6 +25,16 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.WriteIndented = true;
 });
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSingleton<IAmazonS3>(provider => {
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    var awsOptions = configuration.GetSection("AWS");
+
+    var accessKey = awsOptions["AccessKey"] ?? Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID");
+    var secretKey = awsOptions["SecretKey"] ?? Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
+    var region = awsOptions["Region"] ?? Environment.GetEnvironmentVariable("AWS_REGION") ?? "eu-north-1";
+
+    return new AmazonS3Client(accessKey, secretKey, Amazon.RegionEndpoint.GetBySystemName(region));
+});
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -90,7 +100,32 @@ builder.Services.AddHttpContextAccessor();//???
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 builder.Services.AddHttpContextAccessor();///delete?
+/*
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("EditorOrAdmin", policy => policy.RequireRole("Editor", "Admin"));
+    options.AddPolicy("ViewerOnly", policy => policy.RequireRole("Viewer"));
+});*/
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -132,22 +167,40 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-var awsRegion = Environment.GetEnvironmentVariable("AWS_REGION");
+//var awsRegion = Environment.GetEnvironmentVariable("AWS_REGION");
 
-var credentials = new BasicAWSCredentials(
-builder.Configuration["AWS:AccessKey"],
-builder.Configuration["AWS:SecretKey"]
+//var credentials = new BasicAWSCredentials(
+//builder.Configuration["AWS:AccessKey"],
+//builder.Configuration["AWS:SecretKey"]
 //AccessKey,
 //SecretAccess
-);
+//);
+//AWS
+//var region = Amazon.RegionEndpoint.GetBySystemName(builder.Configuration["AWS:Region"]);
+////var region = Amazon.RegionEndpoint.GetBySystemName(awsRegion);
 
-var region = Amazon.RegionEndpoint.GetBySystemName(builder.Configuration["AWS:Region"]);
-//var region = Amazon.RegionEndpoint.GetBySystemName(awsRegion);
+//var s3Client = new AmazonS3Client(credentials, region);
+
+//builder.Services.AddSingleton<IAmazonS3>(s3Client);
+//Console.WriteLine(s3Client);
+//משתני סביבה ל AWS
+
+var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID", EnvironmentVariableTarget.User);
+var secretKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY", EnvironmentVariableTarget.User);
+var awsRegion = Environment.GetEnvironmentVariable("AWS_REGION", EnvironmentVariableTarget.User);
+
+if (string.IsNullOrEmpty(accessKey) || string.IsNullOrEmpty(secretKey) || string.IsNullOrEmpty(awsRegion))
+{
+    throw new Exception("Missing AWS credentials in environment variables");
+}
+
+var credentials = new BasicAWSCredentials(accessKey, secretKey);
+var region = Amazon.RegionEndpoint.GetBySystemName(awsRegion);
+
 
 var s3Client = new AmazonS3Client(credentials, region);
-
 builder.Services.AddSingleton<IAmazonS3>(s3Client);
-Console.WriteLine(s3Client);
+
 
 var app = builder.Build();
 app.UseCors(MyAllowSpecificOrigins);

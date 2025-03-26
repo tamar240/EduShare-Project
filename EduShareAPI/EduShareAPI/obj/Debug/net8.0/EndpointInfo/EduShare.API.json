@@ -67,27 +67,6 @@
         }
       }
     },
-    "/api/file/generate-presigned-url": {
-      "get": {
-        "tags": [
-          "File"
-        ],
-        "parameters": [
-          {
-            "name": "fileName",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/Lesson": {
       "post": {
         "tags": [
@@ -367,6 +346,29 @@
         }
       }
     },
+    "/api/Lesson/permission/{id}": {
+      "put": {
+        "tags": [
+          "Lesson"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Subject/add": {
       "post": {
         "tags": [
@@ -410,7 +412,7 @@
         }
       }
     },
-    "/api/Subject/user": {
+    "/api/Subject/my": {
       "get": {
         "tags": [
           "Subject"
@@ -530,6 +532,42 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "contentType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/upload/download-url/{fileName}": {
+      "get": {
+        "tags": [
+          "Upload"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -548,17 +586,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UploadedFile"
+                "$ref": "#/components/schemas/UploadedFilePostDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UploadedFile"
+                "$ref": "#/components/schemas/UploadedFilePostDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UploadedFile"
+                "$ref": "#/components/schemas/UploadedFilePostDTO"
               }
             }
           }
@@ -1109,6 +1147,39 @@
           },
           "isDeleted": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UploadedFilePostDTO": {
+        "required": [
+          "fileName",
+          "filePath",
+          "fileType",
+          "lessonId"
+        ],
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "fileType": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "filePath": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lessonId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

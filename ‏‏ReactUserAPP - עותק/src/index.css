@@ -1,0 +1,9 @@
+body {
+  background-color: rgba(164, 219, 222, 0.5); /* 0.8 = 80% אטימות, 0 = שקוף לחלוטין */
+  /* background-image: url('./assets/blue-yellow.jpg'); שנה לנתיב התמונה שלך */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
+}

@@ -22,14 +22,10 @@ namespace EduShare.Data.Services
             _userService = userService;
         }
 
-        public async Task<UploadedFile> AddFileAsync(UploadedFile file)
+        public async Task<UploadedFile> AddFileAsync(UploadedFile file,int userId)
         {
-            //var userName = ClaimTypes.Name;
-            //var userId = _userService.GetUserByNameAsync(userName).Result.Id;
-
-            //file.OwnerId = userId;
-            //file.OwnerId = 37;//למחוקקקק
-            file.OwnerId = int.Parse(ClaimTypes.NameIdentifier);
+            file.OwnerId = userId;
+            file.S3Key = $"{userId}/{file.FileName}";
 
             await _repositoryManager.Files.AddAsync(file);
             await _repositoryManager.SaveAsync();

@@ -11,12 +11,11 @@ namespace EduShare.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize] // כל הפעולות דורשות התחברות
+    [Authorize] // כל הפעולות דורשות התחברות
     public class LessonController : ControllerBase
     {
         private readonly ILessonService _lessonService;
         private readonly IMapper _mapper;
-        private string GetUserName() => User.FindFirst(ClaimTypes.Name)?.Value ??"0";
 
         public LessonController(ILessonService lessonService,IMapper mapper)
         {
@@ -29,16 +28,16 @@ namespace EduShare.API.Controllers
         public async Task<IActionResult> AddLesson([FromBody] LessonDTO lessonDTO)
         {
             var lesson=_mapper.Map<Lesson>(lessonDTO);
-            var userName= GetUserName();
-
-            var newLesson = await _lessonService.AddLessonAsync(lesson,userName);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var newLesson = await _lessonService.AddLessonAsync(lesson,userId);
              return Ok(newLesson);
         }
 
         [HttpGet("public/{subjectId}")]
         public async Task<ActionResult<List<Lesson>>> GetAllPublicLessonsBySubject(int subjectId)
         {
-            var lessons = await _lessonService.GetAllPublicLessonsAsyncBySubject(subjectId);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var lessons = await _lessonService.GetAllPublicLessonsAsyncBySubject(subjectId,userId);
 
             return Ok(_mapper.Map<List<LessonGetDTO>>(lessons));
         }
@@ -46,7 +45,10 @@ namespace EduShare.API.Controllers
         [HttpGet("my/{subjectId}")]
         public async Task<ActionResult<List<Lesson>>> GetMyLessonsBySubject(int subjectId)
         {
-            var lessons = await _lessonService.GetMyLessonsAsyncBySubject(subjectId);
+
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var lessons = await _lessonService.GetMyLessonsAsyncBySubject(subjectId,userId);
             return Ok(_mapper.Map<List<LessonGetDTO>>(lessons));
         }
 
@@ -61,7 +63,8 @@ namespace EduShare.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Lesson>> GetById(int id)
         {
-            var lesson = await _lessonService.GetByIdAsync(id);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var lesson = await _lessonService.GetByIdAsync(id,userId);
             if (lesson == null)
                 return NotFound();
 
@@ -72,9 +75,11 @@ namespace EduShare.API.Controllers
         public async Task<IActionResult> UpdateLesson(int id, [FromBody] LessonDTO lessonDTO)
         {
             var lesson = _mapper.Map<Lesson>(lessonDTO);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
             try
             {
-                await _lessonService.UpdateAsync(id, lesson);
+                await _lessonService.UpdateAsync(id, lesson,userId);
                 return NoContent();
             }
             catch (Exception ex)
@@ -82,13 +87,29 @@ namespace EduShare.API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+        [HttpPut("permission/{id}")]
+        public async Task<IActionResult> UpdateLessonPermission(int id)
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
+            try
+            {
+                await _lessonService.UpdatePermissionAsync(id,userId);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLesson(int id)
         {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
             try
             {
-                await _lessonService.DeleteAsync(id);
+                await _lessonService.DeleteAsync(id,userId);
                 return NoContent();
             }
             catch (Exception ex)

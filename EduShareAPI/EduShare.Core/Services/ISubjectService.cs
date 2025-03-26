@@ -8,19 +8,19 @@ namespace EduShare.Core.Services
     public interface ISubjectService
     {
 
-        Task<Subject> AddSubjectAsync(Subject subject);
+        Task<Subject> AddSubjectAsync(Subject subject,int userId);
 
-        Task<List<Subject>> GetAllSubjectsAsync();
-        Task<List<Subject>> GetAllMyAsync();
+        Task<List<Subject>> GetAllSubjectsAsync(int userId);
+        Task<List<Subject>> GetAllMyAsync(int userId);
         
-            Task<Subject> GetSubjectByIdAsync(int id);
+            Task<Subject> GetSubjectByIdAsync(int id, int userId);
 
-        Task UpdateSubjectAsync(int id, Subject subject);
+        Task UpdateSubjectAsync(int id, Subject subject, int userId);
 
-        Task DeleteSubjectAsync(int id);
+        Task DeleteSubjectAsync(int id, int userId);
 
-        Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId);//מיותר
-        Task<List<Subject>> GetPublicSubjectsAsync();
+        //Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId);//מיותר
+        Task<List<Subject>> GetPublicSubjectsAsync(int userId);
 
 
     }
