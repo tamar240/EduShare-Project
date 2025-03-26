@@ -69,6 +69,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, LinearProgress, Typography, Box, Paper } from '@mui/material';
+import { getCookie } from '../login/Login';
 
 const FileUploader = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -87,18 +88,23 @@ const FileUploader = () => {
   const handleUpload = async () => {
     if (!file) return;
     var type = file.type;
+    var token=getCookie("auth_token");
 
     try {
       const response = await axios.get('https://localhost:7249/api/upload/presigned-url', {
-        params: {
-          fileName: file.name,
-          contentType: type
-        }
+      params: {
+        fileName: file.name,
+        contentType: type,
+      },
+      headers: {
+        "Authorization": `Bearer ${token}`, // הוספת הטוקן ל-headers
+      },
       });
 
       const presignedUrl = response.data.url;
       setUploadUrl(presignedUrl);
 
+      debugger
       await axios.put(presignedUrl, file, {
         headers: {
           'Content-Type': file.type,
@@ -110,7 +116,20 @@ const FileUploader = () => {
           setProgress(percent);
         },
       });
-
+      const fileData = {
+        fileName: file.name,
+        fileType: file.type,
+        filePath: presignedUrl.split('?')[0], 
+        size: file.size,
+        lessonId: 2070, // אחרי שנקרא להעלת קובץ דרך שיעור מסוים נוכל לעדכן פה
+      };
+  
+      await axios.post('https://localhost:7249/api/UploadedFile', fileData, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
       alert('✅ הקובץ הועלה בהצלחה!');
     } catch (error) {
       console.error('❌ שגיאה בהעלאה:', error);
