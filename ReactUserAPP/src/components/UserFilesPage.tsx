@@ -143,9 +143,9 @@
 // export default UserFilesPage;
 import { useState, useEffect } from "react";
  import axios from "axios";
- import { getCookie } from "../login/Login";
+ import { getCookie } from "./login/Login";
  import { Box, Menu, MenuItem, Typography, Grid, Paper, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
- import LessonsList from "./LessonsList";
+ import LessonsList from "./userPage/LessonsList";
 
  export type Subject = {
   id: number;
@@ -164,8 +164,13 @@ import { useState, useEffect } from "react";
   ownerId: number;
   permission: number;
  };
+ export type UserRole = 'PERSONAL' | 'PUBLIC';
 
- const UserFilesPage = () => {
+export interface UserFilesPageProps {
+  role: UserRole;
+}
+  
+const UserFilesPage: React.FC<UserFilesPageProps> = ({ role }) => {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [lessons, setLessons] = useState<{ [key: number]: Lesson[] }>({});
   const [loading, setLoading] = useState(true);
@@ -181,18 +186,24 @@ import { useState, useEffect } from "react";
   const [editedSubjectName, setEditedSubjectName] = useState<string>("");
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
   const [expandedSubjectDetails, setExpandedSubjectDetails] = useState<{ [key: number]: boolean }>({});
-
+  const typeRequest = role === 'PUBLIC' ? "public" : "my";
   useEffect(() => {
   const fetchSubjects = async () => {
+
    try {
     const token = getCookie("auth_token");
-    const response = await axios.get("https://localhost:7249/api/Subject/my", {
+    // debugger
+    const response = await axios.get(`https://localhost:7249/api/Subject/${typeRequest}`, {
      headers: { Authorization: `Bearer ${token}` },
     });
+
     setSubjects(response.data);
-   } catch (err) {
+
+   } 
+   catch (err) {
     setError("Failed to fetch subjects");
-   } finally {
+   }
+    finally {
     setLoading(false);
    }
   };
@@ -203,7 +214,7 @@ import { useState, useEffect } from "react";
   if (!lessons[subject.id]) {
    try {
     const token = getCookie("auth_token");
-    const response = await axios.get<Lesson[]>(`https://localhost:7249/api/Lesson/my/${subject.id}`, {
+    const response = await axios.get<Lesson[]>(`https://localhost:7249/api/Lesson/${typeRequest}/${subject.id}`, {
      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
     });
     setLessons(prev => ({ ...prev, [subject.id]: response.data }));
@@ -261,6 +272,7 @@ import { useState, useEffect } from "react";
   const handleSaveSubjectName = async (subject: Subject) => {
   try {
    const token = getCookie("auth_token");
+   debugger
    await axios.put(`https://localhost:7249/api/Subject/${subject.id}`, { ...subject, name: editedSubjectName }, {
     headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
    });
@@ -312,6 +324,7 @@ import { useState, useEffect } from "react";
        ⬅️ חזרה למקצועות
       </Typography>
       <LessonsList
+
        handleMenuOpen={handleMenuOpen}
        handleMenuClose={handleMenuClose}
        handleSubmitEdit={handleSubmitEdit}
@@ -321,11 +334,12 @@ import { useState, useEffect } from "react";
        editLesson={editLesson}
        setEditLesson={setEditLesson}
        loadingUpdate={loadingUpdate}
+       subjectId={selectedSubject.id} 
       />
      </Box>
     )}
    </Box>
-   <Menu anchorEl={menuAnchor} open={Boolean(menuAnchor)} onClose={handleMenuClose}>
+   <Menu anchorEl={menuAnchor} open={Boolean(menuAnchor)} onClose={handleMenuClose}   disableAutoFocus   disableEnforceFocus>
     <MenuItem onClick={() => console.log("Download", selectedLesson)}>הורדה</MenuItem>
     <MenuItem onClick={() => { setEditLesson(selectedLesson); handleMenuClose(); }}>פרטים</MenuItem>
    </Menu>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { List, ListItemButton, ListItemText, IconButton, Collapse, Box, Typography, Divider, TextField } from "@mui/material";
 import FolderIcon from "@mui/icons-material/Folder";
 import InfoIcon from "@mui/icons-material/Info";
-import { Subject } from "./UserFilesPage";
+import { Subject } from "../UserFilesPage";
 import axios from "axios";
 import { getCookie } from "../login/Login";
 

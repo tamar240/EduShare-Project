@@ -31,6 +31,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AddIcon from "@mui/icons-material/Add";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import ClassIcon from "@mui/icons-material/Class";
+import { getCookie } from "./login/Login";
 
 const drawerWidth = 240;
 const collapsedWidth = 60;
@@ -52,12 +53,19 @@ const Sidebar: React.FC = () => {
   };
 
   const handleAddSubject = async () => {
+    const token = getCookie("auth_token");
+    debugger
     if (!subjectName.trim()) return;
     try {
-      await axios.post("https://localhost:7249/api/Subject/add", {
-        name: subjectName,
-        ownerId: 37,
-      });
+      await axios.post(
+        "https://localhost:7249/api/Subject/add",
+        {
+          name: subjectName
+        },
+        {
+          headers: { "Authorization": `Bearer ${token}` },
+        }
+      );
       alert("✅ המקצוע נוסף בהצלחה!");
       setSubjectName("");
       setOpenDialog(false);

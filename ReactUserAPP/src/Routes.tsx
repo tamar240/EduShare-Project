@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './components/login/Login';
 import FileUpload from './components/file/FileUploader';
-import UserFilesPage from './components/userPage/UserFilesPage';
+import UserFilesPage from './components/UserFilesPage';
 import PublicPage from './components/guestPage/PublicPage';
 import Sidebar from './components/Sidebar';
 import './App.css'; // Assuming you have a CSS file for styling

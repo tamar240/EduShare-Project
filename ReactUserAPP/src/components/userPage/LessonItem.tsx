@@ -145,7 +145,7 @@ import React, { useState, MouseEvent } from "react";
       ⬅️ פרטים
      </MenuItem>
     </Tooltip>
-    <MenuItem onClick={handlePermissionChange}> שינוי הרשאה</MenuItem>
+    <MenuItem onClick={handlePermissionChange}>🔒 שינוי הרשאה  </MenuItem>
     <MenuItem onClick={handleDeleteLesson}>❌ מחיקה </MenuItem>
    </Menu>
    <PopupDialog

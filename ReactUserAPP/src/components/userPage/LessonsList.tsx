@@ -8,9 +8,10 @@ import { useState, useEffect } from "react";
 
  interface LessonListProps {
   selectedSubjectLessons: Lesson[] | null;
+  subjectId:number;
  }
 
- const LessonsGrid = ({ selectedSubjectLessons }: LessonListProps) => {
+ const LessonsGrid = ({ selectedSubjectLessons ,subjectId }: LessonListProps) => {
   const [lessons, setLessons] = useState<Lesson[]>(selectedSubjectLessons || []);
   const [addLessonDialogOpen, setAddLessonDialogOpen] = useState<boolean>(false);
   const [newLessonName, setNewLessonName] = useState<string>("");
@@ -25,12 +26,12 @@ import { useState, useEffect } from "react";
   const handleAddLesson = async () => {
    try {
     const token = getCookie("auth_token");
+    debugger
     const response = await axios.post(
      "https://localhost:7249/api/Lesson",
      {
       name: newLessonName,
-      subjectId: 4,
-      ownerId: 37,
+      subjectId: subjectId,
       permission: newLessonPermission,
      },
      { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
