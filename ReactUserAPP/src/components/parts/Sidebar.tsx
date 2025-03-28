@@ -27,11 +27,13 @@ import FolderIcon from "@mui/icons-material/Folder";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import SchoolIcon from "@mui/icons-material/School";
 import DeleteIcon from "@mui/icons-material/Delete";
+import PublicIcon from "@mui/icons-material/Public";
 import MenuIcon from "@mui/icons-material/Menu";
 import AddIcon from "@mui/icons-material/Add";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import ClassIcon from "@mui/icons-material/Class";
-import { getCookie } from "./login/Login";
+import { getCookie } from "../login/Login";
+
 
 const drawerWidth = 240;
 const collapsedWidth = 60;
@@ -137,7 +139,9 @@ const Sidebar: React.FC = () => {
             { text: "המקצועות שלי", icon: <SchoolIcon />, path: "/userFilesPage" },
             { text: "העלה קובץ ", icon: <FolderIcon />, path: "/upload" },
             { text: "הקבצים שלי", icon: <InsertDriveFileIcon />, path: "/myFiles" },
+            { text: "מערכים ציבורים", icon: <PublicIcon />, path: "/publicPage" },
             { text: "אשפה", icon: <DeleteIcon />, path: "/trash" },
+            
           ].map((item, index) => (
             <Tooltip key={index} title={collapsed ? item.text : ""} placement="right">
               <ListItem disablePadding>

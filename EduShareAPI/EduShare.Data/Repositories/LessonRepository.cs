@@ -42,14 +42,17 @@ namespace EduShare.Infrastructure.Repositories
         // מתודה שמחזירה את כל השעורים ה- PUBLIC, מלבד השעורים של המשתמש
         public async Task<List<Lesson>> GetAllPublicLessonsAsyncBySubject(int userId, int subjectId)
         {
-            return await _context.Lessons
+            var l= await _context.Lessons
                 .Where(l => l.Permission == FileAccessTypeEnum.Public && l.OwnerId != userId && l.SubjectId == subjectId && !l.IsDeleted)
                 .ToListAsync();
+
+            return l;
         }
 
         // מתודה שמחזירה את השעורים של המשתמש
         public async Task<List<Lesson>> GetMyLessonsAsyncBySubject(int userId, int subjectId)
         {
+
             return await _context.Lessons
                 .Where(l => l.OwnerId == userId && l.SubjectId == subjectId && !l.IsDeleted)
                 .ToListAsync();

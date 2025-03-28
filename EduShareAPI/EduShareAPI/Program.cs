@@ -94,38 +94,11 @@ builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<S3Service>();
 builder.Services.AddScoped<LessonRepository>();
-
-builder.Services.AddHttpContextAccessor();//???
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
-builder.Services.AddHttpContextAccessor();///delete?
-/*
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-    };
-});
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-    options.AddPolicy("EditorOrAdmin", policy => policy.RequireRole("Editor", "Admin"));
-    options.AddPolicy("ViewerOnly", policy => policy.RequireRole("Viewer"));
-});*/
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -167,22 +140,6 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-//var awsRegion = Environment.GetEnvironmentVariable("AWS_REGION");
-
-//var credentials = new BasicAWSCredentials(
-//builder.Configuration["AWS:AccessKey"],
-//builder.Configuration["AWS:SecretKey"]
-//AccessKey,
-//SecretAccess
-//);
-//AWS
-//var region = Amazon.RegionEndpoint.GetBySystemName(builder.Configuration["AWS:Region"]);
-////var region = Amazon.RegionEndpoint.GetBySystemName(awsRegion);
-
-//var s3Client = new AmazonS3Client(credentials, region);
-
-//builder.Services.AddSingleton<IAmazonS3>(s3Client);
-//Console.WriteLine(s3Client);
 //משתני סביבה ל AWS
 
 var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID", EnvironmentVariableTarget.User);

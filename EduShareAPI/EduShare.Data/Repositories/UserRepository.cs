@@ -42,23 +42,15 @@ namespace EduShare.Data.Repositories
             }
             return user;
         }
-        public async Task<User> GetUserByUsernameAsync(string userName)
-        {
-            return await _context.Users.SingleOrDefaultAsync(u => u.Name == userName);
 
-        }
 
 
         public async Task<User> AddUserAsync(User user)
         {
-            if (await _context.Users.AnyAsync(u => u.Name == user.Name))
-            {
-                throw new InvalidOperationException("שם זה כבר קיים.");
-            }
 
             if (await _context.Users.AnyAsync(u => u.Email == user.Email))
             {
-                throw new InvalidOperationException("אימייל זה כבר קיים.");
+                throw new InvalidOperationException("This email already exists.");
             }
 
             var u = await _context.Users.AddAsync(user);

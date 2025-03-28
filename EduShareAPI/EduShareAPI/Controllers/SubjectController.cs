@@ -80,7 +80,7 @@ namespace EduShare.API.Controllers
 
 
         [HttpGet("public")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetPublicSubjects()
         {
             //var   userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

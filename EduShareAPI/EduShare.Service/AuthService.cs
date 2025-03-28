@@ -29,7 +29,6 @@ namespace EduShare.Service
     {
         new Claim(ClaimTypes.Name, username),
         new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-        //new Claim("email", email) // הוספת ה-ID של המשתמש
     };
 
             // הוספת תפקידים כ-Claims

@@ -50,10 +50,9 @@ namespace EduShare.Data.Services
             return await _repositoryManager.Files.GetAllFilesAsync();
         }
 
-        public async Task<UploadedFile> GetFileByIdAsync(int id)
+        public async Task<UploadedFile> GetFileByIdAsync(int id,int userId)
         {
-            var userName = ClaimTypes.Name;
-            var userId = _userService.GetUserByNameAsync(userName).Result.Id;
+
 
             return await _repositoryManager.Files.GetFileByIdAsync(id,userId);
         }

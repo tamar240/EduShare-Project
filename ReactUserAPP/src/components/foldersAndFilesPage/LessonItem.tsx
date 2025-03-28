@@ -5,15 +5,11 @@ import React, { useState, MouseEvent } from "react";
   MenuItem
  } from "@mui/material";
  import MoreVertIcon from "@mui/icons-material/MoreVert";
- import PopupDialog from '../PopupDialog';
+ import PopupDialog from '../parts/PopupDialog';
+import { Lesson } from "../typies/types";
 
- export interface Lesson {
-  id: number;
-  name: string;
-  permission: number;
-  createdAt?: string;
-  ownerId?: number;
- }
+
+
 
  interface PermissionLabel {
   label: string;
@@ -30,9 +26,10 @@ import React, { useState, MouseEvent } from "react";
   onDelete: (lessonId: number) => Promise<void>;
   onUpdate: (updatedLesson: Lesson) => void;
   onPermissionChange: (lessonId: number, newPermission: number) => Promise<void>;
+  type:'PUBLIC'|'PERSONAL';
  }
 
- const LessonItem = ({ lesson, onDelete, onUpdate, onPermissionChange }: LessonItemProps) => {
+ const LessonItem = ({ lesson, onDelete, onUpdate, onPermissionChange ,type}: LessonItemProps) => {
   const [editingLessonId, setEditingLessonId] = useState<number | null>(null);
   const [lessonName, setLessonName] = useState<string>(lesson.name);
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
@@ -145,8 +142,8 @@ import React, { useState, MouseEvent } from "react";
       ⬅️ פרטים
      </MenuItem>
     </Tooltip>
-    <MenuItem onClick={handlePermissionChange}>🔒 שינוי הרשאה  </MenuItem>
-    <MenuItem onClick={handleDeleteLesson}>❌ מחיקה </MenuItem>
+    {type=='PERSONAL'&&<MenuItem onClick={handlePermissionChange}>🔒 שינוי הרשאה  </MenuItem>}
+    {type=='PERSONAL'&& <MenuItem onClick={handleDeleteLesson}>❌ מחיקה </MenuItem>}
    </Menu>
    <PopupDialog
     open={confirmPermissionDialogOpen}

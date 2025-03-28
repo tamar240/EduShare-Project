@@ -2,10 +2,11 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './components/login/Login';
 import FileUpload from './components/file/FileUploader';
-import UserFilesPage from './components/UserFilesPage';
-import PublicPage from './components/guestPage/PublicPage';
-import Sidebar from './components/Sidebar';
+// import UserFilesPage from './components/UserFilesPage';
+import Sidebar from './components/parts/Sidebar';
 import './App.css'; // Assuming you have a CSS file for styling
+import UserFilesPage from './components/UserFilesPage';
+
 
 const RoutesComponent: React.FC = () => {
     return (
@@ -16,8 +17,9 @@ const RoutesComponent: React.FC = () => {
                     <Routes>
                         <Route path='/' element={<Login />} />
                         <Route path='upload' element={<FileUpload />} />
-                        <Route path='userFilesPage' element={<UserFilesPage />} />
-                        <Route path='publicPage' element={<PublicPage />} />
+                        <Route path='userFilesPage' element={<UserFilesPage type='PERSONAL' />} />
+                        <Route path='publicPage' element={<UserFilesPage type='PUBLIC' />} />
+
                     </Routes>
                 </div>
             </div>

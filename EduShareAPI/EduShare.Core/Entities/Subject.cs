@@ -19,10 +19,12 @@ namespace EduShare.Core.Entities
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        public int AmountOfPublicLesson { get; set; } = 0;
 
         public bool IsDeleted { get; set; } = false;
 
+
         // כל מקצוע יכיל רשימה של שיעורים
-        public virtual ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
+        //public virtual ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
     }
 }

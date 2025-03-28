@@ -59,9 +59,10 @@ namespace EduShareAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetFileByIdAsync(int id)
         {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             try
             {
-                var file = await _fileService.GetFileByIdAsync(id); // יש לתקן אם מדובר בקובץ לפי ID
+                var file = await _fileService.GetFileByIdAsync(id,userId); // יש לתקן אם מדובר בקובץ לפי ID
                 return Ok(file);
             }
             catch (KeyNotFoundException ex)

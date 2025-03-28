@@ -9,6 +9,8 @@ namespace EduShare.Core.Repositories
         IUserRepository Users { get; }
         IUserRolesRepository UserRoles { get; }
         IRoleRepository Roles { get; }  // עדכון השם מ-IRoleRpository ל-IRoleRepository
+         ISubjectRepository Subjects { get; set; }
+         ILessonRepository Lessons { get; set; }
         Task SaveAsync();  // שמירת שינויים במאגר הנתונים
     }
 }

@@ -21,40 +21,46 @@ namespace EduShare.Infrastructure.Repositories
         public async Task<Subject> AddAsync(Subject subject)
         {
 
-          await  _context.Subjects.AddAsync(subject);
+            await _context.Subjects.AddAsync(subject);
             return subject;
         }
 
         public async Task<List<Subject>> GetAllAsync(int userId)
         {
-            return await _context.Subjects.Where(s => !s.IsDeleted && s.OwnerId==userId).ToListAsync();
+            return await _context.Subjects.Where(s => !s.IsDeleted && s.OwnerId == userId).ToListAsync();
         }
         public async Task<List<Subject>> GetAllMyAsync(int userId)
         {
-            
-            return await _context.Subjects.Where(s => !s.IsDeleted && s.OwnerId==userId).ToListAsync();
+
+            return await _context.Subjects.Where(s => !s.IsDeleted && s.OwnerId == userId).ToListAsync();
         }
 
-        public async Task<Subject> GetByIdAsync(int id,int userId)
+        public async Task<Subject> GetByIdAsync(int id, int userId)
         {
-            var subject= await _context.Subjects.FirstOrDefaultAsync(s=>s.Id==id);
-           
+            var subject = await _context.Subjects.FirstOrDefaultAsync(s => s.Id == id);
 
-            if(subject==null || subject.IsDeleted)
+
+            if (subject == null || subject.IsDeleted)
                 throw new KeyNotFoundException($"Subject with ID {id} was not found.");
 
-            if(subject.OwnerId != userId)
+            if (subject.OwnerId != userId)
                 throw new UnauthorizedAccessException("You do not have permission to access this subject.");
 
 
             return subject;
         }
-
-        public async Task UpdateAsync(int id,Subject subject, int userId)
+        public async Task<List<Subject>> GetPublicSubjectsAsync(int userId)
         {
-            var currentSubject = await GetByIdAsync(id,  userId);
+            return await _context.Subjects
+               .Where(s => s.AmountOfPublicLesson > 0 && s.OwnerId!=userId)
+               .ToListAsync();
 
-            if(currentSubject==null || currentSubject.IsDeleted)
+        }
+        public async Task UpdateAsync(int id, Subject subject, int userId)
+        {
+            var currentSubject = await GetByIdAsync(id, userId);
+
+            if (currentSubject == null || currentSubject.IsDeleted)
                 throw new KeyNotFoundException($"Subject with ID {id} was not found.");
 
             currentSubject.UpdatedAt = DateTime.UtcNow;
@@ -63,26 +69,20 @@ namespace EduShare.Infrastructure.Repositories
 
         public async Task DeleteAsync(int id, int userId)
         {
-            var subject = await _context.Subjects.FirstOrDefaultAsync(s => s.Id == id && s.OwnerId==userId);
-            var lessons = await _context.Lessons.Where(l => l.SubjectId == id).ToListAsync();//בעקרון מיותר אם יש רשימה
+            var subject = await _context.Subjects.FirstOrDefaultAsync(s => s.Id == id && s.OwnerId == userId);
+            var lessons = await _context.Lessons.Where(l => l.SubjectId == id).ToListAsync();
             if (subject != null)
             {
-                foreach (var lesson in lessons)//subject.Lessons
+                foreach (var lesson in lessons)
                 {
-                  await  _lessonRepository.DeleteAsync(lesson.Id);
+                    await _lessonRepository.DeleteAsync(lesson.Id);
                 }
                 subject.IsDeleted = true;
             }
         }
 
-        public async Task<List<Subject>> GetPublicSubjectsAsync(int userId)
-        {
-            return await _context.Subjects
-                .Where(s => s.Lessons.Any(l => l.Permission==FileAccessTypeEnum.Public && l.OwnerId!=userId)) // מחזיר רק מקצועות עם שיעורים ציבוריים
-                .Include(s => s.Lessons.Where(l => l.Permission == FileAccessTypeEnum.Public && l.OwnerId!=userId)) // טוען רק את השיעורים הציבוריים
-                .ToListAsync();
-        }
-   
+
+
 
     }
 }

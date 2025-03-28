@@ -13,18 +13,24 @@ namespace EduShare.Data.Repositories
         public IUserRepository Users { get; }
         public IUserRolesRepository UserRoles { get; }
         public IRoleRepository Roles { get; }
+        public ISubjectRepository Subjects { get; set; }
+        public ILessonRepository Lessons { get; set; }
 
         public ManagerRepository(DataContext context,
             IFileRepository fileRepository,
             IUserRepository userRepository,
             IUserRolesRepository userRolesRepository,
-            IRoleRepository roleRpository)
+            IRoleRepository roleRpository,
+            ISubjectRepository subjects,
+            ILessonRepository lessons)
         {
             _context = context;
             Files = fileRepository;
             Users = userRepository;
             UserRoles = userRolesRepository;
             Roles = roleRpository;
+            Subjects = subjects;
+            Lessons = lessons;
         }
 
         public async Task SaveAsync()

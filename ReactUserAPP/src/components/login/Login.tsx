@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-export const getCookie=(name: string) =>{
+export const getCookie = (name: string) => {
 
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -17,7 +17,7 @@ export const getCookie=(name: string) =>{
 
 const Login = () => {
 
-  
+
 
     const resetForm = () => {
         setName('');
@@ -35,7 +35,7 @@ const Login = () => {
     const [open, setOpen] = useState(false);
 
     const navigate = useNavigate();
-    
+
     const urlAuthAPI = "https://localhost:7249/api/Auth/";
 
     const handleLogin = async (e: any) => {
@@ -51,7 +51,9 @@ const Login = () => {
             console.log("Login successful", getCookie("auth_token"));
             setOpen(false);
             resetForm();
-            navigate('/userFilesPage');
+            // navigate('/userFilesPage');
+            navigate('/userFilesPage', { state: { type: 'PERSONAL' } });
+
         } catch (error) {
             setError('שם משתמש או סיסמה לא נכונים');
         }
@@ -59,18 +61,20 @@ const Login = () => {
     const handleRegister = async (e: any) => {
         e.preventDefault();
 
-        const registerData = { name, password, email, roleName: "Admin" };
+        const registerData = { name, password, email, roleName: "Teacher" };
 
         try {
             const response = await axios.post(`${urlAuthAPI}${status}`, registerData);
+
             const { token } = response.data;
             document.cookie = `auth_token=${token}; path=/; secure; samesite=strict;`;
+
             console.log("Registration successful", getCookie("auth_token"));
 
             setOpen(false);
             resetForm();
             navigate('/userFilesPage');
-          
+
         } catch (error) {
             setError('הרשמה נכשלה, נסה שנית');
         }
@@ -116,6 +120,7 @@ const Login = () => {
                         </Typography>
                     }
                     {error && <Typography color="error">{error}</Typography>}
+
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => { setOpen(false); resetForm() }}>סגור</Button>

@@ -996,6 +996,9 @@
           "isDeleted": {
             "type": "boolean"
           },
+          "summary": {
+            "$ref": "#/components/schemas/UploadedFile"
+          },
           "files": {
             "type": "array",
             "items": {
@@ -1046,23 +1049,30 @@
         "additionalProperties": false
       },
       "RegisterModel": {
+        "required": [
+          "email",
+          "name",
+          "password",
+          "roleName"
+        ],
         "type": "object",
         "properties": {
           "name": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "password": {
-            "type": "string",
-            "nullable": true
+            "minLength": 6,
+            "type": "string"
           },
           "email": {
+            "minLength": 1,
             "type": "string",
-            "nullable": true
+            "format": "email"
           },
           "roleName": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           }
         },
         "additionalProperties": false

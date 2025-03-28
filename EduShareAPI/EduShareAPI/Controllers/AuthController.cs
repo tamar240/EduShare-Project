@@ -38,38 +38,37 @@ public class AuthController : ControllerBase
                 var token = _authService.GenerateJwtToken(model.Name,userRole.User.Id,new[] { "Admin" });
                 return Ok(new { Token = token, User = userRole.User });
             }
-            else if (userRole.Role.RoleName == "Editor")
+            else if (userRole.Role.RoleName == "Teacher")
             {
-                var token = _authService.GenerateJwtToken(model.Name, userRole.User.Id,new[] { "Editor" });
+                var token = _authService.GenerateJwtToken(model.Name, userRole.User.Id,new[] { "Teacher" });
                 return Ok(new { Token = token });
             }
-            else if (userRole.Role.RoleName == "Viewer")
-            {  
-                var token = _authService.GenerateJwtToken(model.Name, userRole.User.Id, new[] { "Viewer" });
-                return Ok(new { Token = token });
-            }
+      
+            
         }
         return Unauthorized();
     }
 
 
+  
     [HttpPost("register")]
     public async Task<IActionResult> RegisterAsync([FromBody] RegisterModel model)
     {
-        if (model == null)
+        if (!ModelState.IsValid)
         {
-            return Conflict("User is not valid");
+            return BadRequest(ModelState);
         }
+
         var modelD = _mapper.Map<UserDTO>(model);
+        var existingUser = await _userService.AddAsync(modelD, model.RoleName);
 
-        var existingUser =await  _userService.AddAsync(modelD,model.RoleName);
         if (existingUser == null)
-            return BadRequest();
-      
-        var token = _authService.GenerateJwtToken(model.Name,existingUser.Id,new [] { model.RoleName });
-        //add user and return it
+        {
+            return Conflict("User already exists or could not be created.");
+        }
+
+        var token = _authService.GenerateJwtToken(model.Name, existingUser.Id, new[] { model.RoleName });
         return Ok(new { Token = token });
-
-
     }
+
 }
