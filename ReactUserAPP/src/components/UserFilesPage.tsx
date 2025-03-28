@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect } from "react";
 import { Box, Menu, MenuItem, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Button, CircularProgress, Alert } from "@mui/material";
 import LessonsList from "./foldersAndFilesPage/LessonsList"; // אחראית על הצגת השיעורים
