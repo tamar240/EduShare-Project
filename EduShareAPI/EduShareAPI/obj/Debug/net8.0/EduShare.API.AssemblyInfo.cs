@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EduShare.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+645da538e6d523343008c10f9e6aab8421d687f6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+113ef18c1d670620b1f16c72ad7d880beb323988")]
 [assembly: System.Reflection.AssemblyProductAttribute("EduShare.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EduShare.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

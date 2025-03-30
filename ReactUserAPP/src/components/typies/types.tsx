@@ -1,4 +1,5 @@
 export type Subject = {
+    teacherName: any;
     id: number;
     name: string;
     ownerId: number;

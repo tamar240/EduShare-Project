@@ -3,7 +3,10 @@ import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
+export const isLogin=()=>{
+const token = getCookie("auth_token");
+return token!=""
+}
 export const getCookie = (name: string) => {
 
     const value = `; ${document.cookie}`;
@@ -14,11 +17,10 @@ export const getCookie = (name: string) => {
     }
     return '';
 }
-
+export const removeCookie = (name: string) => {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+};
 const Login = () => {
-
-
-
     const resetForm = () => {
         setName('');
         setPassword('');

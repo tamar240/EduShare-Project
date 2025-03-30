@@ -49,8 +49,8 @@ namespace EduShare.API.Controllers
             var subjects = await _subjectService.GetAllSubjectsAsync(userId);
             return Ok(_mapper.Map<List<SubjectGetDTO>>(subjects));
         }
+
         [HttpGet("my")]
-        //[Authorize]       
 
         public async Task<IActionResult> GetUserSubjects()
         {
@@ -109,6 +109,7 @@ namespace EduShare.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSubject(int id)
         {
+
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             await _subjectService.DeleteSubjectAsync(id, userId);

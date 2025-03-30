@@ -42,7 +42,7 @@ namespace EduShare.Infrastructure.Repositories
         // מתודה שמחזירה את כל השעורים ה- PUBLIC, מלבד השעורים של המשתמש
         public async Task<List<Lesson>> GetAllPublicLessonsAsyncBySubject(int userId, int subjectId)
         {
-            var l= await _context.Lessons
+            var l = await _context.Lessons
                 .Where(l => l.Permission == FileAccessTypeEnum.Public && l.OwnerId != userId && l.SubjectId == subjectId && !l.IsDeleted)
                 .ToListAsync();
 
@@ -77,39 +77,40 @@ namespace EduShare.Infrastructure.Repositories
             return lesson;
         }
 
-        public async Task UpdateAsync(int id,Lesson lesson)
+        public async Task UpdateAsync(int id, Lesson lesson)
         {
-            var currentLesson= await _context.Lessons.FindAsync(id);
+            var currentLesson = await _context.Lessons.FindAsync(id);
             if (lesson == null || lesson.IsDeleted)
                 throw new KeyNotFoundException("erorr in update lesson");
 
             currentLesson.Name = lesson.Name;
-            currentLesson.UpdatedAt=DateTime.Now;
+            currentLesson.UpdatedAt = DateTime.Now;
 
         }
 
         public async Task DeleteAsync(int id)
         {
+            var lesson = await _context.Lessons
+                .Include(l => l.Files) // טוען גם את הקבצים הקשורים לשיעור
+                .FirstOrDefaultAsync(l => l.Id == id);
 
-
-            var lesson = await _context.Lessons.Include(l => l.Files).FirstOrDefaultAsync(l => l.Id == id);
-            var files= await _context.Files.Where(f => f.LessonId == id).ToListAsync();//בעקרון מיותר אם יש רשימה
             if (lesson != null)
             {
-                foreach (var file in files)//lesson.Files
+                foreach (var file in lesson.Files) // שימוש ישיר ברשימה שנשלפה
                 {
                     file.IsDeleted = true;
                 }
-                lesson.IsDeleted = true;
-                await _context.SaveChangesAsync();
+
+                lesson.IsDeleted = true; // סימון השיעור כמחוק
             }
         }
 
-     public async Task UpdatePermissionAsync(int id, int userId)
+
+        public async Task UpdatePermissionAsync(int id, int userId)
         {
             var currentLesson = await _context.Lessons.FindAsync(id);
-           
-            if(currentLesson.OwnerId!=userId)
+
+            if (currentLesson.OwnerId != userId)
                 throw new UnauthorizedAccessException("You do not have permission to modify this object.");
 
             var newPermission = currentLesson.Permission == FileAccessTypeEnum.Private ? FileAccessTypeEnum.Public : FileAccessTypeEnum.Private;

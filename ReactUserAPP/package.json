@@ -14,11 +14,22 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.4.8",
     "@mui/material": "^6.4.8",
+    "@radix-ui/react-slot": "^1.1.2",
     "@tanstack/react-query": "^5.69.0",
+    "add": "^2.0.6",
+    "autoprefixer": "^10.4.21",
     "axios": "^1.8.3",
+    "button": "^1.1.1",
+    "class-variance-authority": "^0.7.1",
+    "framer-motion": "^12.6.2",
+    "lucide-react": "^0.485.0",
+    "postcss": "^8.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.4.0"
+    "react-router-dom": "^7.4.0",
+    "shadcn": "^2.4.0-canary.17",
+    "tailwind-variants": "^1.0.0",
+    "tailwindcss": "^4.0.17"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
