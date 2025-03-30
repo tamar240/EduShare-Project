@@ -69,6 +69,7 @@ const Sidebar: React.FC = () => {
         }
       );
       alert("✅ המקצוע נוסף בהצלחה!");
+      window.location.reload();
       setSubjectName("");
       setOpenDialog(false);
     } catch (error) {

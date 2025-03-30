@@ -331,7 +331,7 @@ const handleBlur = async () => {
       </Button>
 
       <Box sx={{ flexGrow: 1 }} onDoubleClick={handleDoubleClick}>
-        {editingLessonId === lesson.id ? (
+        {editingLessonId === lesson.id && type==='PERSONAL'? (
           <TextField
             value={lessonName}
             onChange={handleChange}
