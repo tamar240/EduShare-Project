@@ -50,4 +50,15 @@ public class S3Service
 
         return await s3Client.GetPreSignedURLAsync(request);
     }
+    public async Task DeleteFileAsync(string s3Key)
+    {
+        var deleteRequest = new DeleteObjectRequest
+        {
+            BucketName = bucketName,
+            Key = s3Key
+        };
+
+        await s3Client.DeleteObjectAsync(deleteRequest);
+    }
+
 }

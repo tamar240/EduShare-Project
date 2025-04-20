@@ -346,6 +346,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "UploadController",
+    "Method": "GetPresignedUrlForViewing",
+    "RelativePath": "api/upload/presigned-url/view",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filePath",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "EduShareAPI.Controllers.UploadedFileController",
     "Method": "AddFileAsync",
     "RelativePath": "api/UploadedFile",

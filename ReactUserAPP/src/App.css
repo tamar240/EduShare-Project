@@ -1,25 +1,23 @@
-/* Make sure the body takes full height */
-
 html, body {
-    height: 100%;
-    margin: 0;
-  }
-  
-  #root {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-  
-  .content {
-    flex: 1; /* This will allow the content to take all available space */
-  }
-  
-  footer {
-    background-color: #f1f1f1;
-    padding: 10px;
-    text-align: center;
-    position: relative;
-  }
+  height: 100%;
+  margin: 0;
+}
 
-  
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+footer {
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-align: center;
+  /* אין צורך ב-position בכלל */
+}

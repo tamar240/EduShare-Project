@@ -87,5 +87,61 @@ public class UploadController : ControllerBase
         var url = await _s3Service.GetDownloadUrlAsync(userId, fileName);
         return Ok(new { downloadUrl = url });
     }
+    //[HttpGet("presigned-url/view")]
+    //public async Task<IActionResult> GetPresignedUrlForViewing([FromQuery] string filePath)
+    //{
+    //    if (string.IsNullOrEmpty(filePath))
+    //        return BadRequest("File path is required.");
+
+    //    var decodedKey = Uri.UnescapeDataString(filePath);
+
+    //    var request = new GetPreSignedUrlRequest
+    //    {
+    //        BucketName = "edushare-files",
+    //        Key = decodedKey,
+    //        Verb = HttpVerb.GET,
+    //        Expires = DateTime.UtcNow.AddMinutes(15),
+    //    };
+
+    //    try
+    //    {
+    //        string url = _s3Client.GetPreSignedURL(request);
+    //        return Ok(new { url });
+    //    }
+    //    catch (AmazonS3Exception ex)
+    //    {
+    //        return StatusCode(500, $"Error generating presigned URL: {ex.Message}");
+    //    }
+    //}
+    [HttpGet("presigned-url/view")]
+    public async Task<IActionResult> GetPresignedUrlForViewing([FromQuery] string filePath)
+    {
+        if (string.IsNullOrEmpty(filePath))
+            return BadRequest("File path is required.");
+
+        var decodedKey = Uri.UnescapeDataString(filePath);
+
+        var request = new GetPreSignedUrlRequest
+        {
+            BucketName = "edushare-files",
+            Key = decodedKey,
+            Verb = HttpVerb.GET,
+            Expires = DateTime.UtcNow.AddMinutes(15),
+            ResponseHeaderOverrides =
+        {
+            ContentDisposition = "inline" // זה מה שגורם לצפייה
+        }
+        };
+
+        try
+        {
+            string url = _s3Client.GetPreSignedURL(request);
+            return Ok(new { url });
+        }
+        catch (AmazonS3Exception ex)
+        {
+            return StatusCode(500, $"Error generating presigned URL: {ex.Message}");
+        }
+    }
 
 }

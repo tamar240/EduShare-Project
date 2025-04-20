@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
   hidePassword = true;
   status: string = "login";
   showRegister: boolean = true;
+rols: any;
   // rols: string[] = ["Admin"]
 
   constructor(private authService: AuthService,
@@ -55,7 +56,7 @@ export class LoginComponent implements OnInit {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
     const role = "Admin"
-    if (this.status == "login") {
+    // if (this.status == "login") {
 
       this.authService.login(name, password).subscribe({
 
@@ -68,18 +69,18 @@ export class LoginComponent implements OnInit {
           console.error('Error:', err);
         }
       });
-    }
-    else {
-      this.authService.register(name,  password,email, role).subscribe({
-        next: (res) => {
-          console.log("good register",res);
+    // }
+    // else {
+    //   this.authService.register(name,  password,email, role).subscribe({
+    //     next: (res) => {
+    //       console.log("good register",res);
           
-        },
-        error: (err) => {
-          console.error('Error:', err);
-        }
-      });
-    }
+    //     },
+    //     error: (err) => {
+    //       console.error('Error:', err);
+    //     }
+    //   });
+    // }
     Object.keys(this.loginForm.controls).forEach(key => {
       const control = this.loginForm.get(key);
       if (control) {
@@ -95,10 +96,10 @@ export class LoginComponent implements OnInit {
     this.hidePassword = !this.hidePassword;
   }
 
-  toRegister() {
-    this.status = "register";
-    this.showRegister = false;
-  }
+  // toRegister() {
+  //   this.status = "register";
+  //   this.showRegister = false;
+  // }
   private handleAuthError(err: any) {
     let errorMessage = 'An unexpected error occurred. Please try again later.';
 

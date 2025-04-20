@@ -15,11 +15,13 @@ namespace EduShare.Data.Services
 
         private readonly IManagerRepository _repositoryManager;
         private readonly IUserService _userService;
+        private readonly S3Service _s3Service;
 
-        public FileService(IManagerRepository repositoryManager, IUserService userService)
+        public FileService(IManagerRepository repositoryManager, IUserService userService, S3Service s3Service)
         {
             _repositoryManager = repositoryManager;
             _userService = userService;
+            _s3Service = s3Service;
         }
 
         public async Task<UploadedFile> AddFileAsync(UploadedFile file,int userId)
@@ -69,6 +71,19 @@ namespace EduShare.Data.Services
             await _repositoryManager.SaveAsync();
         }
 
+        public async Task HardDeleteFileAsync(int id)
+        {
+            var file = await _repositoryManager.Files.GetFileByIdAsync(id);
+            if (file == null)
+                throw new KeyNotFoundException("file not found.");
+
+            // מחיקה מה-S3
+            await _s3Service.DeleteFileAsync(file.S3Key);
+
+            // מחיקה מה-DB
+            await _repositoryManager.Files.DeleteAsync(id);
+            await _repositoryManager.SaveAsync();
+        }
 
 
         //public async Task UpdateFileAccessTypeAsync(int fileId, FileAccessTypeEnum newAccessType)

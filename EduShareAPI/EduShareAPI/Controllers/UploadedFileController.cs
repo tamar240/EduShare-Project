@@ -123,5 +123,24 @@ namespace EduShareAPI.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        [HttpDelete("hard-delete/{id}")]
+        public async Task<IActionResult> HardDeleteFileAsync(int id)
+        {
+            try
+            {
+                await _fileService.HardDeleteFileAsync(id);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("error in delete file: " + ex.Message);
+            }
+        }
+
     }
 }
