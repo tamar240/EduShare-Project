@@ -33,7 +33,7 @@ namespace EduShare.Data
 
             // קשר אחד-ליחיד בין Lesson ל-UploadedFile (סיכום)
             modelBuilder.Entity<Lesson>()
-                .HasOne(l => l.Summary) // קשר בין שיעור לסיכום (UploadedFile אחד)
+                .HasOne(l => l.OrginalSummary) // קשר בין שיעור לסיכום (UploadedFile אחד)
                 .WithOne() // רק קובץ אחד (Summary) לשיעור
                 .HasForeignKey<UploadedFile>(uf => uf.LessonId) // הגדרת LessonId כ-foreign key
                 .OnDelete(DeleteBehavior.SetNull); // במידה והשיעור נמחק, לא למחוק את הסיכום (הגדרה לפי הצורך שלך)

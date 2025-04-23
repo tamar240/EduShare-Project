@@ -138,7 +138,7 @@ const Sidebar: React.FC = () => {
         <List>
           {[
             { text: "המקצועות שלי", icon: <SchoolIcon />, path: "/userFilesPage" },
-            { text: "העלה קובץ ", icon: <FolderIcon />, path: "/upload" },
+            { text: "העלה חומר עזר ", icon: <FolderIcon />, path: "/upload" },
             { text: "הקבצים שלי", icon: <InsertDriveFileIcon />, path: "/myFiles" },
             { text: "מערכים ציבורים", icon: <PublicIcon />, path: "/publicPage" },
             { text: "אשפה", icon: <DeleteIcon />, path: "/trash" },

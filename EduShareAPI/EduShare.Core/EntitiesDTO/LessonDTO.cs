@@ -10,7 +10,8 @@ namespace EduShare.Core.Entities
         [Required, MaxLength(40)]
         public string Name { get; set; }
         public int SubjectId { get; set; }
-        public int OwnerId { get; set; }
+        public int? OwnerId { get; set; }
+
         public FileAccessTypeEnum Permission { get; set; } = FileAccessTypeEnum.Private;
 
     }

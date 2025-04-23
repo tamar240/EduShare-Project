@@ -40,8 +40,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "lessonDTO",
-        "Type": "EduShare.Core.Entities.LessonDTO",
+        "Name": "data",
+        "Type": "EduShare.Core.EntitiesDTO.LessonWithFileDTO",
         "IsRequired": true
       }
     ],
@@ -463,6 +463,32 @@
   },
   {
     "ContainingType": "EduShareAPI.Controllers.UploadedFileController",
+    "Method": "GetDeletedFilesAsync",
+    "RelativePath": "api/UploadedFile/deleted",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EduShareAPI.Controllers.UploadedFileController",
+    "Method": "HardDeleteFileAsync",
+    "RelativePath": "api/UploadedFile/hard-delete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EduShareAPI.Controllers.UploadedFileController",
     "Method": "GetFilesByLessonIdAsync",
     "RelativePath": "api/UploadedFile/lesson/{lessonId}",
     "HttpMethod": "GET",
@@ -471,6 +497,22 @@
     "Parameters": [
       {
         "Name": "lessonId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EduShareAPI.Controllers.UploadedFileController",
+    "Method": "RestoreFileAsync",
+    "RelativePath": "api/UploadedFile/restore/{fileId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fileId",
         "Type": "System.Int32",
         "IsRequired": true
       }

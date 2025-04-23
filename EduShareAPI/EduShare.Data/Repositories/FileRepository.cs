@@ -89,5 +89,12 @@ public class FileRepository : IFileRepository
            file.IsDeleted = true;
         }
     }
- 
+    public async Task<List<UploadedFile>> GetDeletedFilesByUserIdAsync(int userId)
+    {
+        return await _context.Files
+            .Where(f => f.IsDeleted && f.OwnerId == userId)
+            .ToListAsync();
+    }
+
+
 }

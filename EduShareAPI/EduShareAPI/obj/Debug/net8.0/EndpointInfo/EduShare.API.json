@@ -76,17 +76,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LessonDTO"
+                "$ref": "#/components/schemas/LessonWithFileDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/LessonDTO"
+                "$ref": "#/components/schemas/LessonWithFileDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/LessonDTO"
+                "$ref": "#/components/schemas/LessonWithFileDTO"
               }
             }
           }
@@ -799,6 +799,64 @@
         }
       }
     },
+    "/api/UploadedFile/deleted": {
+      "get": {
+        "tags": [
+          "UploadedFile"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/UploadedFile/hard-delete/{id}": {
+      "delete": {
+        "tags": [
+          "UploadedFile"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/UploadedFile/restore/{fileId}": {
+      "put": {
+        "tags": [
+          "UploadedFile"
+        ],
+        "parameters": [
+          {
+            "name": "fileId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/User/admin-only": {
       "get": {
         "tags": [
@@ -1017,7 +1075,19 @@
           "isDeleted": {
             "type": "boolean"
           },
-          "summary": {
+          "orginalSummaryId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orginalSummary": {
+            "$ref": "#/components/schemas/UploadedFile"
+          },
+          "processedSummaryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "processedSummary": {
             "$ref": "#/components/schemas/UploadedFile"
           },
           "files": {
@@ -1047,10 +1117,23 @@
           },
           "ownerId": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "permission": {
             "$ref": "#/components/schemas/FileAccessTypeEnum"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LessonWithFileDTO": {
+        "type": "object",
+        "properties": {
+          "lessonDTO": {
+            "$ref": "#/components/schemas/LessonDTO"
+          },
+          "fileDTO": {
+            "$ref": "#/components/schemas/UploadedFilePostDTO"
           }
         },
         "additionalProperties": false

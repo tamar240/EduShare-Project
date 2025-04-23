@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using EduShare.Core.Entities;
+using EduShare.Core.EntitiesDTO;
+using EduShare.Core.Models;
 using EduShare.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,22 +17,40 @@ namespace EduShare.API.Controllers
     public class LessonController : ControllerBase
     {
         private readonly ILessonService _lessonService;
+        private readonly IFileService _fileService;
         private readonly IMapper _mapper;
 
-        public LessonController(ILessonService lessonService,IMapper mapper)
+        public LessonController(ILessonService lessonService,IMapper mapper, IFileService fileService)
         {
             _lessonService = lessonService;
             _mapper = mapper;
+            _fileService = fileService;
         }
 
         [HttpPost]
-        //[Authorize(Policy = "AdminOnly")] // גישה רק למנהלים
-        public async Task<IActionResult> AddLesson([FromBody] LessonDTO lessonDTO)
+        public async Task<IActionResult> AddLesson([FromBody] LessonWithFileDTO data)
         {
-            var lesson=_mapper.Map<Lesson>(lessonDTO);
+            var lessonDTO = data.LessonDTO;
+            var fileDTO = data.FileDTO;
+
+            if (lessonDTO == null || fileDTO == null)
+                return BadRequest("Invalid data.");
+
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var lesson = _mapper.Map<Lesson>(lessonDTO);
+            lesson.OwnerId = userId;
             var newLesson = await _lessonService.AddLessonAsync(lesson,userId);
-             return Ok(newLesson);
+
+            var file = _mapper.Map<UploadedFile>(fileDTO);
+            file.LessonId = newLesson.Id;
+            var addedFile = await _fileService.AddFileAsync(file, userId);
+
+            newLesson.OrginalSummary=addedFile;
+            newLesson.OrginalSummaryId=addedFile.Id;
+           
+
+             return Ok();
         }
 
         [HttpGet("public/{subjectId}")]

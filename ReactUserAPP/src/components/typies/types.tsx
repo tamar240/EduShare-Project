@@ -33,3 +33,10 @@ export type Subject = {
   subjectId:number;
   type:'PUBLIC'|'PERSONAL';
  }
+ export interface UploadedFileData {
+  fileName: string;
+  fileType: string;
+  filePath: string;
+  size: number;
+  lessonId: string;
+}

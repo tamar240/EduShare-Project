@@ -58,6 +58,11 @@ namespace EduShare.Data.Services
 
             return await _repositoryManager.Files.GetFileByIdAsync(id,userId);
         }
+        public async Task<List<UploadedFile>> GetDeletedFilesByUserIdAsync(int userId)
+        {
+            return await _repositoryManager.Files.GetDeletedFilesByUserIdAsync(userId);
+        }
+
 
         public async Task UpdateFileAsync(int id, UploadedFile file)
         {
@@ -71,9 +76,9 @@ namespace EduShare.Data.Services
             await _repositoryManager.SaveAsync();
         }
 
-        public async Task HardDeleteFileAsync(int id)
+        public async Task HardDeleteFileAsync(int id,int userId)
         {
-            var file = await _repositoryManager.Files.GetFileByIdAsync(id);
+            var file = await _repositoryManager.Files.GetFileByIdAsync(id,userId);
             if (file == null)
                 throw new KeyNotFoundException("file not found.");
 
@@ -85,6 +90,16 @@ namespace EduShare.Data.Services
             await _repositoryManager.SaveAsync();
         }
 
+        public async Task RestoreDeletedFileAsync(int fileId, int userId)
+        {
+            var file = await _repositoryManager.Files.GetFileByIdAsync(fileId, userId);
+            if (file == null || !file.IsDeleted)
+                throw new KeyNotFoundException("File not found or not deleted.");
+
+            file.IsDeleted = false;
+            await _repositoryManager.Files.UpdateAsync(fileId, file);
+            await _repositoryManager.SaveAsync();
+        }
 
         //public async Task UpdateFileAccessTypeAsync(int fileId, FileAccessTypeEnum newAccessType)
         //{

@@ -27,7 +27,16 @@ namespace EduShare.Core.Entities
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
         public FileAccessTypeEnum Permission { get; set; } = FileAccessTypeEnum.Private;
         public bool IsDeleted { get; set; } = false;
-        public UploadedFile Summary { get; set; }
+
+        public int OrginalSummaryId { get; set; }
+
+        [ForeignKey("OrginalSummaryId")]
+        public UploadedFile OrginalSummary { get; set; }
+
+        public int? ProcessedSummaryId { get; set; }
+
+        [ForeignKey("ProcessedSummaryId")]
+        public UploadedFile ProcessedSummary { get; set; }
         // כל שיעור יכיל רשימה של קבצים
         public virtual ICollection<UploadedFile> Files { get; set; } = new List<UploadedFile>();
     }

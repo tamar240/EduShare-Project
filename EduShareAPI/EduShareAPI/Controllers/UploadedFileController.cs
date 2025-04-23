@@ -94,6 +94,14 @@ namespace EduShareAPI.Controllers
             return Ok(files);
         }
 
+        [HttpGet("deleted")]
+        public async Task<IActionResult> GetDeletedFilesAsync()
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var deletedFiles = await _fileService.GetDeletedFilesByUserIdAsync(userId);
+            return Ok(deletedFiles);
+        }
+
         // עדכון קובץ
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateFileAsync(int id, [FromBody] UploadedFile updatedFile)
@@ -129,7 +137,8 @@ namespace EduShareAPI.Controllers
         {
             try
             {
-                await _fileService.HardDeleteFileAsync(id);
+                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                await _fileService.HardDeleteFileAsync(id, userId);
                 return NoContent();
             }
             catch (KeyNotFoundException ex)
@@ -139,6 +148,20 @@ namespace EduShareAPI.Controllers
             catch (Exception ex)
             {
                 return BadRequest("error in delete file: " + ex.Message);
+            }
+        }
+        [HttpPut("restore/{fileId}")]
+        public async Task<IActionResult> RestoreFileAsync(int fileId)
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            try
+            {
+                await _fileService.RestoreDeletedFileAsync(fileId, userId);
+                return NoContent(); // או 200 OK אם אתה רוצה לשלוח משהו חזרה
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
         }
 

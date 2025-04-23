@@ -32,7 +32,7 @@ namespace EduShare.Core.Services
             if (lesson.Permission == FileAccessTypeEnum.Public)
                 await UpdateCountOfPublicLessonInMySubject(lesson.SubjectId, userId, 1);
 
-            await _repositoryManager.SaveAsync();
+            //await _repositoryManager.SaveAsync();לא נשמור כדי שיהיה טרנזקציה - הוא ישמר רק בשמירה של הקובץ
             return newLesson;
         }
 
