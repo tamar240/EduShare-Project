@@ -16,7 +16,9 @@ export type Subject = {
     ownerId: number;
     permission: number;
    originalSummary?: UploadedFileData;
+   orginalSummaryId: number;
     processedSummary?: UploadedFileData;
+    processedSummaryId: number;
    
   };
   

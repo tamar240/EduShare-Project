@@ -56,7 +56,7 @@ namespace EduShareAPI.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("id/{id}")]
         public async Task<IActionResult> GetFileByIdAsync(int id)
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);

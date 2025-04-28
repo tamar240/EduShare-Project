@@ -1,6 +1,4 @@
 
-
-
 # הוספה של העלאה לAWS דרך הAPI
 from fastapi import FastAPI, HTTPException, Header, Request
 from fastapi.responses import JSONResponse
@@ -20,7 +18,7 @@ app = FastAPI()
 
 # === אתחול OpenAI Client ===
 try:
-    openai_api_key = "*********************"
+    openai_api_key = "********************"
     if not openai_api_key:
         raise ValueError("OPENAI_API_KEY environment variable not set.")
     client = OpenAI(api_key=openai_api_key)
