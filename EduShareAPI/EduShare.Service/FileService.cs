@@ -37,14 +37,12 @@ namespace EduShare.Data.Services
 
         public async Task<List<UploadedFile>> GetFilesByUserIdAsync(int userId)
         {
-
-
             return await _repositoryManager.Files.GetAllByUserIdAsync(userId);
         }
 
-        public async Task<List<UploadedFile>> GetFilesByLessonIdAsync(int id)
+        public async Task<List<UploadedFile>> GetFilesByLessonIdAsync(int id, int userId)
         {
-            return await _repositoryManager.Files.GetFilesByLessonIdAsync(id);
+            return await _repositoryManager.Files.GetFilesByLessonIdAsync(id,userId);
         }
 
         public async Task<List<UploadedFile>> GetAllFilesAsync()
@@ -54,8 +52,6 @@ namespace EduShare.Data.Services
 
         public async Task<UploadedFile> GetFileByIdAsync(int id,int userId)
         {
-
-
             return await _repositoryManager.Files.GetFileByIdAsync(id,userId);
         }
         public async Task<List<UploadedFile>> GetDeletedFilesByUserIdAsync(int userId)

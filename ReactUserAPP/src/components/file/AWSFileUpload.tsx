@@ -19,7 +19,7 @@ const AWSFileUpload: React.FC<AWSFileUploadProps> = ({ lessonId, onUploadComplet
       setFile(e.target.files[0]);
       setProgress(0);
     }
-  };
+  }; 
 
   const getSignedViewUrl = async (fileKey: string): Promise<string> => {
     const token = getCookie("auth_token");
@@ -36,7 +36,6 @@ const AWSFileUpload: React.FC<AWSFileUploadProps> = ({ lessonId, onUploadComplet
     if (!file || !lessonId) return;
 
     const token = getCookie("auth_token");
-debugger
     try {
       const presignedRes = await axios.get('https://localhost:7249/api/upload/presigned-url', {
         params: {

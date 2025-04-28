@@ -21,24 +21,16 @@ namespace EduShare.Data
 
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Email)
-                .IsUnique();  // ייחודיות על האימייל
-
+                .IsUnique(); // ייחודיות על האימייל
 
             modelBuilder.Entity<Lesson>()
-                 .HasMany(l => l.Files) // קשר אחד-לרבים בין שיעור לקבצים
-                 .WithOne() // לא מציינים את הישות, הקשר נעשה דרך ה-foreign key
-                 .HasForeignKey(f => f.LessonId) // השדה LessonId ב-UploadedFile הוא המפתח הזר
-                 .OnDelete(DeleteBehavior.Cascade); // אם השיעור נמחק, גם הקבצים יימחקו
-
-
-            // קשר אחד-ליחיד בין Lesson ל-UploadedFile (סיכום)
-            modelBuilder.Entity<Lesson>()
-                .HasOne(l => l.OrginalSummary) // קשר בין שיעור לסיכום (UploadedFile אחד)
-                .WithOne() // רק קובץ אחד (Summary) לשיעור
-                .HasForeignKey<UploadedFile>(uf => uf.LessonId) // הגדרת LessonId כ-foreign key
-                .OnDelete(DeleteBehavior.SetNull); // במידה והשיעור נמחק, לא למחוק את הסיכום (הגדרה לפי הצורך שלך)
+                .HasMany(l => l.Files) // קשר אחד-לרבים בין שיעור לקבצים
+                .WithOne() // אין נוויגציה מהקובץ בחזרה
+                .HasForeignKey(f => f.LessonId)
+                .OnDelete(DeleteBehavior.Cascade); // אם שיעור נמחק, גם הקבצים שלו יימחקו
         }
-     
+
+
 
     }
 }

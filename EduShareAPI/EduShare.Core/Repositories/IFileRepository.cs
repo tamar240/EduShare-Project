@@ -12,7 +12,7 @@ namespace EduShare.Core.Repositories
     {
         Task<UploadedFile> AddAsync(UploadedFile file);
         Task<List<UploadedFile>> GetAllFilesAsync();
-        Task<List<UploadedFile>> GetFilesByLessonIdAsync(int folderId);
+        Task<List<UploadedFile>> GetFilesByLessonIdAsync(int lessonId,int userId);
         Task<List<UploadedFile>> GetAllByUserIdAsync(int id);
         Task<UploadedFile> GetFileByIdAsync(int id,int userId);
         Task UpdateAsync(int id, UploadedFile file);

@@ -3,17 +3,20 @@ using EduShare.Core.Models;
 using EduShare.Core.Repositories;
 using EduShare.Data;
 using EduShare.Data.Repositories;
+using EduShare.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 public class FileRepository : IFileRepository
 {
     private readonly DataContext _context;
+    private readonly ILessonRepository _lessonRepository;
     //private readonly int userId;
 
 
-    public FileRepository(DataContext context)
+    public FileRepository(DataContext context,ILessonRepository lessonRepository)
     {
         _context = context;
+        _lessonRepository = lessonRepository;
     }
 
     public async Task<UploadedFile> AddAsync(UploadedFile file)
@@ -27,6 +30,7 @@ public class FileRepository : IFileRepository
         //   lesson.Files.Add(file); // להוסיף את השיעור לרשימה של המקצוע
         //}
 
+        //_context.Files.Add(file);
         _context.Files.Add(file);
         return file;
     }
@@ -46,10 +50,11 @@ public class FileRepository : IFileRepository
         return file;
     }
 
-    public async Task<List<UploadedFile>> GetFilesByLessonIdAsync(int lessonId)
+    public async Task<List<UploadedFile>> GetFilesByLessonIdAsync(int lessonId,int userId)
     {
+        var lesson =await _lessonRepository.GetByIdAsync(lessonId,userId);
         return await _context.Files
-            .Where(f => f.LessonId == lessonId  && !f.IsDeleted) // מסנן רק קבצים ששייכים לשיעור
+            .Where(f => f.LessonId == lessonId  && f.Id! !=lesson.OrginalSummaryId && f.Id! != lesson.ProcessedSummaryId &&!f.IsDeleted) // מסנן רק קבצים ששייכים לשיעור
             .ToListAsync();
     }
 

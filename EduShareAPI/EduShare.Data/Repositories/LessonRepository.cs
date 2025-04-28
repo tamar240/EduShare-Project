@@ -85,7 +85,10 @@ namespace EduShare.Infrastructure.Repositories
 
             currentLesson.Name = lesson.Name;
             currentLesson.UpdatedAt = DateTime.Now;
-
+            currentLesson.OrginalSummary = lesson.OrginalSummary;
+            currentLesson.OrginalSummaryId = lesson.OrginalSummaryId;
+            currentLesson.ProcessedSummary = lesson.ProcessedSummary;
+            currentLesson.ProcessedSummaryId = lesson.ProcessedSummaryId;
         }
 
         public async Task DeleteAsync(int id)

@@ -2,13 +2,15 @@
 import React, { useState, MouseEvent } from "react";
 import {
   Paper, Box, Typography, IconButton, TextField, Menu, Tooltip, Button,
-  MenuItem
+  MenuItem,
+  Grid2
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PopupDialog from '../parts/PopupDialog';
 import { Lesson } from "../typies/types";
 import axios from 'axios';
 import { getCookie } from "../login/Login";
+import { useNavigate } from "react-router-dom";
 
 interface PermissionLabel {
   label: string;
@@ -35,7 +37,12 @@ const LessonItem = ({ lesson, onDelete, onUpdate, onPermissionChange, type }: Le
   const [tooltipOpen, setTooltipOpen] = useState<boolean>(false);
   const [confirmPermissionDialogOpen, setConfirmPermissionDialogOpen] = useState<boolean>(false);
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
+  
+  const handleClick = (lesson: Lesson) => {
+    navigate("/lessonDisplay", { state: { lesson } });
+  };
   const handleDoubleClick = () => {
     setEditingLessonId(lesson.id);
   };
@@ -145,7 +152,8 @@ const handleBlur = async () => {
             fullWidth
           />
         ) : (
-          <Typography variant="subtitle1">{lesson.name}</Typography>
+          <Grid2 onClick={() => handleClick(lesson)}>
+          <Typography variant="subtitle1" >{lesson.name}</Typography></Grid2>
         )}
       </Box>
 

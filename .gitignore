@@ -1,0 +1,25 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+bin/
+obj/
+*.dll
+*.pdb
+*.exe
+
+# Other
+*.cache
+*.log
+
+# Node.js
+node_modules/
+dist/
+build/
+
+# React
+*.env

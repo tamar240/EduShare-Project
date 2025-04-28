@@ -1,0 +1,59 @@
+# קבצים של Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# קבצים וירטואליים
+.env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# קבצים של VS Code
+.vscode/
+
+# קבצי לוג
+*.log
+
+
+venv/
+
+# קבצים זמניים
+*.tmp
+*.swp
+*.bak
+*.orig
+*.~ 
+
+# קבצי מערכת
+.DS_Store
+Thumbs.db
+
+# pipenv
+Pipfile.lock
+
+# קבצי טסטים שלא רוצים שיעלו
+htmlcov/
+coverage.xml
+.cache/
+pytest_cache/
+nosetests.xml
+test-results/
+
+# קבצי דוקרים אם יש
+*.dockerfile
+.dockerignore
+
+# קבצים של IDE נוספים
+.idea/
+*.iml
+
+venv/
+__pycache__/
+*.pyc
+

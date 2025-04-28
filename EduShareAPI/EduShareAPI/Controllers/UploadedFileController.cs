@@ -82,7 +82,8 @@ namespace EduShareAPI.Controllers
         [HttpGet("lesson/{lessonId}")]
         public async Task<IActionResult> GetFilesByLessonIdAsync(int lessonId)
         {
-            var files = await _fileService.GetFilesByLessonIdAsync(lessonId);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var files = await _fileService.GetFilesByLessonIdAsync(lessonId,userId);
             return Ok(files);
         }
 

@@ -9,6 +9,8 @@ import Header from './components/parts/Header';
 import Footer from './components/parts/Footer';
 import Homepage from './components/HomePage';
 import UserFileGallery from './components/UserFileGallery';
+import LessonDisplay from './components/foldersAndFilesPage/LessonDisplay';
+// import LessonCard from './components/foldersAndFilesPage/LessonCard';
 
 const RoutesComponent: React.FC = () => {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(isLogin());
@@ -62,6 +64,10 @@ const RoutesComponent: React.FC = () => {
             <Route path='userFilesPage' element={<UserFilesPage type='PERSONAL' />} />
             <Route path='publicPage' element={<UserFilesPage type='PUBLIC' />} />
             <Route path="/myFiles" element={<UserFileGallery userId={4} />} />
+            <Route path="/lessonDisplay" element={<LessonDisplay />} />
+                 
+            {/* <Route path="/singleLesson" element={<LessonCard id={0} name={''} createdAt={''} updatedAt={''} subjectId={0} ownerId={0} permission={0} />} /> */}
+            
           </Routes>
         </div>
       </div>

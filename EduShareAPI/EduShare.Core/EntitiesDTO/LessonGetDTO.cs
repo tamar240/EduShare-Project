@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduShare.Core.Entities
 {
@@ -21,6 +22,16 @@ namespace EduShare.Core.Entities
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
         public FileAccessTypeEnum Permission { get; set; } = FileAccessTypeEnum.Private;
+
+        public int OrginalSummaryId { get; set; }
+
+        [ForeignKey("OrginalSummaryId")]
+        public UploadedFile OrginalSummary { get; set; }
+
+        public int? ProcessedSummaryId { get; set; }
+
+        [ForeignKey("ProcessedSummaryId")]
+        public UploadedFile ProcessedSummary { get; set; }
 
     }
 }

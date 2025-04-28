@@ -15,6 +15,9 @@ export type Subject = {
     subjectId: number;
     ownerId: number;
     permission: number;
+   originalSummary?: UploadedFileData;
+    processedSummary?: UploadedFileData;
+   
   };
   
   export interface UserFilesPageProps {
@@ -40,3 +43,4 @@ export type Subject = {
   size: number;
   lessonId: string;
 }
+
