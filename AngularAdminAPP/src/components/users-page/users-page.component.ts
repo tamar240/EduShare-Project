@@ -1,0 +1,57 @@
+import { Component } from '@angular/core';
+import { UsersService } from '../../services/users.service';
+import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-users-page',
+  standalone: true,
+  imports: [  MatTableModule,
+    MatCardModule,
+    MatDividerModule,
+    CommonModule,],
+  templateUrl: './users-page.component.html',
+  styleUrl: './users-page.component.css'
+})
+
+
+export class UsersPageComponent {
+
+  constructor(private usersService: UsersService,
+  ) {}
+
+  displayedColumns: string[] = ['id', 'name', 'email', 'createdAt', 'isDeleted', 'actions'];
+  users: User[] = [];
+
+   ngOnInit(): void {
+    this.usersService.getAllUsers().subscribe((response: { users: User[] }) => {
+      this.users = response as unknown as User[];
+     
+    });
+   }
+   deleteUser(userId: number): void {
+    this.usersService.deleteUser(userId).subscribe(() => {
+      this.users = this.users.map(user =>
+        user.id === userId ? { ...user, isDeleted: true } : user
+      );
+    });
+  }
+
+  restoreUser(userId: number): void {
+   console.log("kk");
+   
+  }
+  
+}
+
+export type User = {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  createdAt : Date;
+  updatedAt : Date;
+  isDeleted: boolean;
+};

@@ -1,0 +1,60 @@
+.users-card {
+    margin: 2rem;
+    padding: 1rem;
+    background-color: #ffffff;
+  }
+  
+  .title {
+    margin-bottom: 1rem;
+    color: #3f51b5;
+    font-weight: bold;
+  }
+  
+  .full-width-table {
+    width: 100%;
+    margin-top: 1rem;
+    overflow-x: auto;
+  }
+  
+  .deleted {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .active {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .empty {
+    padding: 2rem;
+    text-align: center;
+    color: #888;
+  }
+  .users-card {
+    padding: 24px;
+    direction: rtl;
+    text-align: right;
+  }
+  
+  .title {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  
+  .full-width-table {
+    width: 100%;
+    margin-top: 16px;
+  }
+  
+  .deleted {
+    color: red;
+  }
+  
+  .active {
+    color: green;
+  }
+  button {
+    margin-inline-start: 8px;
+  }
+  

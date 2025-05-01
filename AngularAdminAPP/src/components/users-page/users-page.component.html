@@ -1,0 +1,67 @@
+<mat-card class="users-card" dir="rtl">
+    <h2 class="title">רשימת משתמשים</h2>
+    <mat-divider></mat-divider>
+  
+    @if (users.length > 0) {
+      <table mat-table [dataSource]="users" class="mat-elevation-z2 full-width-table">
+  
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> מזהה </th>
+          <td mat-cell *matCellDef="let user"> {{ user.id }} </td>
+        </ng-container>
+  
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> שם </th>
+          <td mat-cell *matCellDef="let user"> {{ user.name }} </td>
+        </ng-container>
+  
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> אימייל </th>
+          <td mat-cell *matCellDef="let user"> {{ user.email }} </td>
+        </ng-container>
+  
+        <!-- Created At Column -->
+        <ng-container matColumnDef="createdAt">
+          <th mat-header-cell *matHeaderCellDef> נוצר בתאריך </th>
+          <td mat-cell *matCellDef="let user"> {{ user.createdAt | date:'short' }} </td>
+        </ng-container>
+  
+        <!-- Is Deleted Column -->
+        <ng-container matColumnDef="isDeleted">
+          <th mat-header-cell *matHeaderCellDef> נמחק? </th>
+          <td mat-cell *matCellDef="let user">
+            <span [ngClass]="user.isDeleted ? 'deleted' : 'active'">
+              {{ user.isDeleted ? 'כן' : 'לא' }}
+            </span>
+          </td>
+        </ng-container>
+  
+   
+<ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> פעולות </th>
+    <td mat-cell *matCellDef="let user">
+      @if (!user.isDeleted) {
+        <button mat-raised-button color="warn" (click)="deleteUser(user.id)">
+          מחק
+        </button>
+      } @else {
+        <button mat-raised-button color="primary" (click)="restoreUser(user.id)">
+          שחזר
+        </button>
+      }
+    </td>
+  </ng-container>
+  
+    
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    } @else {
+      <p class="empty">אין משתמשים להצגה.</p>
+    }
+  </mat-card>
+  
