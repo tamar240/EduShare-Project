@@ -24,7 +24,7 @@ namespace EduShare.API.Controllers
         }
 
         [HttpGet("admin-only")]
-        [Authorize(Policy = "AdminOnly")] // רק Admin יכול לגשת
+        //[Authorize(Policy = "AdminOnly")] // רק Admin יכול לגשת
         public async Task<ActionResult<List<User>>> GetAll()
         {
             var users = await _userService.GetAllUsersAsync();

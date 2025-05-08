@@ -1,5 +1,6 @@
 
 # הוספה של העלאה לAWS דרך הAPI
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Header, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -15,13 +16,16 @@ print(f"גרסת fpdf2 בתוך הקוד: {fpdf.__version__}")
 
 # === הגדרות בסיסיות ===
 app = FastAPI()
+load_dotenv()
+api_key = os.getenv('OPENAI_API_KEY')
+print(f"API KEY LOADED: {api_key}")  # הדפסה לבדיקת טעינה
 
+#load_dotenv()
 # === אתחול OpenAI Client ===
 try:
-    openai_api_key = "********************"
-    if not openai_api_key:
+    if not api_key:
         raise ValueError("OPENAI_API_KEY environment variable not set.")
-    client = OpenAI(api_key=openai_api_key)
+    client = OpenAI(api_key=api_key)
 except ValueError as e:
     print(f"Error initializing OpenAI client: {e}")
     raise RuntimeError("Failed to initialize OpenAI client") from e
@@ -205,6 +209,9 @@ async def process_file(body: FileUrl, authorization: str = Header(None)):
         os.remove(temp_path)
         os.remove(pdf_path)
 
+        print(f"file  url : {file_url}")
+        print(f"file  view url : {view_url}")
+        print(f"file  key : {file_key}")
        
         # החזרת פרטים לשמירה ב-DB
         return JSONResponse(content={

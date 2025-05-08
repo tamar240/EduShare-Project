@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Typography, Box, LinearProgress } from '@mui/material';
-import { getCookie } from '../login/Login';
+import { getCookie, getUserDetailes } from '../login/Login';
 import { UploadedFileData } from '../typies/types';
 
 interface AWSFileUploadProps {
@@ -55,15 +55,17 @@ const AWSFileUpload: React.FC<AWSFileUploadProps> = ({ lessonId, onUploadComplet
           setProgress(percent);
         },
       });
+     console.log('File uploaded successfully:', fileKey);
 
+      const userDedilas=getUserDetailes();
       const uploadedFile: UploadedFileData = {
         fileName: file.name,
         fileType: file.type,
-        filePath: fileKey,
+        filePath: `${fileKey}${userDedilas?.id}`,
         size: file.size,
         lessonId,
       };
-
+      debugger
       await axios.post('https://localhost:7249/api/UploadedFile', uploadedFile, {
         headers: {
           Authorization: `Bearer ${token}`,

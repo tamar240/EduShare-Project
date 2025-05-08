@@ -11,6 +11,7 @@ import { Lesson } from "../typies/types";
 import axios from 'axios';
 import { getCookie } from "../login/Login";
 import { useNavigate } from "react-router-dom";
+import {useRef }  from "react"; // הוסף useRef
 
 interface PermissionLabel {
   label: string;
@@ -40,13 +41,43 @@ const LessonItem = ({ lesson, onDelete, onUpdate, onPermissionChange, type }: Le
   const navigate = useNavigate();
 
   
-  const handleClick = (lesson: Lesson) => {
-    navigate("/lessonDisplay", { state: { lesson } });
-  };
+  // const handleClick = (lesson: Lesson) => {
+  //   navigate("/lessonDisplay", { state: { lesson } });
+  // };
   const handleDoubleClick = () => {
     setEditingLessonId(lesson.id);
   };
 
+  // בתוך הפונקציה LessonItem (מתחת ל־navigate למשל):
+  const lastClickTimeRef = useRef<number>(0);
+  const clickTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const DOUBLE_CLICK_DELAY = 250;
+  
+  const handleClick = () => {
+    const now = Date.now();
+    const timeSinceLastClick = now - lastClickTimeRef.current;
+  
+    if (timeSinceLastClick < DOUBLE_CLICK_DELAY) {
+      // לחיצה כפולה
+      if (clickTimeoutRef.current) {
+        clearTimeout(clickTimeoutRef.current);
+        clickTimeoutRef.current = null;
+      }
+      lastClickTimeRef.current = 0;
+      if (type === "PERSONAL") {
+        setEditingLessonId(lesson.id); // נכנס לעריכה בלבד
+      }
+    } else {
+      // לחיצה רגילה - מחכה לראות אם תבוא שנייה
+      lastClickTimeRef.current = now;
+      clickTimeoutRef.current = setTimeout(() => {
+        navigate("/lessonDisplay", { state: { lesson } }); // רק אם לא הייתה כפולה
+        clickTimeoutRef.current = null;
+      }, DOUBLE_CLICK_DELAY);
+    }
+  };
+  
+  
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLessonName(event.target.value);
   };
@@ -152,7 +183,9 @@ const handleBlur = async () => {
             fullWidth
           />
         ) : (
-          <Grid2 onClick={() => handleClick(lesson)}>
+          // <Grid2 onClick={() => handleClick(lesson)}>
+          <Grid2 onClick={handleClick}>
+
           <Typography variant="subtitle1" >{lesson.name}</Typography></Grid2>
         )}
       </Box>

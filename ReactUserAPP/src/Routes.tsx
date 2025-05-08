@@ -25,57 +25,30 @@ const RoutesComponent: React.FC = () => {
         return () => clearInterval(loginCheckInterval); // לנקות את ה-interval אם הקומפוננטה לא מוצגת
     }, []);
 
-    // if (isUserLoggedIn) {
-    //     const token = getCookie('auth_token');
-    //     setUserId(Number(token)); // עדכון הסטייט עם ה-userId
-    //     // debugger
-    // }
     return (
-        // <BrowserRouter>
-        //     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        //         {isUserLoggedIn && <Header />}
-        //         <div style={{ display: 'flex', flex: 1, padding: '20px' }}>
-        //             {isUserLoggedIn && <Sidebar />}
-        //             <div style={{ flex: 1 }}>
-        //                 <Routes>
-        //                     {!isUserLoggedIn && <Route path='/' element={<Homepage />} />}
-        //                     <Route path='login' element={<Login />} />
-        //                     <Route path='upload' element={<FileUpload />} />
-        //                     <Route path='userFilesPage' element={<UserFilesPage type='PERSONAL' />} />
-        //                     <Route path='publicPage' element={<UserFilesPage type='PUBLIC' />} />
-        //                     <Route path="/myFiles" element={<UserFileGallery userId={4} />} />
-        //                 </Routes>
-        //             </div>
-        //         </div>
-        //         {isUserLoggedIn && <Footer />}
-        //     </div>
-        // </BrowserRouter>
         <BrowserRouter>
-  <div id="root" className="page-container">
-    {isUserLoggedIn && <Header />}
-    <div className="content">
-      <div style={{ display: 'flex', flex: 1, padding: '20px' }}>
-        {isUserLoggedIn && <Sidebar />}
-        <div style={{ flex: 1 }}>
-          <Routes>
-            {!isUserLoggedIn && <Route path='/' element={<Homepage />} />}
-            <Route path='login' element={<Login />} />
-            <Route path='upload' element={<FileUpload />} />
-            <Route path='userFilesPage' element={<UserFilesPage type='PERSONAL' />} />
-            <Route path='publicPage' element={<UserFilesPage type='PUBLIC' />} />
-            <Route path="/myFiles" element={<UserFileGallery userId={4} />} />
-            <Route path="/lessonDisplay" element={<LessonDisplay />} />
-                 
-            {/* <Route path="/singleLesson" element={<LessonCard id={0} name={''} createdAt={''} updatedAt={''} subjectId={0} ownerId={0} permission={0} />} /> */}
-            
-          </Routes>
-        </div>
-      </div>
-    </div>
-    {isUserLoggedIn && <Footer />}
-  </div>
-</BrowserRouter>
-
+            <div id="root" className="page-container">
+                {isUserLoggedIn && <Header />}
+                <div className="content">
+                    <div style={{ display: 'flex', flexDirection: 'row-reverse', flex: 1, padding: '20px' }}>
+                        {isUserLoggedIn && <Sidebar />}
+                        <div style={{ flex: 1 }}>
+                            <Routes>
+                                {!isUserLoggedIn && <Route path='/' element={<Homepage />} />}
+                                <Route path='login' element={<Login />} />
+                                <Route path='upload' element={<FileUpload />} />
+                                <Route path='userFilesPage' element={<UserFilesPage type='PERSONAL' />} />
+                                <Route path='publicPage' element={<UserFilesPage type='PUBLIC' />} />
+                                <Route path="/myFiles" element={<UserFileGallery userId={4} />} />
+                                <Route path="/lessonDisplay" element={<LessonDisplay />} />
+                                {/* <Route path="/singleLesson" element={<LessonCard id={0} name={''} createdAt={''} updatedAt={''} subjectId={0} ownerId={0} permission={0} />} /> */}
+                            </Routes>
+                        </div>
+                    </div>
+                </div>
+                {isUserLoggedIn && <Footer />}
+            </div>
+        </BrowserRouter>
     );
 };
 

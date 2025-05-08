@@ -3,6 +3,17 @@ import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+
+interface JwtPayload {
+  name: string;
+  nameid: string;
+  role: string | string[];
+  exp: number;
+}
+
+
+
 export const isLogin=()=>{
 const token = getCookie("auth_token");
 return token!=""
@@ -17,6 +28,18 @@ export const getCookie = (name: string) => {
     }
     return '';
 }
+
+export const getUserDetailes = () => {
+    debugger
+    const token = getCookie("auth_token");
+    if (token) {
+        const decodedToken: JwtPayload = jwtDecode(token);
+        console.log("Decoded token:", decodedToken);
+        
+        return { name: decodedToken.name, id: decodedToken.nameid, role: decodedToken.role };
+    }
+    return null;
+};
 export const removeCookie = (name: string) => {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 };

@@ -296,6 +296,15 @@ namespace EduShare.API.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
+                    var responseString = await response.Content.ReadAsStringAsync();
+
+                    var jsonDoc = JsonDocument.Parse(responseString);
+                    var root = jsonDoc.RootElement;
+
+                    var fileKey = root.GetProperty("fileKey").GetString(); // כאן אתה מקבל את ה-Key
+                    var fileName = root.GetProperty("file_name").GetString();
+                    var viewUrl = root.GetProperty("viewUrl").GetString();
+
                     var pdfStream = await response.Content.ReadAsStreamAsync();
                     using var memoryStream = new MemoryStream();
                     await pdfStream.CopyToAsync(memoryStream);
@@ -307,8 +316,8 @@ namespace EduShare.API.Controllers
                     {
                         FileName = $"lessonId_{newLesson.Id}_summary",
                         FileType = "pdf",
-                        FilePath = "", 
-                        S3Key = null,
+                        FilePath =fileKey, 
+                        S3Key = fileKey,
                         LessonId = newLesson.Id,
                         OwnerId = userId,
                         Size = memoryStream.Length,
