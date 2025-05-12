@@ -82,6 +82,26 @@ namespace EduShare.Data.Repositories
             user.IsDeleted = true;
         }
 
-       
+        public async Task<int[]> GetUsersPerMonthAsync()
+        {
+            // יוצר מערך בגודל 12 (לכל חודש בשנה)
+            var usersPerMonth = new int[12];
+
+            var users = await _context.Users
+                .Where(u => !u.IsDeleted)
+                .ToListAsync();
+
+            foreach (var user in users)
+            {
+                if (user.CreatedAt.Year != DateTime.Now.Year)
+                    continue;
+
+                int month = user.CreatedAt.Month - 1; 
+
+                usersPerMonth[month]++;
+            }
+
+            return usersPerMonth;
+        }
     }
 }

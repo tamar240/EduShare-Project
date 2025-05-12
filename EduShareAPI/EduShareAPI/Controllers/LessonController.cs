@@ -433,5 +433,12 @@ namespace EduShare.API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpGet("permissions-summary")]
+        public async Task<ActionResult<LessonPermissionSummaryDto>> GetPermissionsSummary()
+        {
+            var result = await _lessonService.GetLessonPermissionSummaryAsync();
+            return Ok(result);
+        }
     }
 }

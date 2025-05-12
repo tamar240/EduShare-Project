@@ -14,6 +14,7 @@ namespace EduShare.Core.Services
         Task UpdateAsync(int id, Lesson lesson, int userId);
         Task DeleteAsync(int id, int userId);
         Task UpdatePermissionAsync(int id, int userId);
+        Task<LessonPermissionSummaryDto> GetLessonPermissionSummaryAsync();
 
 
     }

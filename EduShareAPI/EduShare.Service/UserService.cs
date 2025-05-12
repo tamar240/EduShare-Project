@@ -3,6 +3,7 @@ using EduShare.Core.Entities;
 using EduShare.Core.EntitiesDTO;
 using EduShare.Core.Repositories;
 using EduShare.Core.Services;
+using EduShare.Data.Repositories;
 using Org.BouncyCastle.Crypto.Generators;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -81,6 +82,9 @@ namespace EduShare.Service
             await _managerRepository.Users.DeleteUserAsync(id);
             await _managerRepository.SaveAsync();
         }
-
+        public async Task<int[]> GetUsersPerMonthAsync()
+        {
+            return await _managerRepository.Users.GetUsersPerMonthAsync();
+        }
     }
 }

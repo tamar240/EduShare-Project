@@ -1,0 +1,11 @@
+.charts-container {
+    display: flex;         /* מאפשר הצגה של רכיבים לצד אחד את השני */
+    justify-content: space-between; /* מרווח בין הגרפים */
+    gap: 20px;             /* מרווח בין הגרפים */
+  }
+  
+  .chart-container {
+    flex: 1;               /* כל גרף יתפוס את אותו מקום */
+    padding: 30px;
+  }
+  

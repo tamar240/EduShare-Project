@@ -28,4 +28,8 @@ export class UsersService {
    const headers = { Authorization: `Bearer ${this.token}` };
    return this.http.delete<{}>(`${this.apiUrlUser}/${id}`, { headers });
   }
+  getUsersPerMonth(): Observable<number[]> {
+    const headers = { Authorization: `Bearer ${this.token}` };
+    return this.http.get<number[]>(`${this.apiUrlUser}/per-month`, { headers });
+  }
 }

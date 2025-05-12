@@ -19,7 +19,9 @@ namespace EduShare.Core.Repositories
 
         Task UpdatePermissionAsync(int id, int userId);
 
-       
+        Task<LessonPermissionSummaryDto> GetLessonPermissionSummaryAsync();
+
+
     }
 }
 

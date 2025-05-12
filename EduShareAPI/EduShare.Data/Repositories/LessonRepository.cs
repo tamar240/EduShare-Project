@@ -122,5 +122,16 @@ namespace EduShare.Infrastructure.Repositories
             currentLesson.UpdatedAt = DateTime.Now;
 
         }
+        public async Task<LessonPermissionSummaryDto> GetLessonPermissionSummaryAsync()
+        {
+            var publicCount = await _context.Lessons.CountAsync(l => l.Permission == FileAccessTypeEnum.Public && !l.IsDeleted);
+            var privateCount = await _context.Lessons.CountAsync(l => l.Permission == FileAccessTypeEnum.Private && !l.IsDeleted);
+
+            return new LessonPermissionSummaryDto
+            {
+                PublicLessons = publicCount,
+                PrivateLessons = privateCount
+            };
+        }
     }
 }

@@ -5,6 +5,7 @@ using EduShare.Data;
 using EduShare.Data.Repositories;
 using EduShare.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 public class FileRepository : IFileRepository
 {
@@ -100,6 +101,11 @@ public class FileRepository : IFileRepository
             .Where(f => f.IsDeleted && f.OwnerId == userId)
             .ToListAsync();
     }
+
+
+   
+
+
 
 
 }

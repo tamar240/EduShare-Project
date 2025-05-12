@@ -14,5 +14,6 @@ namespace EduShare.Core.Services
        Task<UserDTO> AddAsync(UserDTO user, string roleName);
         Task UpdateUserAsync(int id, User user);
         Task DeleteUserAsync(int id);
+        Task<int[]> GetUsersPerMonthAsync();
     }
 }

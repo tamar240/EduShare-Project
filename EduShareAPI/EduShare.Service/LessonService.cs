@@ -112,7 +112,10 @@ namespace EduShare.Core.Services
             subject.AmountOfPublicLesson += count;
         }
 
-
+        public async Task<LessonPermissionSummaryDto> GetLessonPermissionSummaryAsync()
+        {
+            return await _repositoryManager.Lessons.GetLessonPermissionSummaryAsync();
+        }
     }
 }
 

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'

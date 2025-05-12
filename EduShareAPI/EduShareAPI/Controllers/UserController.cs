@@ -84,5 +84,13 @@ namespace EduShare.API.Controllers
             await _userService.DeleteUserAsync(id);
             return Ok(new { message = "User deleted successfully." });
         }
+
+
+        [HttpGet("per-month")]
+        public async Task<ActionResult<int[]>> GetUsersPerMonth()
+        {
+            var result = await _userService.GetUsersPerMonthAsync();
+            return Ok(result);
+        }
     }
 }
