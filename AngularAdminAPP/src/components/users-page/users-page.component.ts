@@ -4,6 +4,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon'; // Import MatIconModule
 
 @Component({
   selector: 'app-users-page',
@@ -11,7 +12,8 @@ import { CommonModule } from '@angular/common';
   imports: [  MatTableModule,
     MatCardModule,
     MatDividerModule,
-    CommonModule,],
+    CommonModule,
+  MatIconModule],
   templateUrl: './users-page.component.html',
   styleUrl: './users-page.component.css'
 })

@@ -1,11 +1,24 @@
 .charts-container {
-    display: flex;         /* מאפשר הצגה של רכיבים לצד אחד את השני */
-    justify-content: space-between; /* מרווח בין הגרפים */
-    gap: 20px;             /* מרווח בין הגרפים */
-  }
-  
-  .chart-container {
-    flex: 1;               /* כל גרף יתפוס את אותו מקום */
-    padding: 30px;
-  }
-  
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  padding: 20px;
+  background: #f9fafb;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.chart-box {
+  flex: 1 1 400px;
+  max-width: 500px;
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease;
+}
+
+.chart-box:hover {
+  transform: translateY(-4px);
+}

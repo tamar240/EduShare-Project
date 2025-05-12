@@ -1,5 +1,4 @@
-<div class="charts-container">
-    <!--  עוגה -->
+<!-- <div class="charts-container">
     <div class="chart-container" style="width: 50%; float: left; padding: 10px;">
       <canvas
         baseChart
@@ -10,6 +9,28 @@
     </div>
   
     <div class="chart-container" style="width: 50%; float: left; padding: 10px;">
+      <canvas
+        baseChart
+        [data]="barChartData"
+        [type]="barChartType"
+        [options]="barChartOptions">
+      </canvas>
+    </div>
+  </div>
+   -->
+   <div class="charts-container">
+    <!-- עוגה -->
+    <div class="chart-box">
+      <canvas
+        baseChart
+        [data]="pieChartData"
+        [type]="pieChartType"
+        [options]="pieChartOptions">
+      </canvas>
+    </div>
+  
+    <!-- עמודות -->
+    <div class="chart-box">
       <canvas
         baseChart
         [data]="barChartData"

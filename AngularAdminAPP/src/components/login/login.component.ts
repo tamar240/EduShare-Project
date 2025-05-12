@@ -63,7 +63,10 @@ rols: any;
         next: (res) => {
 
          console.log("good login",res);
-         
+          if (res) {
+          
+            this.router.navigate(['/users']);
+          }
         },
         error: (err) => {
           console.error('Error:', err);

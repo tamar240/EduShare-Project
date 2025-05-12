@@ -1,0 +1,16 @@
+
+
+<nav class="navbar">
+    <div class="navbar-logo">
+      <img src="../../assets/edushare-logo.jpg.png" alt="EDUSHARE ADMIN Logo" />
+      <span>EDUSHARE ADMIN</span>
+    </div>
+  
+    @if(showHeader)
+   { <ul class="navbar-links">
+      <li><a routerLink="/graphs" routerLinkActive="active">גרפים</a></li>
+      <li><a routerLink="/users" routerLinkActive="active">משתמשים</a></li>
+      <li><a (click)="logout()">התנתקות</a></li>
+    </ul>}
+  </nav>
+  

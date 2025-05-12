@@ -1,0 +1,13 @@
+.app-footer {
+    text-align: center;
+    padding: 15px 0;
+    background-color: #f1f1f1;
+    color: #666;
+    font-size: 0.9rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
