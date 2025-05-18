@@ -91,6 +91,9 @@ builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 
 builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 
+builder.Services.AddHttpClient<IAIProcessingService, AIProcessingService>();
+
+
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<S3Service>();
 builder.Services.AddScoped<LessonRepository>();

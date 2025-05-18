@@ -1,6 +1,7 @@
 ﻿using EduShare.Core.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduShare.Core.EntitiesDTO
 {
@@ -17,10 +18,11 @@ namespace EduShare.Core.EntitiesDTO
 
         public long Size { get; set; } // גודל הקובץ (ב-BYTES)
 
-        [Required]
-        public int LessonId { get; set; } // שיעור אליו הקובץ שייך
+        public int? LessonId { get; set; }  // זה ה-FK שלך
+        public Lesson? Lesson { get; set; } // זה הניווט
 
-       
+
+
 
     }
 }

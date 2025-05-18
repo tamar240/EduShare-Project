@@ -10,6 +10,6 @@ namespace EduShare.Core.EntitiesDTO
     public class LessonWithFileDTO
     {
         public LessonDTO LessonDTO { get; set; }
-        public UploadedFilePostDTO FileDTO { get; set; }
+        public int FileId { get; set; } // רק ID
     }
 }

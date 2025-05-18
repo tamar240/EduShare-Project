@@ -1,6 +1,7 @@
 ﻿using EduShare.Core.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduShare.Core.EntitiesDTO
 {
@@ -23,9 +24,10 @@ namespace EduShare.Core.EntitiesDTO
         [MaxLength(500)]
         public string S3Key { get; set; } // מפתח ה-S3 של הקובץ (הייחודי ב-S3)
 
-        [Required]
-        public int LessonId { get; set; } // שיעור אליו הקובץ שייך
-        public virtual Lesson Lesson { get; set; } // קישור לשיעור
+
+        public int? LessonId { get; set; }  // זה ה-FK שלך
+        public Lesson? Lesson { get; set; } // זה הניווט
+
 
         [Required]
         public int OwnerId { get; set; } // מזהה המורה שהעלה את הקובץ

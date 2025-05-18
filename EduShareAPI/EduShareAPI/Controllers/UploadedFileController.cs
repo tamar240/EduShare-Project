@@ -37,6 +37,8 @@ namespace EduShareAPI.Controllers
 
             var file =_mapper.Map<UploadedFile>(fileDTO);
 
+            if (file.LessonId == 0)
+                file.LessonId = null;
             
             var addedFile = await _fileService.AddFileAsync(file,userId);
             return Ok(addedFile);

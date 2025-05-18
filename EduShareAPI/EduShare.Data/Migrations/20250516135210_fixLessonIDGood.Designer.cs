@@ -4,6 +4,7 @@ using EduShare.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EduShare.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250516135210_fixLessonIDGood")]
+    partial class fixLessonIDGood
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,12 +280,10 @@ namespace EduShare.Data.Migrations
 
             modelBuilder.Entity("EduShare.Core.Models.UploadedFile", b =>
                 {
-                    b.HasOne("EduShare.Core.Entities.Lesson", "Lesson")
+                    b.HasOne("EduShare.Core.Entities.Lesson", null)
                         .WithMany("Files")
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Lesson");
                 });
 
             modelBuilder.Entity("EduShare.Core.Entities.Lesson", b =>

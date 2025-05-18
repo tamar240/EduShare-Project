@@ -19,16 +19,33 @@ namespace EduShare.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // ייחודיות אימייל למשתמש
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Email)
-                .IsUnique(); // ייחודיות על האימייל
+                .IsUnique();
 
             modelBuilder.Entity<Lesson>()
-                .HasMany(l => l.Files) // קשר אחד-לרבים בין שיעור לקבצים
-                .WithOne() // אין נוויגציה מהקובץ בחזרה
+                .HasMany(l => l.Files)
+                .WithOne(f => f.Lesson)
                 .HasForeignKey(f => f.LessonId)
-                .OnDelete(DeleteBehavior.Cascade); // אם שיעור נמחק, גם הקבצים שלו יימחקו
+                .OnDelete(DeleteBehavior.NoAction);
+
+
+            // קישור בין שיעור לסיכום המקורי
+            modelBuilder.Entity<Lesson>()
+                .HasOne(l => l.OrginalSummary)
+                .WithMany()
+                .HasForeignKey(l => l.OrginalSummaryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // קישור בין שיעור לסיכום המעובד (לא חובה שיהיה)
+            modelBuilder.Entity<Lesson>()
+                .HasOne(l => l.ProcessedSummary)
+                .WithMany()
+                .HasForeignKey(l => l.ProcessedSummaryId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
+
 
 
 

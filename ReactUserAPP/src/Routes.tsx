@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Login, { getCookie, isLogin } from './components/login/Login';
+import Login, {  isLogin } from './components/login/Login';
 import FileUpload from './components/file/FileUploader';
 import Sidebar from './components/parts/Sidebar';
 import './App.css';
@@ -10,6 +10,7 @@ import Footer from './components/parts/Footer';
 import Homepage from './components/HomePage';
 import UserFileGallery from './components/UserFileGallery';
 import LessonDisplay from './components/foldersAndFilesPage/LessonDisplay';
+import LessonsList from './components/foldersAndFilesPage/LessonsList';
 // import LessonCard from './components/foldersAndFilesPage/LessonCard';
 
 const RoutesComponent: React.FC = () => {
@@ -41,6 +42,8 @@ const RoutesComponent: React.FC = () => {
                                 <Route path='publicPage' element={<UserFilesPage type='PUBLIC' />} />
                                 <Route path="/myFiles" element={<UserFileGallery userId={4} />} />
                                 <Route path="/lessonDisplay" element={<LessonDisplay />} />
+                                <Route path="/lessonList/:subjectId" element={<LessonsList selectedSubjectLessons={null} subjectId={0} type={'PERSONAL'} />} />
+
                                 {/* <Route path="/singleLesson" element={<LessonCard id={0} name={''} createdAt={''} updatedAt={''} subjectId={0} ownerId={0} permission={0} />} /> */}
                             </Routes>
                         </div>

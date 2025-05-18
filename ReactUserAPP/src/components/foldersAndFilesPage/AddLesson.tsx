@@ -1,8 +1,8 @@
-
 import { useState } from "react";
 import {
   Dialog, DialogActions, DialogContent, TextField,
-  FormControl, InputLabel, Select, MenuItem, DialogTitle, Button, Typography
+  FormControl, InputLabel, Select, MenuItem, DialogTitle,
+  Button, Typography
 } from "@mui/material";
 import axios from "axios";
 import { getCookie } from "../login/Login";
@@ -17,37 +17,24 @@ interface AddLessonDialogProps {
 }
 
 const AddLesson = ({ open, onClose, subjectId, onLessonAdded }: AddLessonDialogProps) => {
-  const [newLessonName, setNewLessonName] = useState<string>("");
-  const [newLessonPermission, setNewLessonPermission] = useState<number>(0);
+  const [newLessonName, setNewLessonName] = useState("");
+  const [newLessonPermission, setNewLessonPermission] = useState(0);
   const [uploadedFile, setUploadedFile] = useState<(UploadedFileData & { viewUrl: string }) | null>(null);
 
   const handleAddLesson = async () => {
+    if (!uploadedFile) return;
     try {
       const token = getCookie("auth_token");
-  
-      // יצירת lessonDTO
-      const lessonDTO = {
-        name: newLessonName,
-        subjectId: subjectId,
-        permission: newLessonPermission,
-      };
-  
-      // יצירת fileDTO אם קובץ הועלה
-      let fileDTO = null;
-      if (uploadedFile) {
-        fileDTO = {
-          fileName: uploadedFile.fileName,
-          fileType: uploadedFile.fileType,
-          filePath: uploadedFile.viewUrl, // path מקובץ ה-AWS
-          size: uploadedFile.size,
-          lessonId: 0, // או lessonId אחר אם יש
-        };
-      }
-  
-      // שליחת הבקשה
       const response = await axios.post(
         "https://localhost:7249/api/Lesson",
-        { lessonDTO, fileDTO }, // שליחה כ-lessonDTO ו-fileDTO
+        {
+          lessonDTO: {
+            name: newLessonName,
+            subjectId,
+            permission: newLessonPermission,
+          },
+          fileId: uploadedFile.id,
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -55,21 +42,21 @@ const AddLesson = ({ open, onClose, subjectId, onLessonAdded }: AddLessonDialogP
           },
         }
       );
-  
-      const createdLesson = response.data;
-      onLessonAdded(createdLesson);
-  
-      // אפס הכל אחרי יצירה
-      setNewLessonName("");
-      setNewLessonPermission(0);
-      setUploadedFile(null);
-      onClose();
+
+      onLessonAdded(response.data);
+      resetForm();
     } catch (error) {
       console.error("❌ שגיאה בהוספת שיעור:", error);
       alert("אירעה שגיאה בעת הוספת שיעור.");
     }
   };
-  
+
+  const resetForm = () => {
+    setNewLessonName("");
+    setNewLessonPermission(0);
+    setUploadedFile(null);
+    onClose();
+  };
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -98,9 +85,8 @@ const AddLesson = ({ open, onClose, subjectId, onLessonAdded }: AddLessonDialogP
           העלאת קובץ סיכום:
         </Typography>
 
-        {/* העלאת הקובץ */}
         <AWSFileUpload
-          lessonId={"3103"}  // במידת הצורך, תעדכן את ה-lessonId הזה
+          lessonId="0" // לא חייב רלוונטי כרגע
           onUploadComplete={(file) => setUploadedFile(file)}
         />
 
@@ -112,11 +98,11 @@ const AddLesson = ({ open, onClose, subjectId, onLessonAdded }: AddLessonDialogP
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onClose} color="primary">ביטול</Button>
+        <Button onClick={onClose}>ביטול</Button>
         <Button
           onClick={handleAddLesson}
           color="secondary"
-          disabled={!newLessonName || !uploadedFile} // disable until file is uploaded
+          disabled={!newLessonName || !uploadedFile}
         >
           הוסף
         </Button>

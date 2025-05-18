@@ -15,10 +15,10 @@ namespace EduShare.Core.Models
         public string FileName { get; set; }
 
         [Required]
-        public string FileType { get; set; } // pdf, docx וכו'
+        public string FileType { get; set; }
 
         [Required]
-        public string FilePath { get; set; } // הנתיב לקובץ
+        public string FilePath { get; set; }
 
         public DateTime UploadedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
@@ -26,19 +26,15 @@ namespace EduShare.Core.Models
         public long Size { get; set; }
 
         [MaxLength(500)]
-        public string S3Key { get; set; } // מפתח לקובץ ב-S3 אם רלוונטי
+        public string? S3Key { get; set; }
+
+        public int? LessonId { get; set; }  // זה ה-FK שלך
+        [ForeignKey("LessonId")]
+        public Lesson? Lesson { get; set; } // זה הניווט
+
 
         [Required]
-        [ForeignKey("Lesson")]
-        public int LessonId { get; set; } // הקובץ שייך לשיעור
-        //public Lesson Lesson { get; set; } //
-
-        //public virtual Lesson Lesson { get; set; }
-
-        [Required]
-        [ForeignKey("User")]
         public int OwnerId { get; set; }
-        //public virtual User Owner { get; set; }
 
         public bool IsDeleted { get; set; } = false;
     }

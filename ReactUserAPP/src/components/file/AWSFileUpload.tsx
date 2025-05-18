@@ -59,23 +59,33 @@ const AWSFileUpload: React.FC<AWSFileUploadProps> = ({ lessonId, onUploadComplet
 
       const userDedilas=getUserDetailes();
       const uploadedFile: UploadedFileData = {
+        id: "",
         fileName: file.name,
         fileType: file.type,
         filePath: `${fileKey}${userDedilas?.id}`,
         size: file.size,
         lessonId,
+        s3Key: ''
       };
       debugger
-      await axios.post('https://localhost:7249/api/UploadedFile', uploadedFile, {
+      // await axios.post('https://localhost:7249/api/UploadedFile', uploadedFile, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //     "Content-Type": "application/json",
+      //   },
+      // });
+      const saveRes = await axios.post('https://localhost:7249/api/UploadedFile', uploadedFile, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
-
+      
+      const savedFile: UploadedFileData = saveRes.data;
+      
       const viewUrl = await getSignedViewUrl(fileKey);
-
-      onUploadComplete({ ...uploadedFile, viewUrl });
+      onUploadComplete({ ...savedFile, viewUrl });
+      
       alert('✅ הקובץ הועלה בהצלחה!');
     } catch (error) {
       console.error('❌ שגיאה בהעלאה:', error);
