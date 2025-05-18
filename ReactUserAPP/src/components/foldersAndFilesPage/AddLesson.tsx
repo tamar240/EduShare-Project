@@ -23,7 +23,12 @@ const AddLesson = ({ open, onClose, subjectId, onLessonAdded }: AddLessonDialogP
 
   const handleAddLesson = async () => {
     if (!uploadedFile) return;
+    debugger
+    debugger
     try {
+      debugger
+      console.log("uploadedFile", uploadedFile);
+      
       const token = getCookie("auth_token");
       const response = await axios.post(
         "https://localhost:7249/api/Lesson",

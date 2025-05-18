@@ -27,8 +27,8 @@ import DescriptionIcon from "@mui/icons-material/Description"
 import ImageIcon from "@mui/icons-material/Image"
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf"
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile"
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 import PreviewIcon from "@mui/icons-material/Preview"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 
 // Create RTL theme with custom colors
 const theme = createTheme({
@@ -85,6 +85,8 @@ const LessonDisplay: React.FC = () => {
   const token = getCookie("auth_token")
   const baseUrl = "https://localhost:7249/api"
   const lesson = location?.state?.lesson as Lesson | undefined
+  const subjectId = location?.state?.subjectId as number | undefined
+  const type = location?.state?.type as "PUBLIC" | "PERSONAL" | undefined
 
   const [lessonFiles, setLessonFiles] = useState<UploadedFileData[]>([])
   const [originalSummary, setOriginalSummary] = useState<UploadedFileData>()
@@ -198,7 +200,20 @@ const LessonDisplay: React.FC = () => {
 
   // Function to handle the back button click
   const handleGoBack = () => {
-    navigate(-1) // Navigate back to the previous page
+    // If we have subjectId and type, we can return to the subject's lessons list
+    if (subjectId && lesson) {
+      // Navigate back to the parent component, but pass the necessary state to show lessons
+      navigate("/lessons", {
+        state: {
+          showLessons: true,
+          subjectId: lesson.subjectId,
+          selectedSubject: { id: lesson.subjectId },
+        },
+      })
+    } else {
+      // Otherwise just go back
+      navigate(-1)
+    }
   }
 
   // Function to handle Word file preview (using Google Docs Viewer)
@@ -223,7 +238,7 @@ const LessonDisplay: React.FC = () => {
         {/* Back Button */}
         <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
           <Button variant="outlined" startIcon={<ArrowForwardIcon />} onClick={handleGoBack} sx={{ borderRadius: 2 }}>
-            חזרה לעמוד הקודם
+            חזרה לרשימת השיעורים
           </Button>
         </Box>
 
@@ -273,26 +288,119 @@ const LessonDisplay: React.FC = () => {
 
                   <Box sx={{ flexGrow: 1, px: 3, pb: 3 }}>
                     {loading ? (
-                      <Skeleton variant="rectangular" height={500} animation="wave" />
+                      <Skeleton variant="rectangular" height={180} animation="wave" />
                     ) : processedUrl ? (
                       <Box
                         sx={{
                           border: "1px solid rgba(0,0,0,0.08)",
                           borderRadius: 2,
                           overflow: "hidden",
-                          height: "500px",
+                          height: "180px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
                           boxShadow: "inset 0 0 10px rgba(0,0,0,0.03)",
+                          bgcolor: "rgba(0,0,0,0.02)",
                         }}
                       >
-                        <iframe
-                          src={processedUrl}
-                          title="Processed Summary"
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            border: "none",
-                          }}
-                        />
+                        {isPdfFile(processedSummary?.fileName || "") ? (
+                          <Box
+                            sx={{
+                              width: "100%",
+                              height: "100%",
+                              display: "flex",
+                              flexDirection: "column",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              position: "relative",
+                            }}
+                          >
+                            <PictureAsPdfIcon sx={{ fontSize: 60, color: "#e53935", mb: 1 }} />
+                            <Typography
+                              variant="body2"
+                              sx={{
+                                color: "#e53935",
+                                fontWeight: "medium",
+                                textAlign: "center",
+                                px: 2,
+                              }}
+                            >
+                              {processedSummary?.fileName}
+                            </Typography>
+                            <Typography color="text.secondary" variant="caption" sx={{ mt: 1 }}>
+                              מסמך PDF
+                            </Typography>
+                          </Box>
+                        ) : isWordFile(processedSummary?.fileName || "") ? (
+                          <Box
+                            sx={{
+                              width: "100%",
+                              height: "100%",
+                              display: "flex",
+                              flexDirection: "column",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              borderRadius: 2,
+                              bgcolor: "rgba(240, 247, 255, 0.5)",
+                              border: "1px solid rgba(42, 86, 153, 0.2)",
+                              position: "relative",
+                              overflow: "hidden",
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                height: "8px",
+                                bgcolor: "#2a5699",
+                              }}
+                            />
+                            <DescriptionIcon sx={{ fontSize: 60, color: "#2a5699", mb: 1 }} />
+                            <Typography
+                              variant="body2"
+                              sx={{
+                                color: "#2a5699",
+                                fontWeight: "medium",
+                                textAlign: "center",
+                                px: 2,
+                              }}
+                            >
+                              {processedSummary?.fileName}
+                            </Typography>
+                            <Typography color="text.secondary" variant="caption" sx={{ mt: 1 }}>
+                              מסמך Word
+                            </Typography>
+                          </Box>
+                        ) : (
+                          <Box
+                            sx={{
+                              width: "100%",
+                              height: "100%",
+                              display: "flex",
+                              flexDirection: "column",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <DescriptionIcon sx={{ fontSize: 60, color: "primary.main", mb: 1 }} />
+                            <Typography
+                              variant="body2"
+                              sx={{
+                                color: "primary.main",
+                                fontWeight: "medium",
+                                textAlign: "center",
+                                px: 2,
+                              }}
+                            >
+                              {processedSummary?.fileName}
+                            </Typography>
+                            <Typography color="text.secondary" variant="caption" sx={{ mt: 1 }}>
+                              מסמך
+                            </Typography>
+                          </Box>
+                        )}
                       </Box>
                     ) : (
                       <Box
@@ -300,7 +408,7 @@ const LessonDisplay: React.FC = () => {
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
-                          height: "200px",
+                          height: "180px",
                           bgcolor: "rgba(0,0,0,0.02)",
                           borderRadius: 2,
                         }}
@@ -371,26 +479,119 @@ const LessonDisplay: React.FC = () => {
 
                   <Box sx={{ flexGrow: 1, px: 3, pb: 3 }}>
                     {loading ? (
-                      <Skeleton variant="rectangular" height={200} animation="wave" />
+                      <Skeleton variant="rectangular" height={180} animation="wave" />
                     ) : originalUrl ? (
                       <Box
                         sx={{
                           border: "1px solid rgba(0,0,0,0.08)",
                           borderRadius: 2,
                           overflow: "hidden",
-                          height: "200px",
+                          height: "180px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
                           boxShadow: "inset 0 0 10px rgba(0,0,0,0.03)",
+                          bgcolor: "rgba(0,0,0,0.02)",
                         }}
                       >
-                        <iframe
-                          src={originalUrl}
-                          title="Original Summary"
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            border: "none",
-                          }}
-                        />
+                        {isPdfFile(originalSummary?.fileName || "") ? (
+                          <Box
+                            sx={{
+                              width: "100%",
+                              height: "100%",
+                              display: "flex",
+                              flexDirection: "column",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              position: "relative",
+                            }}
+                          >
+                            <PictureAsPdfIcon sx={{ fontSize: 60, color: "#e53935", mb: 1 }} />
+                            <Typography
+                              variant="body2"
+                              sx={{
+                                color: "#e53935",
+                                fontWeight: "medium",
+                                textAlign: "center",
+                                px: 2,
+                              }}
+                            >
+                              {originalSummary?.fileName}
+                            </Typography>
+                            <Typography color="text.secondary" variant="caption" sx={{ mt: 1 }}>
+                              מסמך PDF
+                            </Typography>
+                          </Box>
+                        ) : isWordFile(originalSummary?.fileName || "") ? (
+                          <Box
+                            sx={{
+                              width: "100%",
+                              height: "100%",
+                              display: "flex",
+                              flexDirection: "column",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              borderRadius: 2,
+                              bgcolor: "rgba(240, 247, 255, 0.5)",
+                              border: "1px solid rgba(42, 86, 153, 0.2)",
+                              position: "relative",
+                              overflow: "hidden",
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                height: "8px",
+                                bgcolor: "#2a5699",
+                              }}
+                            />
+                            <DescriptionIcon sx={{ fontSize: 60, color: "#2a5699", mb: 1 }} />
+                            <Typography
+                              variant="body2"
+                              sx={{
+                                color: "#2a5699",
+                                fontWeight: "medium",
+                                textAlign: "center",
+                                px: 2,
+                              }}
+                            >
+                              {originalSummary?.fileName}
+                            </Typography>
+                            <Typography color="text.secondary" variant="caption" sx={{ mt: 1 }}>
+                              מסמך Word
+                            </Typography>
+                          </Box>
+                        ) : (
+                          <Box
+                            sx={{
+                              width: "100%",
+                              height: "100%",
+                              display: "flex",
+                              flexDirection: "column",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <DescriptionIcon sx={{ fontSize: 60, color: "primary.main", mb: 1 }} />
+                            <Typography
+                              variant="body2"
+                              sx={{
+                                color: "primary.main",
+                                fontWeight: "medium",
+                                textAlign: "center",
+                                px: 2,
+                              }}
+                            >
+                              {originalSummary?.fileName}
+                            </Typography>
+                            <Typography color="text.secondary" variant="caption" sx={{ mt: 1 }}>
+                              מסמך
+                            </Typography>
+                          </Box>
+                        )}
                       </Box>
                     ) : (
                       <Box
@@ -398,7 +599,7 @@ const LessonDisplay: React.FC = () => {
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
-                          height: "200px",
+                          height: "180px",
                           bgcolor: "rgba(0,0,0,0.02)",
                           borderRadius: 2,
                         }}

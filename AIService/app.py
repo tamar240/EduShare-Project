@@ -42,6 +42,8 @@ class FileUrl(BaseModel):
     file_url: str
     lesson_id: str  # שדה חדש
 
+    
+
 @app.get("/")
 def read_root():
     return {"message": "EduShare AI Service is running!"}
@@ -149,24 +151,38 @@ def get_presigned_view_url(file_key: str, token: str) -> str:
         raise HTTPException(status_code=500, detail="Failed to get presigned view URL")
     return response.json()["url"]
 
+def remove_undefined_suffix(text: str) -> str:
+    if text.endswith("undefined"):
+        return text[:-len("undefined")]
+    return text
+
 # === נקודת קצה ראשית לעיבוד קובץ ===
 @app.post("/process-file")
 async def process_file(body: FileUrl, authorization: str = Header(None)):
+    # print("xxdfgh",body.file_url)
+    # body.file_url = remove_undefined_suffix(body.file_url)
+    # print("after",body.file_url)
+
     if not authorization:
         raise HTTPException(status_code=401, detail="Authorization header missing")
-
+    print("iuyh")
     token = authorization.replace("Bearer ", "")
     file_url = body.file_url
+
     lesson_id= body.lesson_id
+
 
     try:
         # הורדת הקובץ
+        print("file url bb", file_url)
         response = requests.get(file_url)
+        print("file url  aa", file_url)
         if response.status_code != 200:
+            print("response status code", response.status_code)
             raise HTTPException(status_code=400, detail="Failed to download file")
 
         ext = file_url.split('.')[-1].split('?')[0]
-
+        print("ext", ext)   
         with tempfile.NamedTemporaryFile(delete=False, suffix=f".{ext}") as temp:
             temp.write(response.content)
             temp.flush()

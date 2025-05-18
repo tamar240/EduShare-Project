@@ -194,7 +194,7 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
         />
       )}
 
-      {selectedSubject && <LessonsGrid subjectId={selectedSubject.id} type={type} />}
+      {selectedSubject && <LessonsGrid subjectId={selectedSubject.id} type={type} selectedSubjectLessons={null} />}
     </div>
   );
 };

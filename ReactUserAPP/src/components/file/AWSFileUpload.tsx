@@ -57,12 +57,12 @@ const AWSFileUpload: React.FC<AWSFileUploadProps> = ({ lessonId, onUploadComplet
       });
      console.log('File uploaded successfully:', fileKey);
 
-      const userDedilas=getUserDetailes();
+      const viewUrl2 = await getSignedViewUrl(fileKey);
       const uploadedFile: UploadedFileData = {
         id: "",
         fileName: file.name,
         fileType: file.type,
-        filePath: `${fileKey}${userDedilas?.id}`,
+        filePath: viewUrl2,
         size: file.size,
         lessonId,
         s3Key: ''

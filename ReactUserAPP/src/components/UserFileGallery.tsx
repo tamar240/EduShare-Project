@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+
+import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import {
   Box,
@@ -30,31 +31,18 @@ const UserFileGallery = ({ userId }: { userId: number }) => {
   const [selectedFileId, setSelectedFileId] = useState<number | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  const observer = useRef<IntersectionObserver | null>(null);
+
   useEffect(() => {
     const fetchFiles = async () => {
       try {
         const token = getCookie('auth_token');
-        console.log('userId', userId);
-
         const response = await axios.get(`https://localhost:7249/api/UploadedFile/user/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        const files = response.data as UploadedFile[];
-        setFiles(files);
-
-        const urls: Record<string, string> = {};
-        for (const file of files) {
-          const viewRes = await axios.get('https://localhost:7249/api/upload/presigned-url/view', {
-            params: { filePath: file.filePath },
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          urls[file.filePath] = viewRes.data.url;
-        }
-        setViewUrls(urls);
+        setFiles(response.data);
       } catch (error) {
         console.error('שגיאה בקבלת הקבצים:', error);
       } finally {
@@ -65,27 +53,53 @@ const UserFileGallery = ({ userId }: { userId: number }) => {
     fetchFiles();
   }, [userId]);
 
-  const handleDeleteFile = async () => {
-    if (selectedFileId === null) return;
+  const loadViewUrl = async (filePath: string) => {
+    if (viewUrls[filePath]) return;
     try {
       const token = getCookie('auth_token');
-      await axios.delete(`https://localhost:7249/api/UploadedFile/${selectedFileId}`, {
-        headers: { Authorization: `Bearer ${token}` },
+      const res = await axios.get('https://localhost:7249/api/upload/presigned-url/view', {
+        params: { filePath },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
-      setFiles(prev => prev.filter(f => f.id !== selectedFileId));
-    } catch (error) {
-      console.error('שגיאה במחיקת הקובץ:', error);
-    } finally {
-      setDialogOpen(false);
-      setSelectedFileId(null);
+      setViewUrls(prev => ({ ...prev, [filePath]: res.data.url }));
+    } catch (err) {
+      console.error(`שגיאה בטעינת URL עבור ${filePath}:`, err);
     }
+  };
+
+  const previewRef = (file: UploadedFile) => {
+    const ref = (node: HTMLDivElement | null) => {
+      if (node && !viewUrls[file.filePath]) {
+        if (!observer.current) {
+          observer.current = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const filePath = entry.target.getAttribute('data-filepath');
+                if (filePath) loadViewUrl(filePath);
+              }
+            });
+          });
+        }
+        node.setAttribute('data-filepath', file.filePath);
+        observer.current.observe(node);
+      }
+    };
+    return ref;
   };
 
   const renderPreview = (file: UploadedFile) => {
     const url = viewUrls[file.filePath];
     const type = file.fileType;
 
-    if (!url) return <Typography>לא ניתן לטעון</Typography>;
+    if (!url) {
+      return (
+        <Box textAlign="center" py={2}>
+          <CircularProgress size={24} />
+        </Box>
+      );
+    }
 
     if (type.startsWith('image/')) {
       return <CardMedia component="img" height="140" image={url} alt={file.fileName} />;
@@ -110,10 +124,9 @@ const UserFileGallery = ({ userId }: { userId: number }) => {
     }
 
     if (
-      type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-      type === 'application/msword' ||
-      type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
-      type === 'application/vnd.ms-powerpoint'
+      type.includes('word') ||
+      type.includes('presentation') ||
+      type.includes('powerpoint')
     ) {
       return (
         <Button variant="outlined" href={url} target="_blank">
@@ -127,6 +140,22 @@ const UserFileGallery = ({ userId }: { userId: number }) => {
         הורד קובץ
       </Button>
     );
+  };
+
+  const handleDeleteFile = async () => {
+    if (selectedFileId === null) return;
+    try {
+      const token = getCookie('auth_token');
+      await axios.delete(`https://localhost:7249/api/UploadedFile/${selectedFileId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setFiles(prev => prev.filter(f => f.id !== selectedFileId));
+    } catch (error) {
+      console.error('שגיאה במחיקת הקובץ:', error);
+    } finally {
+      setDialogOpen(false);
+      setSelectedFileId(null);
+    }
   };
 
   if (loading) {
@@ -144,9 +173,12 @@ const UserFileGallery = ({ userId }: { userId: number }) => {
         📁 הקבצים שלך
       </Typography>
       <Grid container spacing={3}>
-        {files.map((file) => (
+        {files.map(file => (
           <Grid item xs={12} sm={6} md={4} key={file.id}>
-            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+            <Card
+              sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+              ref={previewRef(file)}
+            >
               {renderPreview(file)}
               <CardContent>
                 <Typography variant="body1">📄 {file.fileName}</Typography>
@@ -181,3 +213,66 @@ const UserFileGallery = ({ userId }: { userId: number }) => {
 };
 
 export default UserFileGallery;
+// import {
+//   Box,
+//   Typography,
+//   Grid,
+//   CircularProgress,
+// } from '@mui/material';
+
+// import PopupDialog from './parts/PopupDialog';
+// import useUserFileGallery from './useUserFileGallery';
+// import { galleryWrapper, titleStyle } from '../styles/userFileGlarry';
+// import FileCard from './parts/FileCard';
+
+// const UserFileGallery = ({ userId }: { userId: number }) => {
+//   const {
+//     files,
+//     loading,
+//     viewUrls,
+//     previewRef,
+//     handleDeleteFile,
+//     dialogOpen,
+//     setDialogOpen,
+//     setSelectedFileId,
+//   } = useUserFileGallery(userId);
+
+//   if (loading) {
+//     return (
+//       <Box textAlign="center" mt={4}>
+//         <CircularProgress />
+//         <Typography mt={2}>טוען קבצים...</Typography>
+//       </Box>
+//     );
+//   }
+
+//   return (
+//     <Box sx={galleryWrapper}>
+//       <Typography sx={titleStyle}>📁 הקבצים שלך</Typography>
+//       <Grid container spacing={3}>
+//         {files.map(file => (
+//           <Grid item xs={12} sm={6} md={4} key={file.id}>
+//             <FileCard
+//               file={file}
+//               previewRef={previewRef(file)}
+//               viewUrl={viewUrls[file.filePath]}
+//               onDelete={() => {
+//                 setSelectedFileId(file.id);
+//                 setDialogOpen(true);
+//               }}
+//             />
+//           </Grid>
+//         ))}
+//       </Grid>
+
+//       <PopupDialog
+//         open={dialogOpen}
+//         onClose={() => setDialogOpen(false)}
+//         onConfirm={handleDeleteFile}
+//         message="האם אתה בטוח שברצונך למחוק את הקובץ? פעולה זו אינה הפיכה."
+//       />
+//     </Box>
+//   );
+// };
+
+// export default UserFileGallery;
