@@ -50,15 +50,30 @@ public class S3Service
 
         return await s3Client.GetPreSignedURLAsync(request);
     }
-    public async Task DeleteFileAsync(string s3Key)
+    public async Task<bool> DeleteFileAsync(string key)
     {
-        var deleteRequest = new DeleteObjectRequest
+        try
         {
-            BucketName = bucketName,
-            Key = s3Key
-        };
+            var request = new DeleteObjectRequest
+            {
+                BucketName = bucketName,
+                Key = key
+            };
 
-        await s3Client.DeleteObjectAsync(deleteRequest);
+            var response = await s3Client.DeleteObjectAsync(request);
+
+            return response.HttpStatusCode == System.Net.HttpStatusCode.NoContent;
+        }
+        catch (AmazonS3Exception ex)
+        {
+            Console.WriteLine($"AWS S3 Error: {ex.Message}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"General Error: {ex.Message}");
+            return false;
+        }
     }
 
 }

@@ -15,5 +15,7 @@ namespace EduShare.Core.Services
         Task UpdateUserAsync(int id, User user);
         Task DeleteUserAsync(int id);
         Task<int[]> GetUsersPerMonthAsync();
+        Task<bool> HardDeleteUserAsync(int userId);
+
     }
 }

@@ -41,7 +41,7 @@ rols: any;
     this.loginForm = this.fb.group({
       name: ['',[Validators.required]],
       email: ['', [ Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required]],
       // role: [''],
     });
   }

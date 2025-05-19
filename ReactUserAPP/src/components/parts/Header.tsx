@@ -1,9 +1,9 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, IconButton, Box, Avatar } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'; // אייקון חץ ללוגאאוט
 import { Link, useNavigate } from 'react-router-dom';
-import { removeCookie } from '../login/Login';
+import { getUserDetailes, removeCookie } from '../login/Login';
 
 const Header: React.FC = () => {
   const navigate = useNavigate(); // משתמש ב-useNavigate לנווט לדף אחר
@@ -13,27 +13,52 @@ const Header: React.FC = () => {
    removeCookie("auth_token");
    navigate('/'); // ניווט לדף הלוגין
   };
+  const user = getUserDetailes();
+  console.log("user", user);
+  
+  const firstLetter = user?.name?.charAt(0).toUpperCase() ?? '?';
+ 
 
   return (
     <AppBar position="static" elevation={0} sx={{ backgroundColor: 'transparent' }}>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography variant="h6" sx={{ color: '#4A90E2', marginRight: '60px', fontSize: '30px' }}>
-            EDUShare
-          </Typography>
+    <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
+      {/* אייקונים – בצד שמאל */}
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <IconButton component={Link} to="/profile" sx={{ ml: 2 }}>
+      <Avatar sx={{ bgcolor: '#4A90E2', width: 25, height: 25, fontWeight: 'bold' }}>
+       {firstLetter}
+      </Avatar>
+      </IconButton>
 
-          {/* אייקון פרופיל */}
-          <IconButton component={Link} to="/profile" sx={{ color: '#4A90E2', marginLeft: '10px', fontSize: '30px' }}>
-            <AccountCircleIcon />
-          </IconButton>
-
-          {/* אייקון חץ ללוגאאוט */}
-          <IconButton onClick={handleLogout} sx={{ color: '#4A90E2', marginLeft: '10px', fontSize: '30px' }}>
-            <ExitToAppIcon />
-          </IconButton>
-        </Box>
-      </Toolbar>
-    </AppBar>
+        <IconButton onClick={handleLogout} sx={{ color: '#4A90E2', fontSize: '30px', ml: 1 }}>
+          <ExitToAppIcon fontSize="inherit" />
+        </IconButton>
+      </Box>
+  
+      {/* טקסט EDUShare – במרכז עם אנימציה */}
+      <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+        <Typography
+          variant="h6"
+          sx={{
+            fontSize: '34px',
+            fontWeight: 'bold',
+            animation: 'colorChange 5s infinite',
+            background: 'linear-gradient(90deg, #4A90E2, #50E3C2, #B8E986, #F8E71C)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            textTransform: 'uppercase',
+          }}
+        >
+          EDUShare
+        </Typography>
+      </Box>
+  
+      {/* רווח ימני ריק כדי לשמור על מרכוז אמיתי */}
+      <Box sx={{ width: '120px' }} />
+    </Toolbar>
+  </AppBar>
+  
+  
   );
 };
 

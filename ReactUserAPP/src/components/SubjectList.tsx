@@ -93,45 +93,167 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
       return 0;
     });
 
+  // return (
+  //   <div>
+  //     {/* סינון ומיון */}
+  //     <Box display="flex" alignItems="center" gap={2} sx={{ mb: 2 }}>
+  //       <TextField
+  //         label="חיפוש לפי שם מקצוע"
+  //         variant="outlined"
+  //         size="small"
+  //         value={searchTerm}
+  //         onChange={handleSearchChange}
+  //       />
+  //       <Select
+  //         value={sortBy}
+  //         onChange={handleSortChange}
+  //         displayEmpty
+  //         size="small"
+  //       >
+  //         <MenuItem value="">ללא מיון</MenuItem>
+  //         <MenuItem value="updatedAt">מיון לפי תאריך עדכון</MenuItem>
+  //         <MenuItem value="ownerId">מיון לפי בעלים</MenuItem>
+  //       </Select>
+  //       {(sortBy || searchTerm) && (
+  //         <IconButton onClick={() => { setSortBy(""); setSearchTerm(""); }}>
+  //           <ClearIcon />
+  //         </IconButton>
+  //       )}
+  //     </Box>
+
+  //     {/* הצגת המקצועות */}
+  //     <Grid container spacing={4} sx={{ mt: 4 }}>
+  //       {filteredSubjects.map((subject) => (
+  //         <Grid 
+  //           item 
+  //           xs={18} sm={8} md={2} 
+  //           key={subject.id} 
+  //           sx={{ textAlign: "center", width: "150px" }} 
+  //           onContextMenu={(e) => handleContextMenu(e, subject)}
+  //         >
+  //           <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+  //             <Button
+  //               variant="text"
+  //               onClick={() => handleShowLessons(subject.id)}
+  //               sx={{ padding: 0, minWidth: "auto" }}
+  //             >
+  //               <img
+  //                 src={folderImage}
+  //                 alt="Folder"
+  //                 style={{ width: "100px", height: "100px", objectFit: "cover" }}
+  //               />
+  //             </Button>
+  
+  //             {type === 'PERSONAL' && editingSubjectId === subject.id ? (
+  //               <TextField
+  //                 value={newSubjectName}
+  //                 onChange={handleChange}
+  //                 onBlur={() => handleUpdateSubject(subject)}
+  //                 onKeyDown={(e) => e.key === "Enter" && handleUpdateSubject(subject)}
+  //                 autoFocus
+  //                 size="small"
+  //                 variant="outlined"
+  //                 sx={{ 
+  //                   marginTop: "5px", 
+  //                   textAlign: "center",
+  //                   maxWidth: "100px",
+  //                   width: "100%"
+  //                 }}
+  //               />
+  //             ) : (
+  //               <div
+  //                 style={{
+  //                   marginTop: "5px",
+  //                   fontSize: "16px",
+  //                   fontFamily: '"Roboto", sans-serif',
+  //                   color: "black",
+  //                   textAlign: "center",
+  //                   cursor: "pointer",
+  //                   maxWidth: "100px",
+  //                   wordWrap: "break-word",
+  //                   overflowWrap: "break-word",
+  //                   whiteSpace: "normal"
+  //                 }}
+  //                 onDoubleClick={() => handleDoubleClick(subject)}
+  //               >
+  //                 {subject.name}
+  //               </div>
+  //             )}
+  //           </Box>
+  //         </Grid>
+  //       ))}
+  //     </Grid>
+
+  //     {contextMenu && (
+  //       <SubjectContextMenu
+  //         mouseX={contextMenu.mouseX}
+  //         mouseY={contextMenu.mouseY}
+  //         subject={contextMenu.subject}
+  //         onClose={handleCloseContextMenu}
+  //         type={type}
+  //       />
+  //     )}
+
+  //     {selectedSubject && <LessonsGrid subjectId={selectedSubject.id} type={type} selectedSubjectLessons={null} />}
+  //   </div>
+  // );
   return (
-    <div>
+    <Box className="px-4 md:px-8 lg:px-16 py-4">
       {/* סינון ומיון */}
-      <Box display="flex" alignItems="center" gap={2} sx={{ mb: 2 }}>
+      <Box
+        display="flex"
+        flexDirection={{ xs: "column", sm: "row" }}
+        alignItems="center"
+        gap={2}
+        sx={{ mb: 4 }}
+      >
         <TextField
           label="חיפוש לפי שם מקצוע"
           variant="outlined"
           size="small"
           value={searchTerm}
           onChange={handleSearchChange}
+          fullWidth
+          sx={{ maxWidth: 300 }}
         />
+  
         <Select
           value={sortBy}
           onChange={handleSortChange}
           displayEmpty
           size="small"
+          sx={{ minWidth: 200 }}
         >
           <MenuItem value="">ללא מיון</MenuItem>
           <MenuItem value="updatedAt">מיון לפי תאריך עדכון</MenuItem>
           <MenuItem value="ownerId">מיון לפי בעלים</MenuItem>
         </Select>
+  
         {(sortBy || searchTerm) && (
           <IconButton onClick={() => { setSortBy(""); setSearchTerm(""); }}>
             <ClearIcon />
           </IconButton>
         )}
       </Box>
-
+  
       {/* הצגת המקצועות */}
-      <Grid container spacing={4} sx={{ mt: 4 }}>
+      <Grid container spacing={4} justifyContent="flex-start">
         {filteredSubjects.map((subject) => (
-          <Grid 
-            item 
-            xs={18} sm={8} md={2} 
-            key={subject.id} 
-            sx={{ textAlign: "center", width: "150px" }} 
+          <Grid
+            item
+            xs={6}
+            sm={4}
+            md={2.4}
+            lg={2}
+            key={subject.id}
             onContextMenu={(e) => handleContextMenu(e, subject)}
           >
-            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              className="transition-all duration-200 hover:scale-105"
+            >
               <Button
                 variant="text"
                 onClick={() => handleShowLessons(subject.id)}
@@ -140,7 +262,11 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
                 <img
                   src={folderImage}
                   alt="Folder"
-                  style={{ width: "100px", height: "100px", objectFit: "cover" }}
+                  style={{
+                    width: "90px",
+                    height: "90px",
+                    objectFit: "cover",
+                  }}
                 />
               </Button>
   
@@ -153,8 +279,8 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
                   autoFocus
                   size="small"
                   variant="outlined"
-                  sx={{ 
-                    marginTop: "5px", 
+                  sx={{
+                    marginTop: "6px",
                     textAlign: "center",
                     maxWidth: "100px",
                     width: "100%"
@@ -163,16 +289,17 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
               ) : (
                 <div
                   style={{
-                    marginTop: "5px",
-                    fontSize: "16px",
+                    marginTop: "6px",
+                    fontSize: "15px",
+                    fontWeight: 500,
                     fontFamily: '"Roboto", sans-serif',
-                    color: "black",
+                    color: "#333",
                     textAlign: "center",
                     cursor: "pointer",
                     maxWidth: "100px",
-                    wordWrap: "break-word",
-                    overflowWrap: "break-word",
-                    whiteSpace: "normal"
+                    wordBreak: "break-word",
+                    whiteSpace: "normal",
+                    lineHeight: 1.2
                   }}
                   onDoubleClick={() => handleDoubleClick(subject)}
                 >
@@ -183,7 +310,8 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
           </Grid>
         ))}
       </Grid>
-
+  
+      {/* תפריט הקשר */}
       {contextMenu && (
         <SubjectContextMenu
           mouseX={contextMenu.mouseX}
@@ -193,10 +321,18 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
           type={type}
         />
       )}
-
-      {selectedSubject && <LessonsGrid subjectId={selectedSubject.id} type={type} selectedSubjectLessons={null} />}
-    </div>
+  
+      {/* גריד של שיעורים */}
+      {selectedSubject && (
+        <LessonsGrid
+          subjectId={selectedSubject.id}
+          type={type}
+          selectedSubjectLessons={null}
+        />
+      )}
+    </Box>
   );
+  
 };
 
 export default SubjectsList;

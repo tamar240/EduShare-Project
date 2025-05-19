@@ -32,4 +32,10 @@ export class UsersService {
     const headers = { Authorization: `Bearer ${this.token}` };
     return this.http.get<number[]>(`${this.apiUrlUser}/per-month`, { headers });
   }
+  // services/users.service.ts
+
+hardDeleteUser(userId: number): Observable<void> {
+  return this.http.delete<void>(`${this.apiUrlUser}/hard-delete/${userId}`);
+}
+
 }

@@ -92,5 +92,15 @@ namespace EduShare.API.Controllers
             var result = await _userService.GetUsersPerMonthAsync();
             return Ok(result);
         }
+        [HttpDelete("hard-delete/{id}")]
+        public async Task<IActionResult> HardDeleteUser(int id)
+        {
+            var success = await _userService.HardDeleteUserAsync(id);
+            if (!success)
+                return NotFound("User not found.");
+
+            return Ok("User permanently deleted.");
+        }
+
     }
 }

@@ -14,6 +14,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
+using EduShare.Core.Entities; // ודא שיש את זה ב-using
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -141,8 +143,11 @@ builder.Services.AddCors(options =>
                       });
 });
 
+//builder.Services.AddDbContext<DataContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 //משתני סביבה ל AWS
 
@@ -180,5 +185,7 @@ app.UseAuthentication();//JWT
 app.UseAuthorization();
 
 app.MapControllers();
+
+
 
 app.Run();

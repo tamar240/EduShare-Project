@@ -45,6 +45,13 @@ export class UsersPageComponent {
    console.log("kk");
    
   }
+  hardDeleteUser(userId: number): void {
+    if (confirm("האם אתה בטוח שברצונך למחוק סופית את המשתמש?")) {
+      this.usersService.hardDeleteUser(userId).subscribe(() => {
+        this.users = this.users.filter(user => user.id !== userId);
+      });
+    }
+  }
   
 }
 

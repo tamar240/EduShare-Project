@@ -10,6 +10,7 @@ import {
   Button,
   Grid,
   CircularProgress,
+  IconButton,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getCookie } from './login/Login';
@@ -168,14 +169,31 @@ const UserFileGallery = ({ userId }: { userId: number }) => {
   }
 
   return (
-    <Box sx={{ p: 4, flex: 1, display: 'flex', flexDirection: 'column' }}>
-      <Typography variant="h5" gutterBottom>
-        📁 הקבצים שלך
+    <Box
+      sx={{
+        p: { xs: 2, md: 4 },
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: '#f4f6f8',
+        minHeight: '100vh',
+      }}>
+      <Typography
+        variant="h4"
+        sx={{
+          mb: 4,
+          fontWeight: '700',
+          textAlign: 'right',
+          color: '#333',
+        }}
+      >
+         הקבצים שלך
       </Typography>
+
       <Grid container spacing={3}>
         {files.map(file => (
           <Grid item xs={12} sm={6} md={4} key={file.id}>
-            <Card
+            {/* <Card
               sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
               ref={previewRef(file)}
             >
@@ -197,7 +215,64 @@ const UserFileGallery = ({ userId }: { userId: number }) => {
                   מחק קובץ
                 </Button>
               </CardContent>
-            </Card>
+            </Card> */}
+           <Card
+  sx={{
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    border: '1px solid #d0d7de',
+    borderRadius: '12px',
+    backgroundColor: '#ffffff',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+    transition: 'all 0.25s ease-in-out',
+    '&:hover': {
+      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+      transform: 'translateY(-2px)',
+    },
+    position: 'relative',
+    paddingBottom: '36px',
+  }}
+  ref={previewRef(file)}
+>
+  {renderPreview(file)}
+
+  <CardContent sx={{ flexGrow: 1 }}>
+    <Typography
+      variant="subtitle2"
+      fontWeight={600}
+      gutterBottom
+      noWrap
+    >
+      {file.fileName}
+    </Typography>
+
+    <Typography variant="caption" color="text.secondary">
+      סוג: {file.fileType} | גודל: {(file.size / 1024).toFixed(1)} KB
+    </Typography>
+  </CardContent>
+
+  {/* כפתור מחיקה – צד שמאל למטה */}
+  <Box
+    sx={{
+      position: 'absolute',
+      bottom: 8,
+      left: 8,
+    }}
+  >
+    <IconButton
+      size="small"
+      color="error"
+      onClick={() => {
+        setSelectedFileId(file.id);
+        setDialogOpen(true);
+      }}
+    >
+      <DeleteIcon fontSize="small" />
+    </IconButton>
+  </Box>
+</Card>
+
           </Grid>
         ))}
       </Grid>

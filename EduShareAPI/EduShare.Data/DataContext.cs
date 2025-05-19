@@ -17,7 +17,28 @@ namespace EduShare.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Roles>().HasData(
+                  new Roles
+                  {
+                     Id = 1,
+                     RoleName = "Admin",
+                     Description = "System Administrator",
+                     CreatedAt = DateTime.UtcNow,
+                     UpdatedAt = DateTime.UtcNow
+                 },
+                 new Roles
+                 {
+                     Id = 2,
+                     RoleName = "Teacher",
+                     Description = "Educator with upload permissions",
+                     CreatedAt = DateTime.UtcNow,
+                     UpdatedAt = DateTime.UtcNow
+                     }
+                 );
+
 
             // ייחודיות אימייל למשתמש
             modelBuilder.Entity<User>()

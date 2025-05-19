@@ -5,7 +5,7 @@
 namespace EduShare.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class fixLessonIDGood : Migration
+    public partial class new2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

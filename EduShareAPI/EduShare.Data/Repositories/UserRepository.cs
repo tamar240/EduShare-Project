@@ -103,5 +103,14 @@ namespace EduShare.Data.Repositories
 
             return usersPerMonth;
         }
+        public async Task<bool> HardDeleteUserAsync(int userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+                return false;
+
+            _context.Users.Remove(user);
+            return true;
+        }
     }
 }

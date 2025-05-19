@@ -30,11 +30,11 @@ export const getCookie = (name: string) => {
 }
 
 export const getUserDetailes = () => {
-    debugger
+    
     const token = getCookie("auth_token");
     if (token) {
         const decodedToken: JwtPayload = jwtDecode(token);
-        console.log("Decoded token:", decodedToken);
+        console.log("de token", decodedToken.name);
         
         return { name: decodedToken.name, id: decodedToken.nameid, role: decodedToken.role };
     }

@@ -7,7 +7,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 [ApiController]
 [Route("api/upload")]
-[Authorize]
+//[Authorize]
 public class UploadController : ControllerBase
 {
     private readonly IAmazonS3 _s3Client;
@@ -142,6 +142,15 @@ public class UploadController : ControllerBase
         {
             return StatusCode(500, $"Error generating presigned URL: {ex.Message}");
         }
+    }
+
+    [HttpDelete("{key}")]
+    public async Task<IActionResult> DeleteFile(string key)
+    {
+        var result = await _s3Service.DeleteFileAsync(key);
+        if (result)
+            return NoContent(); 
+        return BadRequest("Failed to delete file from S3.");
     }
 
 }

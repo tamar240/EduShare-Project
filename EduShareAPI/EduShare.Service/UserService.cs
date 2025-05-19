@@ -4,6 +4,7 @@ using EduShare.Core.EntitiesDTO;
 using EduShare.Core.Repositories;
 using EduShare.Core.Services;
 using EduShare.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Crypto.Generators;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -42,7 +43,7 @@ namespace EduShare.Service
             var role = _managerRepository.UserRoles.GetAllAsync().Result.FirstOrDefault(u => u.UserId == user.Id);
             return role;
         }
-      
+
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _managerRepository.Users.GetUserByEmailAsync(email);
@@ -86,5 +87,15 @@ namespace EduShare.Service
         {
             return await _managerRepository.Users.GetUsersPerMonthAsync();
         }
+
+        public async Task<bool> HardDeleteUserAsync(int userId)
+        {
+           var res= await _managerRepository.Users.HardDeleteUserAsync(userId);
+            await _managerRepository.SaveAsync();
+            return res;
+        }
+
+
+
     }
 }

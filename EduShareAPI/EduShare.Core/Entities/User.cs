@@ -19,8 +19,8 @@ namespace EduShare.Core.Entities
         //public UserRoleEnum Role { get; set; }
 
         public string Password { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         //public List<UploadedFile> UploadedFiles { get; set; } = new();
 
