@@ -171,11 +171,11 @@ builder.Services.AddDbContext<DataContext>(options =>
 var app = builder.Build();
 app.UseCors(MyAllowSpecificOrigins);
 
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.UseCors("_myAllowSpecificOrigins");
 app.UseHttpsRedirection();
