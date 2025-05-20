@@ -3,13 +3,16 @@ import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private apiUrlAuth = 'https://localhost:7249/api/Auth';
+
+  private baseUrl = environment.apiUrl;
+  private apiUrlAuth = `${this.baseUrl}/Auth`;
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.getToken()!= null);
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
   constructor(private http: HttpClient, private cookieService: CookieService) {}

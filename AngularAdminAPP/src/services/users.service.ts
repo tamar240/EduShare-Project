@@ -3,13 +3,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../components/users-page/users-page.component';
 import { AuthService } from './auth.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
 
-  private apiUrlUser='https://localhost:7249/api/User';
+    private baseUrl = environment.apiUrl;
+  private apiUrlUser=`${this.baseUrl}/User`;
   
    constructor(private http: HttpClient,private authService:AuthService) { }
    token: string | null = null;

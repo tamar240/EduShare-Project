@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,9 @@ import { AuthService } from './auth.service';
 export class Lesson {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  private apiUrlLesson = 'https://localhost:7249/api/Lesson';
+  private baseUrl = environment.apiUrl;
+
+  private apiUrlLesson = `${this.baseUrl}/Lesson`;
 
   getLessonPermissionsSummary() {
     const token = this.authService.getToken(); // ✅ תמיד נשלף ברגע הקריאה
