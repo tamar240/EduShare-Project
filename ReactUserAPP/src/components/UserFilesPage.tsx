@@ -10,7 +10,7 @@ const UserFilesPage: React.FC<UserFilesPageProps> = ({ type }) => {
   const [subjects, setSubjects] = useState<Subject[]>([]); // הסטייט עבור רשימת המקצועות
   const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null); // מאחסן את המקצוע שנבחר
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
-  const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
+  const [selectedLesson] = useState<Lesson | null>(null);
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
   const [page, setPage] = useState<"subjects" | "lessons">("subjects"); // שולט האם אנחנו בדף של המקצועות או השיעורים
   const [loading, setLoading] = useState<boolean>(false); // סטייט למצב טעינה

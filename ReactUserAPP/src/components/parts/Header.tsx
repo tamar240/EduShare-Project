@@ -1,6 +1,5 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Box, Avatar } from '@mui/material';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'; // אייקון חץ ללוגאאוט
 import { Link, useNavigate } from 'react-router-dom';
 import { getUserDetailes, removeCookie } from '../login/Login';

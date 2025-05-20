@@ -218,7 +218,7 @@ const LessonDisplay: React.FC = () => {
   }
 
   // Function to handle Word file preview (using Google Docs Viewer)
-  const handlePreviewWordFile = (url: string, fileName: string) => {
+  const handlePreviewWordFile = (url: string) => {
     // Using Google Docs Viewer to preview the file
     const googleDocsViewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(url)}&embedded=true`
     window.open(googleDocsViewerUrl, "_blank")
@@ -863,7 +863,7 @@ const LessonDisplay: React.FC = () => {
                             <Button
                               variant="outlined"
                               startIcon={<PreviewIcon />}
-                              onClick={() => handlePreviewWordFile(previewUrl, file.fileName)}
+                              onClick={() => handlePreviewWordFile(previewUrl)}
                               sx={{
                                 borderRadius: 2,
                                 flex: 1,
