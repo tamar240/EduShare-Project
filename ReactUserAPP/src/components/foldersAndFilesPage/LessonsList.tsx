@@ -12,6 +12,9 @@ import AddLesson from "./AddLesson";
 const LessonsGrid = ({ subjectId, type }: LessonListProps) => {
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [addLessonDialogOpen, setAddLessonDialogOpen] = useState<boolean>(false);
+
+  const baseUrl = process.env.REACT_APP_API_URL;
+
   // const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null); // ← חדש
 //   const navigate = useNavigate();
 
@@ -24,7 +27,7 @@ const LessonsGrid = ({ subjectId, type }: LessonListProps) => {
     try {
       const token = getCookie("auth_token");
       const response = await axios.get<Lesson[]>(
-        `https://localhost:7249/api/Lesson/${type === "PUBLIC" ? "public" : "my"}/${subjectId}`,
+        `${baseUrl}/api/Lesson/${type === "PUBLIC" ? "public" : "my"}/${subjectId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setLessons(response.data);
@@ -46,7 +49,7 @@ const LessonsGrid = ({ subjectId, type }: LessonListProps) => {
   const handleDeleteLesson = async (lessonId: number) => {
     try {
       const token = getCookie("auth_token");
-      await axios.delete(`https://localhost:7249/api/Lesson/${lessonId}`, {
+      await axios.delete(`${baseUrl}/api/Lesson/${lessonId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLessons(lessons.filter((lesson) => lesson.id !== lessonId));
@@ -59,7 +62,7 @@ const LessonsGrid = ({ subjectId, type }: LessonListProps) => {
     try {
       const token = getCookie("auth_token");
       await axios.put(
-        `https://localhost:7249/api/Lesson/permission/${lessonId}`,
+        `${baseUrl}/api/Lesson/permission/${lessonId}`,
         { permission: newPermission },
         { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
       );

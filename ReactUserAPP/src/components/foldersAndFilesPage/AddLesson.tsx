@@ -21,6 +21,8 @@ const AddLesson = ({ open, onClose, subjectId, onLessonAdded }: AddLessonDialogP
   const [newLessonPermission, setNewLessonPermission] = useState(0);
   const [uploadedFile, setUploadedFile] = useState<(UploadedFileData & { viewUrl: string }) | null>(null);
 
+  const baseUrl = process.env.REACT_APP_API_URL;
+
   const handleAddLesson = async () => {
     if (!uploadedFile) return;
     debugger
@@ -31,7 +33,7 @@ const AddLesson = ({ open, onClose, subjectId, onLessonAdded }: AddLessonDialogP
       
       const token = getCookie("auth_token");
       const response = await axios.post(
-        "https://localhost:7249/api/Lesson",
+      `${baseUrl}/api/Lesson`,
         {
           lessonDTO: {
             name: newLessonName,

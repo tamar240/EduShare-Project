@@ -23,6 +23,7 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
   const [contextMenu, setContextMenu] = useState<{ mouseX: number; mouseY: number; subject: Subject } | null>(null);
   const [sortBy, setSortBy] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const baseUrl = process.env.REACT_APP_API_URL;
 
   const handleShowLessons = (subjectId: number) => {
     setSelectedSubject(subjects.find(subject => subject.id === subjectId) || null);
@@ -52,7 +53,7 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
 
     try {
       const token = getCookie("auth_token"); 
-      await axios.put(`https://localhost:7249/api/Subject/${subject.id}`, updatedSubject, {
+      await axios.put(`${baseUrl}/api/Subject/${subject.id}`, updatedSubject, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -93,110 +94,6 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
       return 0;
     });
 
-  // return (
-  //   <div>
-  //     {/* סינון ומיון */}
-  //     <Box display="flex" alignItems="center" gap={2} sx={{ mb: 2 }}>
-  //       <TextField
-  //         label="חיפוש לפי שם מקצוע"
-  //         variant="outlined"
-  //         size="small"
-  //         value={searchTerm}
-  //         onChange={handleSearchChange}
-  //       />
-  //       <Select
-  //         value={sortBy}
-  //         onChange={handleSortChange}
-  //         displayEmpty
-  //         size="small"
-  //       >
-  //         <MenuItem value="">ללא מיון</MenuItem>
-  //         <MenuItem value="updatedAt">מיון לפי תאריך עדכון</MenuItem>
-  //         <MenuItem value="ownerId">מיון לפי בעלים</MenuItem>
-  //       </Select>
-  //       {(sortBy || searchTerm) && (
-  //         <IconButton onClick={() => { setSortBy(""); setSearchTerm(""); }}>
-  //           <ClearIcon />
-  //         </IconButton>
-  //       )}
-  //     </Box>
-
-  //     {/* הצגת המקצועות */}
-  //     <Grid container spacing={4} sx={{ mt: 4 }}>
-  //       {filteredSubjects.map((subject) => (
-  //         <Grid 
-  //           item 
-  //           xs={18} sm={8} md={2} 
-  //           key={subject.id} 
-  //           sx={{ textAlign: "center", width: "150px" }} 
-  //           onContextMenu={(e) => handleContextMenu(e, subject)}
-  //         >
-  //           <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-  //             <Button
-  //               variant="text"
-  //               onClick={() => handleShowLessons(subject.id)}
-  //               sx={{ padding: 0, minWidth: "auto" }}
-  //             >
-  //               <img
-  //                 src={folderImage}
-  //                 alt="Folder"
-  //                 style={{ width: "100px", height: "100px", objectFit: "cover" }}
-  //               />
-  //             </Button>
-  
-  //             {type === 'PERSONAL' && editingSubjectId === subject.id ? (
-  //               <TextField
-  //                 value={newSubjectName}
-  //                 onChange={handleChange}
-  //                 onBlur={() => handleUpdateSubject(subject)}
-  //                 onKeyDown={(e) => e.key === "Enter" && handleUpdateSubject(subject)}
-  //                 autoFocus
-  //                 size="small"
-  //                 variant="outlined"
-  //                 sx={{ 
-  //                   marginTop: "5px", 
-  //                   textAlign: "center",
-  //                   maxWidth: "100px",
-  //                   width: "100%"
-  //                 }}
-  //               />
-  //             ) : (
-  //               <div
-  //                 style={{
-  //                   marginTop: "5px",
-  //                   fontSize: "16px",
-  //                   fontFamily: '"Roboto", sans-serif',
-  //                   color: "black",
-  //                   textAlign: "center",
-  //                   cursor: "pointer",
-  //                   maxWidth: "100px",
-  //                   wordWrap: "break-word",
-  //                   overflowWrap: "break-word",
-  //                   whiteSpace: "normal"
-  //                 }}
-  //                 onDoubleClick={() => handleDoubleClick(subject)}
-  //               >
-  //                 {subject.name}
-  //               </div>
-  //             )}
-  //           </Box>
-  //         </Grid>
-  //       ))}
-  //     </Grid>
-
-  //     {contextMenu && (
-  //       <SubjectContextMenu
-  //         mouseX={contextMenu.mouseX}
-  //         mouseY={contextMenu.mouseY}
-  //         subject={contextMenu.subject}
-  //         onClose={handleCloseContextMenu}
-  //         type={type}
-  //       />
-  //     )}
-
-  //     {selectedSubject && <LessonsGrid subjectId={selectedSubject.id} type={type} selectedSubjectLessons={null} />}
-  //   </div>
-  // );
   return (
     <Box className="px-4 md:px-8 lg:px-16 py-4">
       {/* סינון ומיון */}

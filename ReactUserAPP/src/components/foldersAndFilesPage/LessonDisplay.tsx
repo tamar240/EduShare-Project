@@ -83,10 +83,10 @@ const LessonDisplay: React.FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const token = getCookie("auth_token")
-  const baseUrl = "https://localhost:7249/api"
+  const baseUrl = process.env.REACT_APP_API_URL;
+
   const lesson = location?.state?.lesson as Lesson | undefined
   const subjectId = location?.state?.subjectId as number | undefined
-  const type = location?.state?.type as "PUBLIC" | "PERSONAL" | undefined
 
   const [lessonFiles, setLessonFiles] = useState<UploadedFileData[]>([])
   const [originalSummary, setOriginalSummary] = useState<UploadedFileData>()

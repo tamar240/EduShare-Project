@@ -17,12 +17,14 @@ const SubjectContextMenu: React.FC<SubjectContextMenuProps> = ({ mouseX, mouseY,
   const [openConfirm, setOpenConfirm] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
+  const baseUrl = process.env.REACT_APP_API_URL;
+
   const handleDeleteSubject = async () => {
     console.log("Deleting subject with ID:", subject.id);
     
     try {
       const token = getCookie("auth_token");
-      await axios.delete(`https://localhost:7249/api/Subject/${subject.id}`, {
+      await axios.delete(`${baseUrl}/api/Subject/${subject.id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       onClose(); 

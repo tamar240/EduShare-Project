@@ -59,9 +59,11 @@ const Login = () => {
     const [status, setStatus] = useState('login');
     const [open, setOpen] = useState(false);
 
+    const baseUrl = process.env.REACT_APP_API_URL;
+
     const navigate = useNavigate();
 
-    const urlAuthAPI = "https://localhost:7249/api/Auth/";
+    const urlAuthAPI = `${baseUrl}/api/Auth/`;
 
     const handleLogin = async (e: any) => {
 

@@ -46,6 +46,8 @@ const Sidebar: React.FC = () => {
   const [subjectName, setSubjectName] = useState("");
   const [selectedMenuItem, setSelectedMenuItem] = useState<string>("");
 
+  const baseUrl = process.env.REACT_APP_API_URL;
+
   const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -60,7 +62,7 @@ const Sidebar: React.FC = () => {
     if (!subjectName.trim()) return;
     try {
       await axios.post(
-        "https://localhost:7249/api/Subject/add",
+        `${baseUrl}/api/Subject/add`,
         {
           name: subjectName
         },

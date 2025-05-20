@@ -33,12 +33,13 @@ const UserFileGallery = ({ userId }: { userId: number }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const observer = useRef<IntersectionObserver | null>(null);
+  const baseUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchFiles = async () => {
       try {
         const token = getCookie('auth_token');
-        const response = await axios.get(`https://localhost:7249/api/UploadedFile/user/${userId}`, {
+        const response = await axios.get(`${baseUrl}/api/UploadedFile/user/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -58,7 +59,7 @@ const UserFileGallery = ({ userId }: { userId: number }) => {
     if (viewUrls[filePath]) return;
     try {
       const token = getCookie('auth_token');
-      const res = await axios.get('https://localhost:7249/api/upload/presigned-url/view', {
+      const res = await axios.get(`${baseUrl}/api/upload/presigned-url/view`, {
         params: { filePath },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -147,7 +148,7 @@ const UserFileGallery = ({ userId }: { userId: number }) => {
     if (selectedFileId === null) return;
     try {
       const token = getCookie('auth_token');
-      await axios.delete(`https://localhost:7249/api/UploadedFile/${selectedFileId}`, {
+      await axios.delete(`${baseUrl}/api/UploadedFile/${selectedFileId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFiles(prev => prev.filter(f => f.id !== selectedFileId));
@@ -288,66 +289,3 @@ const UserFileGallery = ({ userId }: { userId: number }) => {
 };
 
 export default UserFileGallery;
-// import {
-//   Box,
-//   Typography,
-//   Grid,
-//   CircularProgress,
-// } from '@mui/material';
-
-// import PopupDialog from './parts/PopupDialog';
-// import useUserFileGallery from './useUserFileGallery';
-// import { galleryWrapper, titleStyle } from '../styles/userFileGlarry';
-// import FileCard from './parts/FileCard';
-
-// const UserFileGallery = ({ userId }: { userId: number }) => {
-//   const {
-//     files,
-//     loading,
-//     viewUrls,
-//     previewRef,
-//     handleDeleteFile,
-//     dialogOpen,
-//     setDialogOpen,
-//     setSelectedFileId,
-//   } = useUserFileGallery(userId);
-
-//   if (loading) {
-//     return (
-//       <Box textAlign="center" mt={4}>
-//         <CircularProgress />
-//         <Typography mt={2}>טוען קבצים...</Typography>
-//       </Box>
-//     );
-//   }
-
-//   return (
-//     <Box sx={galleryWrapper}>
-//       <Typography sx={titleStyle}>📁 הקבצים שלך</Typography>
-//       <Grid container spacing={3}>
-//         {files.map(file => (
-//           <Grid item xs={12} sm={6} md={4} key={file.id}>
-//             <FileCard
-//               file={file}
-//               previewRef={previewRef(file)}
-//               viewUrl={viewUrls[file.filePath]}
-//               onDelete={() => {
-//                 setSelectedFileId(file.id);
-//                 setDialogOpen(true);
-//               }}
-//             />
-//           </Grid>
-//         ))}
-//       </Grid>
-
-//       <PopupDialog
-//         open={dialogOpen}
-//         onClose={() => setDialogOpen(false)}
-//         onConfirm={handleDeleteFile}
-//         message="האם אתה בטוח שברצונך למחוק את הקובץ? פעולה זו אינה הפיכה."
-//       />
-//     </Box>
-//   );
-// };
-
-// export default UserFileGallery;

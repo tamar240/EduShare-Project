@@ -52,6 +52,8 @@ const LessonItem = ({ lesson, onDelete, onUpdate, onPermissionChange, type }: Le
   const lastClickTimeRef = useRef<number>(0);
   const clickTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const DOUBLE_CLICK_DELAY = 250;
+  const baseUrl = process.env.REACT_APP_API_URL;
+
   
   const handleClick = () => {
     const now = Date.now();
@@ -97,7 +99,7 @@ const handleBlur = async () => {
       if (token) {
         try {
           const response = await axios.put(
-            `https://localhost:7249/api/Lesson/${lesson.id}`,
+            `${baseUrl}/api/Lesson/${lesson.id}`,
             updatedLesson,
             {
               headers: {

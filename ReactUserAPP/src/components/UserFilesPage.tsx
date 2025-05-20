@@ -15,6 +15,7 @@ const UserFilesPage: React.FC<UserFilesPageProps> = ({ type }) => {
   const [page, setPage] = useState<"subjects" | "lessons">("subjects"); // שולט האם אנחנו בדף של המקצועות או השיעורים
   const [loading, setLoading] = useState<boolean>(false); // סטייט למצב טעינה
   const [error, setError] = useState<string | null>(null); // סטייט לשגיאות
+  const baseUrl = process.env.REACT_APP_API_URL;
 
   // קריאה ל-API כדי לשלוף את רשימת המקצועות
   useEffect(() => {
@@ -23,7 +24,7 @@ const UserFilesPage: React.FC<UserFilesPageProps> = ({ type }) => {
       setError(null); // לא היו שגיאות עד כה
       try {
         const token = getCookie("auth_token");
-        const response = await axios.get(`https://localhost:7249/api/Subject/${type === "PUBLIC" ? "public" : "my"}`, {
+        const response = await axios.get(`${baseUrl}/api/Subject/${type === "PUBLIC" ? "public" : "my"}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSubjects(response.data);
@@ -74,7 +75,7 @@ const UserFilesPage: React.FC<UserFilesPageProps> = ({ type }) => {
             <Typography variant="h5" sx={{ mb: 2, cursor: "pointer" }} onClick={() => setPage("subjects")}>
               ⬅️ חזרה למקצועות
             </Typography>
-            <LessonsList subjectId={selectedSubject.id} type={type} />
+            <LessonsList subjectId={selectedSubject.id} type={type} selectedSubjectLessons={null} />
           </Box>
         )}
       </Box>
