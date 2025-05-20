@@ -21,7 +21,9 @@ const AddLesson = ({ open, onClose, subjectId, onLessonAdded }: AddLessonDialogP
   const [newLessonPermission, setNewLessonPermission] = useState(0);
   const [uploadedFile, setUploadedFile] = useState<(UploadedFileData & { viewUrl: string }) | null>(null);
 
-  const baseUrl = process.env.REACT_APP_API_URL;
+  const baseUrl = import.meta.env.VITE_API_URL;
+
+
 
   const handleAddLesson = async () => {
     if (!uploadedFile) return;

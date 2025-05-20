@@ -83,7 +83,8 @@ const LessonDisplay: React.FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const token = getCookie("auth_token")
-  const baseUrl = process.env.REACT_APP_API_URL;
+  const baseUrl = import.meta.env.VITE_API_URL;
+
 
   const lesson = location?.state?.lesson as Lesson | undefined
   const subjectId = location?.state?.subjectId as number | undefined

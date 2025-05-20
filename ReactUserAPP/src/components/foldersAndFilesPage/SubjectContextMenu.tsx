@@ -17,7 +17,8 @@ const SubjectContextMenu: React.FC<SubjectContextMenuProps> = ({ mouseX, mouseY,
   const [openConfirm, setOpenConfirm] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
-  const baseUrl = process.env.REACT_APP_API_URL;
+  const baseUrl = import.meta.env.VITE_API_URL;
+
 
   const handleDeleteSubject = async () => {
     console.log("Deleting subject with ID:", subject.id);

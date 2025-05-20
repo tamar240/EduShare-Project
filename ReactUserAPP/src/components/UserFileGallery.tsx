@@ -33,7 +33,7 @@ const UserFileGallery = ({ userId }: { userId: number }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const observer = useRef<IntersectionObserver | null>(null);
-  const baseUrl = process.env.REACT_APP_API_URL;
+  const baseUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchFiles = async () => {

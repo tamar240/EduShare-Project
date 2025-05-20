@@ -46,7 +46,8 @@ const Sidebar: React.FC = () => {
   const [subjectName, setSubjectName] = useState("");
   const [selectedMenuItem, setSelectedMenuItem] = useState<string>("");
 
-  const baseUrl = process.env.REACT_APP_API_URL;
+  const baseUrl = import.meta.env.VITE_API_URL;
+
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);

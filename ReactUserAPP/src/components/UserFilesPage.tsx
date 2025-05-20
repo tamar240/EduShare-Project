@@ -15,7 +15,8 @@ const UserFilesPage: React.FC<UserFilesPageProps> = ({ type }) => {
   const [page, setPage] = useState<"subjects" | "lessons">("subjects"); // שולט האם אנחנו בדף של המקצועות או השיעורים
   const [loading, setLoading] = useState<boolean>(false); // סטייט למצב טעינה
   const [error, setError] = useState<string | null>(null); // סטייט לשגיאות
-  const baseUrl = process.env.REACT_APP_API_URL;
+  const baseUrl = import.meta.env.VITE_API_URL;
+
 
   // קריאה ל-API כדי לשלוף את רשימת המקצועות
   useEffect(() => {

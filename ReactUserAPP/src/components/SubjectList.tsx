@@ -23,7 +23,8 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
   const [contextMenu, setContextMenu] = useState<{ mouseX: number; mouseY: number; subject: Subject } | null>(null);
   const [sortBy, setSortBy] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const baseUrl = process.env.REACT_APP_API_URL;
+  const baseUrl = import.meta.env.VITE_API_URL;
+
 
   const handleShowLessons = (subjectId: number) => {
     setSelectedSubject(subjects.find(subject => subject.id === subjectId) || null);

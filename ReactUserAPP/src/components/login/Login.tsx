@@ -59,8 +59,8 @@ const Login = () => {
     const [status, setStatus] = useState('login');
     const [open, setOpen] = useState(false);
 
-    const baseUrl = process.env.REACT_APP_API_URL;
-
+    const baseUrl = import.meta.env.VITE_API_URL;
+    
     const navigate = useNavigate();
 
     const urlAuthAPI = `${baseUrl}/api/Auth/`;

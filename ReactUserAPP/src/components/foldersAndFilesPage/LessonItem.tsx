@@ -52,7 +52,8 @@ const LessonItem = ({ lesson, onDelete, onUpdate, onPermissionChange, type }: Le
   const lastClickTimeRef = useRef<number>(0);
   const clickTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const DOUBLE_CLICK_DELAY = 250;
-  const baseUrl = process.env.REACT_APP_API_URL;
+  const baseUrl = import.meta.env.VITE_API_URL;
+
 
   
   const handleClick = () => {

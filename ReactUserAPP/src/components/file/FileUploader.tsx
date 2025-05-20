@@ -26,7 +26,8 @@ const FileUploader: React.FC = () => {
   const [selectedLesson, setSelectedLesson] = useState<string>('');
   const [viewUrl, setViewUrl] = useState<string | null>(null);
 
-  const baseUrl = process.env.REACT_APP_API_URL;
+  const baseUrl = import.meta.env.VITE_API_URL;
+
 
   useEffect(() => {
     const fetchSubjects = async () => {

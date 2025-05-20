@@ -13,7 +13,8 @@ const LessonsGrid = ({ subjectId, type }: LessonListProps) => {
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [addLessonDialogOpen, setAddLessonDialogOpen] = useState<boolean>(false);
 
-  const baseUrl = process.env.REACT_APP_API_URL;
+  const baseUrl = import.meta.env.VITE_API_URL;
+
 
   // const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null); // ← חדש
 //   const navigate = useNavigate();
