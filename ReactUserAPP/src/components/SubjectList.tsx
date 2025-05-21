@@ -23,6 +23,7 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
   const [contextMenu, setContextMenu] = useState<{ mouseX: number; mouseY: number; subject: Subject } | null>(null);
   const [sortBy, setSortBy] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  
   const baseUrl = import.meta.env.VITE_API_URL;
 
 
@@ -53,7 +54,7 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
     };
 
     try {
-      const token = getCookie("auth_token"); 
+      const token = getCookie("auth_token");
       await axios.put(`${baseUrl}/api/Subject/${subject.id}`, updatedSubject, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -114,7 +115,7 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
           fullWidth
           sx={{ maxWidth: 300 }}
         />
-  
+
         <Select
           value={sortBy}
           onChange={handleSortChange}
@@ -126,15 +127,35 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
           <MenuItem value="updatedAt">מיון לפי תאריך עדכון</MenuItem>
           <MenuItem value="ownerId">מיון לפי בעלים</MenuItem>
         </Select>
-  
+
         {(sortBy || searchTerm) && (
           <IconButton onClick={() => { setSortBy(""); setSearchTerm(""); }}>
             <ClearIcon />
           </IconButton>
         )}
       </Box>
-  
+
       {/* הצגת המקצועות */}
+      {filteredSubjects.length === 0 && (
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '60vh',
+          color: '#888',
+          fontSize: '1.5rem',
+          textAlign: 'center',
+          padding: '1rem',
+          fontStyle: 'italic'
+        }}>
+
+
+        <p>לא נמצאו מקצועות</p>
+        { type=== 'PERSONAL' ? <p style={{ fontSize: '1.2rem', marginTop: '0.5rem' }}>עליך להוסיף מקצוע כדי לראות תכנים</p>:
+        <p style={{ fontSize: '1.2rem', marginTop: '0.5rem' }}>אין מערכים זמינים במאגר</p>}
+        </div>
+      )}
       <Grid container spacing={4} justifyContent="flex-start">
         {filteredSubjects.map((subject) => (
           <Grid
@@ -167,7 +188,7 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
                   }}
                 />
               </Button>
-  
+
               {type === 'PERSONAL' && editingSubjectId === subject.id ? (
                 <TextField
                   value={newSubjectName}
@@ -208,7 +229,7 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
           </Grid>
         ))}
       </Grid>
-  
+
       {/* תפריט הקשר */}
       {contextMenu && (
         <SubjectContextMenu
@@ -219,7 +240,7 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
           type={type}
         />
       )}
-  
+
       {/* גריד של שיעורים */}
       {selectedSubject && (
         <LessonsGrid
@@ -230,7 +251,7 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
       )}
     </Box>
   );
-  
+
 };
 
 export default SubjectsList;

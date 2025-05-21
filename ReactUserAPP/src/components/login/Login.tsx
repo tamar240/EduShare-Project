@@ -58,6 +58,7 @@ const Login = () => {
     const [error, setError] = useState('');
     const [status, setStatus] = useState('login');
     const [open, setOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const baseUrl = import.meta.env.VITE_API_URL;
     
@@ -68,6 +69,7 @@ const Login = () => {
     const handleLogin = async (e: any) => {
 
         e.preventDefault();
+        setIsLoading(true); // בתחילת הפעולה
 
         const loginData = { name, password };
 
@@ -84,9 +86,13 @@ const Login = () => {
         } catch (error) {
             setError('שם משתמש או סיסמה לא נכונים');
         }
+        finally{
+            setIsLoading(false);
+        }
     };
     const handleRegister = async (e: any) => {
         e.preventDefault();
+        setIsLoading(true); // בתחילת הפעולה
 
         const registerData = { name, password, email, roleName: "Teacher" };
 
@@ -105,8 +111,52 @@ const Login = () => {
         } catch (error) {
             setError('הרשמה נכשלה, נסה שנית');
         }
+        finally{
+            setIsLoading(false);
+        }
     };
 
+    const LoadingAnimation = () => (
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "1rem",
+        }}>
+          <div className="dot" />
+          <div className="dot" />
+          <div className="dot" />
+          <style>
+            {`
+              .dot {
+                width: 10px;
+                height: 10px;
+                margin: 0 5px;
+                background-color: #3f51b5;
+                border-radius: 50%;
+                animation: bounce 0.8s infinite ease-in-out;
+                z-index: 100;
+              }
+      
+              .dot:nth-child(2) {
+                animation-delay: 0.8s;
+              }
+      
+              .dot:nth-child(3) {
+                animation-delay: 0.12s;
+              }
+      
+              @keyframes bounce {
+                0%, 80%, 100% {
+                  transform: scale(0);
+                } 40% {
+                  transform: scale(1);
+                }
+              }
+            `}
+          </style>
+        </div>
+      );
+      
     return (
         <div>
             <Button variant="contained" onClick={() => setOpen(true)}>התחבר</Button>
@@ -148,15 +198,20 @@ const Login = () => {
                     }
                     {error && <Typography color="error">{error}</Typography>}
 
-                </DialogContent>
+                </DialogContent>  
+                  {isLoading && <LoadingAnimation />}
                 <DialogActions>
                     <Button onClick={() => { setOpen(false); resetForm() }}>סגור</Button>
                     <Button variant="contained" onClick={status === "login" ? handleLogin : handleRegister}>
                         {status === "login" ? "התחבר" : "הרשם"}
                     </Button>
+                     
                 </DialogActions>
             </Dialog>
+    
         </div>
+     
+
     );
 };
 

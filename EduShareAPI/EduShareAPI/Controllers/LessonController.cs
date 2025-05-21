@@ -57,6 +57,7 @@ namespace EduShare.API.Controllers
 
             originalFile.LessonId = newLesson.Id;
 
+
             await _fileService.UpdateFileAsync(originalFile.Id, originalFile);
 
             
