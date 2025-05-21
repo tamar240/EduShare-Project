@@ -27,7 +27,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.WriteIndented = true;
 });
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSingleton<IAmazonS3>(provider => {
+builder.Services.AddSingleton<IAmazonS3>(provider =>
+{
     var configuration = provider.GetRequiredService<IConfiguration>();
     var awsOptions = configuration.GetSection("AWS");
 
@@ -137,9 +138,12 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.AllowAnyOrigin() // מתיר גישה מכל דומיין
-                                .AllowAnyHeader()
-                                .AllowAnyMethod();
+                          policy.WithOrigins("https://edushare-er29.onrender.com")
+                                 .AllowAnyHeader()
+                                 .AllowAnyMethod();
+                          //policy.AllowAnyOrigin() // מתיר גישה מכל דומיין
+                          //      .AllowAnyHeader()
+                          //      .AllowAnyMethod();
                       });
 });
 
@@ -148,14 +152,15 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
-app.UseCors(MyAllowSpecificOrigins);
 
+app.UseSwagger();
+app.UseSwaggerUI();
 
-    app.UseSwagger();
-    app.UseSwaggerUI();
- 
-app.UseCors("_myAllowSpecificOrigins");
 app.UseHttpsRedirection();
+
+
+app.UseCors(MyAllowSpecificOrigins); // <--- הוסף שורה זו כאן
+
 
 app.UseAuthentication();//JWT
 
