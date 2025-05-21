@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": ".",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -46,4 +47,5 @@
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.0"
   }
+  
 }
