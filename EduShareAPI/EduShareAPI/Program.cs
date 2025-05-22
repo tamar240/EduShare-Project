@@ -14,8 +14,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
-using EduShare.Core.Entities; // ודא שיש את זה ב-using
 
 
 var builder = WebApplication.CreateBuilder(args);
