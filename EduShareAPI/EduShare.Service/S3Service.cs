@@ -12,14 +12,14 @@ public class S3Service
     private readonly string bucketName;
     private readonly IAmazonS3 s3Client;
 
-    public S3Service(IConfiguration config)
+
+
+
+    public S3Service(IConfiguration config, IAmazonS3 s3Client)
     {
         bucketName = config["AWS:BucketName"];
-        s3Client = new AmazonS3Client(
-            config["AWS:AccessKey"],
-            config["AWS:SecretKey"],
-            RegionEndpoint.GetBySystemName(config["AWS:Region"])
-        );
+        this.s3Client = s3Client;
+
     }
 
     public async Task<string> UploadFileAsync(Stream fileStream, string fileName,string contentType,int userId)
