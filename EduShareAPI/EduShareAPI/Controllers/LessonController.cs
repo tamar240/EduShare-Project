@@ -17,7 +17,6 @@ namespace EduShare.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize] // כל הפעולות דורשות התחברות
     public class LessonController : ControllerBase
     {
         private readonly ILessonService _lessonService;
@@ -50,6 +49,7 @@ namespace EduShare.API.Controllers
             var lesson = _mapper.Map<Lesson>(lessonDTO);
             lesson.OwnerId = userId;
             var newLesson = await _lessonService.AddLessonAsync(lesson, userId);
+           
 
             var originalFile = await _fileService.GetFileByIdAsync(fileId, userId);
             if (originalFile == null)
