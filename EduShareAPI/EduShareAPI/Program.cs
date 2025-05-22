@@ -27,12 +27,12 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<IAmazonS3>(provider =>
 {
-    var configuration = provider.GetRequiredService<IConfiguration>();
-    var awsOptions = configuration.GetSection("AWS");
+    //var configuration = provider.GetRequiredService<IConfiguration>();
+    //var awsOptions = configuration.GetSection("AWS");
 
-    var accessKey = awsOptions["AccessKey"] ?? Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID");
-    var secretKey = awsOptions["SecretKey"] ?? Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
-    var region = awsOptions["Region"] ?? Environment.GetEnvironmentVariable("AWS_REGION") ?? "eu-north-1";
+    var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID");
+    var secretKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
+    var region = Environment.GetEnvironmentVariable("AWS_REGION") ?? "eu-north-1";
 
     Console.WriteLine("Access Key: " + accessKey);
     Console.WriteLine("secretKey Key: " + secretKey);
