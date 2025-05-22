@@ -14,7 +14,7 @@ namespace EduShareAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+
     public class UploadedFileController : ControllerBase
     {
         private readonly IFileService _fileService;
@@ -29,6 +29,7 @@ namespace EduShareAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddFileAsync([FromBody] UploadedFilePostDTO fileDTO)
         {
+
             if (fileDTO == null)
             {
                 return BadRequest("Invalid file data.");

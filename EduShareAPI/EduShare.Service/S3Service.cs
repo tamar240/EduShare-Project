@@ -12,9 +12,6 @@ public class S3Service
     private readonly string bucketName;
     private readonly IAmazonS3 s3Client;
 
-
-
-
     public S3Service(IConfiguration config, IAmazonS3 s3Client)
     {
         bucketName = config["AWS:BucketName"];

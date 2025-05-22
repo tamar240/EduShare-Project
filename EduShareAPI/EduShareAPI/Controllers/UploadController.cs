@@ -64,6 +64,8 @@ public class UploadController : ControllerBase
         }
         catch (AmazonS3Exception ex)
         {
+            Console.WriteLine($"S3 Exception: {ex.Message}\n{ex.StackTrace}");
+
             return StatusCode(500, $"Error generating presigned URL: {ex.Message}");
         }
     }
