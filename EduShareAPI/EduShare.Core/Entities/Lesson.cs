@@ -28,15 +28,15 @@ namespace EduShare.Core.Entities
         public FileAccessTypeEnum Permission { get; set; } = FileAccessTypeEnum.Private;
         public bool IsDeleted { get; set; } = false;
 
-        public int OrginalSummaryId { get; set; }
+        public int? OrginalSummaryId { get; set; }
 
         [ForeignKey("OrginalSummaryId")]
-        public UploadedFile OrginalSummary { get; set; }
+        public UploadedFile? OrginalSummary { get; set; }
 
         public int? ProcessedSummaryId { get; set; }
 
         [ForeignKey("ProcessedSummaryId")]
-        public UploadedFile ProcessedSummary { get; set; }
+        public UploadedFile? ProcessedSummary { get; set; }
         // כל שיעור יכיל רשימה של קבצים
         public virtual ICollection<UploadedFile> Files { get; set; } = new List<UploadedFile>();
     }
