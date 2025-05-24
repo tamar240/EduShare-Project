@@ -103,7 +103,7 @@ const LessonDisplay: React.FC = () => {
 
   const getPresignedUrl = async (filePath: string): Promise<string | null> => {
     try {
-      const res = await axios.get(`${baseUrl}/upload/presigned-url/view`, {
+      const res = await axios.get(`${baseUrl}/api/upload/presigned-url/view`, {
         params: { filePath },
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -116,7 +116,7 @@ const LessonDisplay: React.FC = () => {
 
   const fetchLessonFiles = async () => {
     try {
-      const res = await axios.get(`${baseUrl}/UploadedFile/lesson/${lesson?.id}`, {
+      const res = await axios.get(`${baseUrl}/api/UploadedFile/lesson/${lesson?.id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       setLessonFiles(res.data)
@@ -130,7 +130,7 @@ const LessonDisplay: React.FC = () => {
       let original, processed
 
       if (lesson?.orginalSummaryId) {
-        const res = await axios.get(`${baseUrl}/UploadedFile/id/${lesson.orginalSummaryId}`, {
+        const res = await axios.get(`${baseUrl}/api/UploadedFile/id/${lesson.orginalSummaryId}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         original = res.data
@@ -140,7 +140,7 @@ const LessonDisplay: React.FC = () => {
       }
 
       if (lesson?.processedSummaryId) {
-        const res = await axios.get(`${baseUrl}/UploadedFile/id/${lesson.processedSummaryId}`, {
+        const res = await axios.get(`${baseUrl}/api/UploadedFile/id/${lesson.processedSummaryId}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         processed = res.data
@@ -446,7 +446,7 @@ const LessonDisplay: React.FC = () => {
                       <Button
                         variant="contained"
                         startIcon={<DownloadIcon />}
-                        href={`${baseUrl}/upload/download?filePath=${processedSummary.s3Key}&fileName=${processedSummary.fileName}`}
+                        href={`${baseUrl}/api/upload/download?filePath=${processedSummary.s3Key}&fileName=${processedSummary.fileName}`}
                         size="small"
                         sx={{ borderRadius: 2 }}
                       >
@@ -637,7 +637,7 @@ const LessonDisplay: React.FC = () => {
                       <Button
                         variant="contained"
                         startIcon={<DownloadIcon />}
-                        href={`${baseUrl}/upload/download?filePath=${originalSummary.filePath}&fileName=${originalSummary.fileName}`}
+                        href={`${baseUrl}/api/upload/download?filePath=${originalSummary.filePath}&fileName=${originalSummary.fileName}`}
                         size="small"
                         sx={{ borderRadius: 2 }}
                       >
@@ -881,7 +881,7 @@ const LessonDisplay: React.FC = () => {
                           <Button
                             variant="contained"
                             startIcon={<DownloadIcon />}
-                            href={`${baseUrl}/upload/download?filePath=${file.s3Key}&fileName=${file.fileName}`}
+                            href={`${baseUrl}/api/upload/download?filePath=${file.s3Key}&fileName=${file.fileName}`}
                             sx={{
                               borderRadius: 2,
                               flex: 1,
