@@ -41,7 +41,7 @@ namespace EduShare.Service
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddHours(24),
+                expires: DateTime.UtcNow.AddHours(24),
                 signingCredentials: credentials
             );
 

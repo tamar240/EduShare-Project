@@ -19,7 +19,7 @@ print(f"גרסת fpdf2 בתוך הקוד: {fpdf.__version__}")
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "https://edushare-api.onrender.com"],  # תחליף למה שצריך
+    allow_origins=["http://localhost:5228", "https://edushare-api.onrender.com"],  # תחליף למה שצריך
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -43,8 +43,8 @@ except OpenAIError as e:
     raise RuntimeError("Failed to initialize OpenAI client due to OpenAI error") from e
 
 # === הגדרות API URLs ===
-UPLOAD_API = "https://localhost:7249/api/upload/presigned-url"
-VIEW_API = "https://localhost:7249/api/upload/presigned-url/view"
+UPLOAD_API = "https://edushare-api.onrender.com/api/upload/presigned-url"
+VIEW_API = "https://edushare-api.onrender.com/api/upload/presigned-url/view"
 
 # === דגם קלט ===
 class FileUrl(BaseModel):

@@ -84,7 +84,7 @@ namespace EduShare.Infrastructure.Repositories
                 throw new KeyNotFoundException("erorr in update lesson");
 
             currentLesson.Name = lesson.Name;
-            currentLesson.UpdatedAt = DateTime.Now;
+            currentLesson.UpdatedAt = DateTime.UtcNow;
             currentLesson.OrginalSummary = lesson.OrginalSummary;
             currentLesson.OrginalSummaryId = lesson.OrginalSummaryId;
             currentLesson.ProcessedSummary = lesson.ProcessedSummary;
@@ -119,7 +119,7 @@ namespace EduShare.Infrastructure.Repositories
             var newPermission = currentLesson.Permission == FileAccessTypeEnum.Private ? FileAccessTypeEnum.Public : FileAccessTypeEnum.Private;
 
             currentLesson.Permission = newPermission;
-            currentLesson.UpdatedAt = DateTime.Now;
+            currentLesson.UpdatedAt = DateTime.UtcNow;
 
         }
         public async Task<LessonPermissionSummaryDto> GetLessonPermissionSummaryAsync()
