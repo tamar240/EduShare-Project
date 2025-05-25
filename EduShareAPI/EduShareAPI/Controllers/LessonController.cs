@@ -24,6 +24,7 @@ namespace EduShare.API.Controllers
         private readonly S3Service  _s3Service;
         private readonly IMapper _mapper;
         private readonly IAIProcessingService _aiProcessingService;
+        
 
         public LessonController(ILessonService lessonService,IMapper mapper, IFileService fileService, S3Service s3Service, IAIProcessingService aiProcessingService)
         {
@@ -57,7 +58,6 @@ namespace EduShare.API.Controllers
 
             originalFile.LessonId = newLesson.Id;
 
-
             await _fileService.UpdateFileAsync(originalFile.Id, originalFile);
 
             
@@ -72,7 +72,9 @@ namespace EduShare.API.Controllers
                 newLesson.ProcessedSummaryId = processedFile.Id;
 
             }
+
             await _lessonService.UpdateAsync(newLesson.Id, newLesson, userId);
+            
 
             return Ok(newLesson);
         }

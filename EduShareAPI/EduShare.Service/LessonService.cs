@@ -110,6 +110,8 @@ namespace EduShare.Core.Services
                 throw new KeyNotFoundException("Subject not found");
 
             subject.AmountOfPublicLesson += count;
+            await _repositoryManager.SaveAsync();
+
         }
 
         public async Task<LessonPermissionSummaryDto> GetLessonPermissionSummaryAsync()
