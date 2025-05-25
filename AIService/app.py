@@ -19,7 +19,7 @@ print(f"גרסת fpdf2 בתוך הקוד: {fpdf.__version__}")
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://edushare-frontend.onrender.com"],  # תחליף למה שצריך
+    allow_origins=["http://localhost:5173", "https://edushare-api.onrender.com"],  # תחליף למה שצריך
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
