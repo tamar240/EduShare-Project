@@ -13,25 +13,21 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import PopupDialog from './parts/PopupDialog';
 import { getCookie } from './login/Login';
+import { UploadedFile } from './UserFileGallery';
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
 
 
-interface FileItem {
-  id: string;
-  name: string;
-  description?: string;
-}
 
 type ActionType = 'restore' | 'delete';
 
 const RecycleBin: React.FC = () => {
-  const [files, setFiles] = useState<FileItem[]>([]);
+  const [files, setFiles] = useState<UploadedFile[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
+  const [selectedFile, setSelectedFile] = useState<UploadedFile | null>(null);
   const [actionType, setActionType] = useState<ActionType | null>(null);
 
   const token = getCookie("auth_token");
@@ -51,7 +47,7 @@ const RecycleBin: React.FC = () => {
     }
   };
 
-  const openDialog = (file: FileItem, type: ActionType) => {
+  const openDialog = (file: UploadedFile, type: ActionType) => {
     setSelectedFile(file);
     setActionType(type);
     setDialogOpen(true);
@@ -127,10 +123,10 @@ const RecycleBin: React.FC = () => {
                 >
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
-                      {file.name}
+                      {file.fileName}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                      {file.description || 'ללא תיאור'}
+                      {file.fileType || 'ללא סוג'}
                     </Typography>
 
                     <Grid container spacing={1} justifyContent="flex-end">
@@ -169,8 +165,8 @@ const RecycleBin: React.FC = () => {
         onConfirm={confirmAction}
         message={
           actionType === 'restore'
-            ? `האם אתה בטוח שברצונך לשחזר את הקובץ "${selectedFile?.name}"?`
-            : `האם אתה בטוח שברצונך למחוק לצמיתות את הקובץ "${selectedFile?.name}"?`
+            ? `האם אתה בטוח שברצונך לשחזר את הקובץ "${selectedFile?.fileName}"?`
+            : `האם אתה בטוח שברצונך למחוק לצמיתות את הקובץ "${selectedFile?.fileName}"?`
         }
       />
     </>

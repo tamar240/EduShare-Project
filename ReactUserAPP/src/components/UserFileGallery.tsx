@@ -16,7 +16,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { getCookie } from './login/Login';
 import PopupDialog from './parts/PopupDialog';
 
-interface UploadedFile {
+export interface UploadedFile {
   id: number;
   fileName: string;
   fileType: string;
