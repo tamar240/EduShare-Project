@@ -146,7 +146,7 @@ const Sidebar: React.FC = () => {
             { text: "העלה חומר עזר ", icon: <FolderIcon />, path: "/upload" },
             { text: "הקבצים שלי", icon: <InsertDriveFileIcon />, path: "/myFiles" },
             { text: "מערכים ציבורים", icon: <PublicIcon />, path: "/publicPage" },
-            { text: "אשפה", icon: <DeleteIcon />, path: "/trash" },
+            { text: "אשפה", icon: <DeleteIcon />, path: "/recycleBin" },
             
           ].map((item, index) => (
             <Tooltip key={index} title={collapsed ? item.text : ""} placement="right">

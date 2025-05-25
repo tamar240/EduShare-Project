@@ -1,0 +1,160 @@
+import React, { useEffect, useState } from 'react';
+import {
+  Card,
+  CardContent,
+  Typography,
+  IconButton,
+  Grid,
+  Tooltip,
+  CircularProgress
+} from '@mui/material';
+import { DeleteForever, RestoreFromTrash } from '@mui/icons-material';
+import { motion } from 'framer-motion';
+import axios from 'axios';
+import PopupDialog from './parts/PopupDialog'; // ודא שזה הנתיב הנכון
+
+const baseUrl = import.meta.env.VITE_API_URL;
+
+interface FileItem {
+  id: string;
+  name: string;
+  description?: string;
+}
+
+type ActionType = 'restore' | 'delete';
+
+const RecycleBin: React.FC = () => {
+  const [files, setFiles] = useState<FileItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // לדיאלוג
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
+  const [actionType, setActionType] = useState<ActionType | null>(null);
+
+  const fetchDeletedFiles = async () => {
+    try {
+      const res = await axios.get(`${baseUrl}/api/UploadedFile/deleted`);
+      setFiles(res.data);
+    } catch (err) {
+      console.error('⚠️ Failed to fetch deleted files:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const openDialog = (file: FileItem, type: ActionType) => {
+    setSelectedFile(file);
+    setActionType(type);
+    setDialogOpen(true);
+  };
+
+  const closeDialog = () => {
+    setDialogOpen(false);
+    setSelectedFile(null);
+    setActionType(null);
+  };
+
+  const confirmAction = async () => {
+    if (!selectedFile || !actionType) return;
+
+    try {
+      if (actionType === 'restore') {
+        await axios.put(`${baseUrl}/api/UploadedFile/restore/${selectedFile.id}`);
+      } else if (actionType === 'delete') {
+        await axios.delete(`${baseUrl}/api/UploadedFile/hard-delete/${selectedFile.id}`);
+      }
+
+      setFiles(prev => prev.filter(file => file.id !== selectedFile.id));
+    } catch (err) {
+      console.error('⚠️ פעולה נכשלה:', err);
+    } finally {
+      closeDialog();
+    }
+  };
+
+  useEffect(() => {
+    fetchDeletedFiles();
+  }, []);
+
+  if (loading) return <CircularProgress sx={{ display: 'block', mx: 'auto', mt: 5 }} />;
+
+  return (
+    <>
+      <Grid container spacing={2} sx={{ p: 4 }}>
+        {files.length === 0 ? (
+          <Typography variant="h6" sx={{ m: 'auto' }}>
+            לא נמצאו קבצים שנמחקו.
+          </Typography>
+        ) : (
+          files.map(file => (
+            <Grid item xs={12} sm={6} md={4} key={file.id}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Card
+                  sx={{
+                    borderRadius: 3,
+                    boxShadow: 3,
+                    backgroundColor: '#f5f5f5',
+                    transition: '0.3s',
+                    '&:hover': {
+                      boxShadow: 6
+                    }
+                  }}
+                >
+                  <CardContent>
+                    <Typography variant="h6" gutterBottom>
+                      {file.name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                      {file.description || 'ללא תיאור'}
+                    </Typography>
+
+                    <Grid container spacing={1} justifyContent="flex-end">
+                      <Grid item>
+                        <Tooltip title="שחזר קובץ">
+                          <IconButton
+                            color="primary"
+                            onClick={() => openDialog(file, 'restore')}
+                          >
+                            <RestoreFromTrash />
+                          </IconButton>
+                        </Tooltip>
+                      </Grid>
+                      <Grid item>
+                        <Tooltip title="מחק לצמיתות">
+                          <IconButton
+                            color="error"
+                            onClick={() => openDialog(file, 'delete')}
+                          >
+                            <DeleteForever />
+                          </IconButton>
+                        </Tooltip>
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </Grid>
+          ))
+        )}
+      </Grid>
+
+      <PopupDialog
+        open={dialogOpen}
+        onClose={closeDialog}
+        onConfirm={confirmAction}
+        message={
+          actionType === 'restore'
+            ? `האם אתה בטוח שברצונך לשחזר את הקובץ "${selectedFile?.name}"?`
+            : `האם אתה בטוח שברצונך למחוק לצמיתות את הקובץ "${selectedFile?.name}"?`
+        }
+      />
+    </>
+  );
+};
+
+export default RecycleBin;
