@@ -66,14 +66,18 @@ namespace EduShare.API.Controllers
             newLesson.OrginalSummary = originalFile;
 
             Console.WriteLine(newLesson);
-
-            var processedFile = await _aiProcessingService.ProcessLessonSummaryAsync(originalFile, newLesson.Id, userId, token);
-
-            if (processedFile != null)
+            try
             {
-                newLesson.ProcessedSummary = processedFile;
-                newLesson.ProcessedSummaryId = processedFile.Id;
+                var processedFile = await _aiProcessingService.ProcessLessonSummaryAsync(originalFile, newLesson.Id, userId, token);
+                if (processedFile != null)
+                {
+                    newLesson.ProcessedSummary = processedFile;
+                    newLesson.ProcessedSummaryId = processedFile.Id;
 
+                }
+            }
+            catch (Exception ex) { 
+                Console.WriteLine("error in ai");
             }
 
             await _lessonService.UpdateAsync(newLesson.Id, newLesson, userId);
