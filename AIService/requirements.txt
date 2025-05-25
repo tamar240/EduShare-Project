@@ -1,5 +1,11 @@
 fastapi
 uvicorn
-pydantic
-python-multipart
 python-dotenv
+requests
+pytesseract
+openai
+python-docx
+PyMuPDF
+fpdf
+Pillow
+python-multipart
