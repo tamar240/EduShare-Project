@@ -38,6 +38,7 @@ namespace EduShare.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddLesson([FromBody] LessonWithFileDTO data)
         {
+            Console.WriteLine("file id 1",data.FileId);
             var lessonDTO = data.LessonDTO;
             var fileId = data.FileId;
 
@@ -63,6 +64,8 @@ namespace EduShare.API.Controllers
             
             newLesson.OrginalSummaryId = originalFile.Id;
             newLesson.OrginalSummary = originalFile;
+
+            Console.WriteLine(newLesson);
 
             var processedFile = await _aiProcessingService.ProcessLessonSummaryAsync(originalFile, newLesson.Id, userId, token);
 
