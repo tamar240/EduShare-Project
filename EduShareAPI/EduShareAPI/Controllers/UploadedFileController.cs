@@ -190,6 +190,7 @@ namespace EduShareAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UploadedFileController : ControllerBase
     {
         private readonly IFileService _fileService;

@@ -11,9 +11,12 @@ import {
 import { DeleteForever, RestoreFromTrash } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-import PopupDialog from './parts/PopupDialog'; // ודא שזה הנתיב הנכון
+import PopupDialog from './parts/PopupDialog';
+import { getCookie } from './login/Login';
 
 const baseUrl = import.meta.env.VITE_API_URL;
+
+
 
 interface FileItem {
   id: string;
@@ -27,14 +30,19 @@ const RecycleBin: React.FC = () => {
   const [files, setFiles] = useState<FileItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // לדיאלוג
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
   const [actionType, setActionType] = useState<ActionType | null>(null);
 
+  const token = getCookie("auth_token");
+
   const fetchDeletedFiles = async () => {
     try {
-      const res = await axios.get(`${baseUrl}/api/UploadedFile/deleted`);
+      const res = await axios.get(`${baseUrl}/api/UploadedFile/deleted`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       setFiles(res.data);
     } catch (err) {
       console.error('⚠️ Failed to fetch deleted files:', err);
@@ -56,13 +64,25 @@ const RecycleBin: React.FC = () => {
   };
 
   const confirmAction = async () => {
-    if (!selectedFile || !actionType) return;
+    if (!selectedFile || !actionType || !token) return;
 
     try {
       if (actionType === 'restore') {
-        await axios.put(`${baseUrl}/api/UploadedFile/restore/${selectedFile.id}`);
+        await axios.put(
+          `${baseUrl}/api/UploadedFile/restore/${selectedFile.id}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
       } else if (actionType === 'delete') {
-        await axios.delete(`${baseUrl}/api/UploadedFile/hard-delete/${selectedFile.id}`);
+        await axios.delete(`${baseUrl}/api/UploadedFile/hard-delete/${selectedFile.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
       }
 
       setFiles(prev => prev.filter(file => file.id !== selectedFile.id));
