@@ -93,7 +93,7 @@ namespace EduShare.Data.Repositories
 
             foreach (var user in users)
             {
-                if (user.CreatedAt.Year != DateTime.UtcNowUtcNow.Year)
+                if (user.CreatedAt.Year != DateTime.UtcNow.Year)
                     continue;
 
                 int month = user.CreatedAt.Month - 1; 
