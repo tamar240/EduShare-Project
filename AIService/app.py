@@ -10,12 +10,21 @@ from openai import OpenAI, OpenAIError
 from fpdf import FPDF
 from fpdf import __version__
 import fpdf
+from fastapi.middleware.cors import CORSMiddleware
 
 
 print(f"גרסת fpdf2 בתוך הקוד: {fpdf.__version__}")
 
 # === הגדרות בסיסיות ===
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "https://edushare-frontend.onrender.com"],  # תחליף למה שצריך
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 load_dotenv()
 api_key = os.getenv('OPENAI_API_KEY')
 print(f"API KEY LOADED: {api_key}")  # הדפסה לבדיקת טעינה
