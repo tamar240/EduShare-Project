@@ -97,10 +97,19 @@ public class FileRepository : IFileRepository
     }
     public async Task<List<UploadedFile>> GetDeletedFilesByUserIdAsync(int userId)
     {
-        return await _context.Files
-            .Where(f => f.IsDeleted && f.OwnerId == userId)
-            .ToListAsync();
+        return await (
+            from file in _context.Files
+            join lesson in _context.Lessons on file.LessonId equals lesson.Id
+            join subject in _context.Subjects on lesson.SubjectId equals subject.Id
+            where file.IsDeleted &&
+                  file.OwnerId == userId &&
+                  !lesson.IsDeleted &&
+                  !subject.IsDeleted
+            select file
+        ).ToListAsync();
     }
+
+
 
 
     public async Task HardDeleteAsync(int id)
