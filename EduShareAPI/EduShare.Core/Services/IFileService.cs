@@ -12,6 +12,7 @@ namespace EduShare.Core.Services
         Task<List<UploadedFile>> GetFilesByLessonIdAsync(int id,int userId);
         Task<List<UploadedFile>> GetAllFilesAsync();
         Task<UploadedFile> GetFileByIdAsync(int id,int userId);
+        Task<UploadedFile> GetDeletedFileByIdAsync(int id, int userId);
         Task<List<UploadedFile>> GetDeletedFilesByUserIdAsync(int userId);
 
         Task UpdateFileAsync(int id, UploadedFile file);

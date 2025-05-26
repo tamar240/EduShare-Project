@@ -50,7 +50,21 @@ public class FileRepository : IFileRepository
 
         return file;
     }
+    public async Task<UploadedFile> GetDeletedFileByIdAsync(int id, int userId)
+    {
+        var file = await _context.Files.FindAsync(id);
+        if (file == null || !file.IsDeleted)
+        {
+            throw new KeyNotFoundException($"File with ID {id} not found.");
+        }
 
+        if (file.OwnerId != userId)
+        {
+            throw new UnauthorizedAccessException("You do not have permission to access this file.");
+        }
+
+        return file;
+    }
     public async Task<List<UploadedFile>> GetFilesByLessonIdAsync(int lessonId,int userId)
     {
         var lesson =await _lessonRepository.GetByIdAsync(lessonId,userId);

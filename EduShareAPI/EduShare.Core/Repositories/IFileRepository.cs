@@ -15,6 +15,9 @@ namespace EduShare.Core.Repositories
         Task<List<UploadedFile>> GetFilesByLessonIdAsync(int lessonId,int userId);
         Task<List<UploadedFile>> GetAllByUserIdAsync(int id);
         Task<UploadedFile> GetFileByIdAsync(int id,int userId);
+        Task<UploadedFile> GetDeletedFileByIdAsync(int id,int userId);
+       
+
         Task UpdateAsync(int id, UploadedFile file);
         Task DeleteAsync(int id);
         //Task UpdateFileAccessTypeAsync(int fileId, FileAccessTypeEnum newAccessType);
