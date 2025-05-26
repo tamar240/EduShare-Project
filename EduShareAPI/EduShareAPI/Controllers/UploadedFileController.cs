@@ -155,6 +155,7 @@ namespace EduShareAPI.Controllers
         public async Task<IActionResult> RestoreFileAsync(int fileId)
         {
             var userId = GetUserId();
+            Console.WriteLine( $"user id {userId}");
             try
             {
                 await _fileService.RestoreDeletedFileAsync(fileId, userId);

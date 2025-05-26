@@ -142,9 +142,9 @@ builder.Services.AddCors(options =>
                       {
 
                           policy.WithOrigins("https://edushare-er29.onrender.com")
-         .AllowAnyHeader()
-         .AllowAnyMethod()
-         .AllowCredentials();
+                                                 .AllowAnyHeader()
+                                                 .AllowAnyMethod()
+                                                 .AllowCredentials();
 
                       });
 });

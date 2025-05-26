@@ -55,6 +55,10 @@ namespace EduShare.Data.Services
         {
             return await _repositoryManager.Files.GetFileByIdAsync(id,userId);
         }
+        public async Task<UploadedFile> GetDeletedFileByIdAsync(int id,int userId)
+        {
+            return await _repositoryManager.Files.GetFileByIdAsync(id,userId);
+        }
         public async Task<List<UploadedFile>> GetDeletedFilesByUserIdAsync(int userId)
         {
             return await _repositoryManager.Files.GetDeletedFilesByUserIdAsync(userId);
@@ -75,7 +79,7 @@ namespace EduShare.Data.Services
 
         public async Task HardDeleteFileAsync(int id, int userId)
         {
-            var file = await _repositoryManager.Files.GetFileByIdAsync(id, userId);
+            var file = await _repositoryManager.Files.GetDeletedFileByIdAsync(id, userId);
             if (file == null)
                 throw new KeyNotFoundException("file not found.");
 
@@ -90,7 +94,7 @@ namespace EduShare.Data.Services
 
         public async Task RestoreDeletedFileAsync(int fileId, int userId)
         {
-            var file = await _repositoryManager.Files.GetFileByIdAsync(fileId, userId);
+            var file = await _repositoryManager.Files.GetDeletedFileByIdAsync(fileId, userId);
 
             if (file == null)
                 Console.WriteLine("file in service is null");
