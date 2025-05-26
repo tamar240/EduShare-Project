@@ -14,6 +14,7 @@ import axios from 'axios';
 import PopupDialog from './parts/PopupDialog';
 import { getCookie } from './login/Login';
 import { UploadedFile } from './UserFileGallery';
+import { log } from 'console';
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -64,6 +65,9 @@ const RecycleBin: React.FC = () => {
 
     try {
       if (actionType === 'restore') {
+
+        console.log("restore: selectedFile", selectedFile);
+        console.log("restore: token", token);
         await axios.put(
           `${baseUrl}/api/UploadedFile/restore/${selectedFile.id}`,
           {},
@@ -73,6 +77,10 @@ const RecycleBin: React.FC = () => {
             }
           }
         );
+        console.log("hard: selectedFile", selectedFile);
+        console.log("hard: token", token);
+        
+        
       } else if (actionType === 'delete') {
         await axios.delete(`${baseUrl}/api/UploadedFile/hard-delete/${selectedFile.id}`, {
           headers: {
