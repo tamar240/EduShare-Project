@@ -7,7 +7,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 [ApiController]
 [Route("api/upload")]
-//[Authorize]
+[Authorize]
 public class UploadController : ControllerBase
 {
     private readonly IAmazonS3 _s3Client;

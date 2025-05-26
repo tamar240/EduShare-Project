@@ -103,7 +103,24 @@ public class FileRepository : IFileRepository
     }
 
 
-   
+    public async Task HardDeleteAsync(int id)
+    {
+        var file = await _context.Files.FindAsync(id);
+        if (file != null)
+        {
+            _context.Files.Remove(file);
+        }
+    }
+
+    public async Task RestoreAsync(int id)
+    {
+        var file = await _context.Files.FindAsync(id);
+        if (file != null && file.IsDeleted)
+        {
+            file.IsDeleted = false;
+        }
+    }
+
 
 
 

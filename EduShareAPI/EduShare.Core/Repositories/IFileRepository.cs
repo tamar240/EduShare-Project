@@ -19,6 +19,9 @@ namespace EduShare.Core.Repositories
         Task DeleteAsync(int id);
         //Task UpdateFileAccessTypeAsync(int fileId, FileAccessTypeEnum newAccessType);
         Task<List<UploadedFile>> GetDeletedFilesByUserIdAsync(int userId);
+        Task HardDeleteAsync(int id);
+        Task RestoreAsync(int id);
+       
 
 
     }

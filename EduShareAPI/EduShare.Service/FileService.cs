@@ -6,6 +6,7 @@ using EduShare.Core.Models;
 using EduShare.Core.Repositories;
 using EduShare.Core.Services;
 using EduShare.Service;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace EduShare.Data.Services
@@ -72,18 +73,19 @@ namespace EduShare.Data.Services
             await _repositoryManager.SaveAsync();
         }
 
-        public async Task HardDeleteFileAsync(int id,int userId)
+        public async Task HardDeleteFileAsync(int id, int userId)
         {
-            var file = await _repositoryManager.Files.GetFileByIdAsync(id,userId);
+            var file = await _repositoryManager.Files.GetFileByIdAsync(id, userId);
             if (file == null)
                 throw new KeyNotFoundException("file not found.");
 
-            // מחיקה מה-S3
+            // מחיקה מ-S3
             await _s3Service.DeleteFileAsync(file.S3Key);
 
-            // מחיקה מה-DB
-            await _repositoryManager.Files.DeleteAsync(id);
+            // מחיקה אמיתית מה-DB
+            await _repositoryManager.Files.HardDeleteAsync(id);
             await _repositoryManager.SaveAsync();
+
         }
 
         public async Task RestoreDeletedFileAsync(int fileId, int userId)
@@ -92,16 +94,18 @@ namespace EduShare.Data.Services
             if (file == null || !file.IsDeleted)
                 throw new KeyNotFoundException("File not found or not deleted.");
 
-            file.IsDeleted = false;
-            await _repositoryManager.Files.UpdateAsync(fileId, file);
+            await _repositoryManager.Files.RestoreAsync(fileId);
             await _repositoryManager.SaveAsync();
         }
 
-        //public async Task UpdateFileAccessTypeAsync(int fileId, FileAccessTypeEnum newAccessType)
-        //{
-        //    await _repositoryManager.Files.UpdateFileAccessTypeAsync(fileId, newAccessType);
-        //    await _repositoryManager.SaveAsync();
-        //}
-
     }
+
+
+    //public async Task UpdateFileAccessTypeAsync(int fileId, FileAccessTypeEnum newAccessType)
+    //{
+    //    await _repositoryManager.Files.UpdateFileAccessTypeAsync(fileId, newAccessType);
+    //    await _repositoryManager.SaveAsync();
+    //}
+
 }
+
