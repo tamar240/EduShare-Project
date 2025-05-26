@@ -91,6 +91,14 @@ namespace EduShare.Data.Services
         public async Task RestoreDeletedFileAsync(int fileId, int userId)
         {
             var file = await _repositoryManager.Files.GetFileByIdAsync(fileId, userId);
+
+            if (file == null)
+                Console.WriteLine("file in service is null");
+            else
+            {
+                Console.WriteLine($"file in s: {file.FileName} {file.IsDeleted}");
+            }
+
             if (file == null || !file.IsDeleted)
                 throw new KeyNotFoundException("File not found or not deleted.");
 
