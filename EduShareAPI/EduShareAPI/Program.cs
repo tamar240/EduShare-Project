@@ -140,12 +140,12 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          //policy.WithOrigins("https://edushare-er29.onrender.com")
-                          //       .AllowAnyHeader()
-                          //       .AllowAnyMethod();
-                          policy.AllowAnyOrigin() // מתיר גישה מכל דומיין
-                                .AllowAnyHeader()
-                                .AllowAnyMethod();
+
+                          policy.WithOrigins("https://edushare-er29.onrender.com")
+         .AllowAnyHeader()
+         .AllowAnyMethod()
+         .AllowCredentials();
+
                       });
 });
 
