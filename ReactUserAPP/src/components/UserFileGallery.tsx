@@ -13,7 +13,7 @@ import {
   IconButton,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getCookie } from './login/Login';
+import { getCookie, getUserDetailes } from './login/Login';
 import PopupDialog from './parts/PopupDialog';
 
 export interface UploadedFile {
@@ -39,6 +39,7 @@ const UserFileGallery = ({ userId }: { userId: number }) => {
     const fetchFiles = async () => {
       try {
         const token = getCookie('auth_token');
+        userId = Number(getUserDetailes()?.id) || userId;
         const response = await axios.get(`${baseUrl}/api/UploadedFile/user/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
