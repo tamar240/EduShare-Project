@@ -42,7 +42,7 @@ const RoutesComponent: React.FC = () => {
                                 <Route path='recycleBin' element={<RecycleBin />} />
                                 <Route path='userFilesPage' element={<UserFilesPage type='PERSONAL' />} />
                                 <Route path='publicPage' element={<UserFilesPage type='PUBLIC' />} />
-                                <Route path="/myFiles" element={<UserFileGallery userId={4} />} />
+                                <Route path="/myFiles" element={<UserFileGallery userId={0} />} />
                                 <Route path="/lessonDisplay" element={<LessonDisplay />} />
                                 <Route path="/lessonList/:subjectId" element={<LessonsList selectedSubjectLessons={null} subjectId={0} type={'PERSONAL'} />} />
 
