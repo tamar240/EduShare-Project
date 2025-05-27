@@ -176,6 +176,7 @@ const LessonItem = ({ lesson, onDelete, onUpdate, onPermissionChange, onLessonCl
           "&:hover": {
             transform: "translateY(-4px)",
             boxShadow: "0 12px 24px rgba(0, 0, 0, 0.15)",
+            
           },
         }}
         onClick={handleClick}
