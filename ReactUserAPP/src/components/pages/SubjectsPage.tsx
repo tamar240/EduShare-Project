@@ -2,16 +2,16 @@
 
 import { Container, Box } from "@mui/material"
 import UserFilesPage from "../UserFilesPage"
-// Import your existing subjects component here
-// import SubjectsGrid from "../components/SubjectsGrid"
+import { useLocation } from "react-router-dom"
 
 const SubjectsPage = () => {
+  const location = useLocation()
+  const type = location.state?.type || "PUBLIC" // ברירת מחדל אם לא הגיע כלום
+
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
       <Box>
-        {/* Your existing subjects grid component */}
-        {/* <SubjectsGrid /> */}
-   <UserFilesPage type={"PUBLIC"}></UserFilesPage>
+        <UserFilesPage type={type} />
       </Box>
     </Container>
   )

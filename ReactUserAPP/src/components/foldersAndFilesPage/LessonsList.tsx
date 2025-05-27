@@ -71,7 +71,7 @@ const LessonsGrid = ({ subjectId, type, subjectName }: LessonsGridProps) => {
   }
 
   const handleGoBackToSubjects = () => {
-    navigate("/subjects")
+    navigate("/subjects", { state: { type: type } })
   }
 
   const handleLessonClick = (lesson: Lesson) => {
