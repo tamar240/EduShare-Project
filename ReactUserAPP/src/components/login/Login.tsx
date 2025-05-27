@@ -5,12 +5,12 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, T
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
-interface JwtPayload {
-  name: string;
-  nameid: string;
-  role: string | string[];
-  exp: number;
-}
+// interface JwtPayload {
+//   name: string;
+//   nameid: string;
+//   role: string | string[];
+//   exp: number;
+// }
 
 
 
