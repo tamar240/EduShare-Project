@@ -29,17 +29,33 @@ export const getCookie = (name: string) => {
     return '';
 }
 
-export const getUserDetailes = () => {
+// export const getUserDetailes = () => {
     
+//     const token = getCookie("auth_token");
+//     if (token) {
+//         const decodedToken: JwtPayload = jwtDecode(token);
+//         console.log("de token", decodedToken.name);
+        
+//         return { name: decodedToken.name, id: decodedToken.nameid, role: decodedToken.role };
+//     }
+//     return null;
+// };
+export const getUserDetailes = () => {
     const token = getCookie("auth_token");
     if (token) {
-        const decodedToken: JwtPayload = jwtDecode(token);
-        console.log("de token", decodedToken.name);
-        
-        return { name: decodedToken.name, id: decodedToken.nameid, role: decodedToken.role };
+        const decodedToken: any = jwtDecode(token);
+
+        console.log("de token", decodedToken);
+
+        return {
+            name: decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
+            id: decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"],
+            role: decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+        };
     }
     return null;
 };
+
 export const removeCookie = (name: string) => {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 };
