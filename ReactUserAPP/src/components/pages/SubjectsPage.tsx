@@ -1,6 +1,7 @@
 "use client"
 
 import { Container, Box } from "@mui/material"
+import UserFilesPage from "../UserFilesPage"
 // Import your existing subjects component here
 // import SubjectsGrid from "../components/SubjectsGrid"
 
@@ -10,7 +11,7 @@ const SubjectsPage = () => {
       <Box>
         {/* Your existing subjects grid component */}
         {/* <SubjectsGrid /> */}
-        <div>רשימת המקצועות - כאן תכניס את הקומפוננטה הקיימת שלך</div>
+   <UserFilesPage type={"PUBLIC"}></UserFilesPage>
       </Box>
     </Container>
   )
