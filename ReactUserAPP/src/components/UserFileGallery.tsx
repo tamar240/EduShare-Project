@@ -25,7 +25,7 @@ export interface UploadedFile {
   lessonId: number;
 }
 
-const UserFileGallery = ({ userId }: { userId: number }) => {
+const UserFileGallery = () => {
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const [loading, setLoading] = useState(true);
   const [viewUrls, setViewUrls] = useState<Record<string, string>>({});
@@ -39,7 +39,8 @@ const UserFileGallery = ({ userId }: { userId: number }) => {
     const fetchFiles = async () => {
       try {
         const token = getCookie('auth_token');
-        userId = Number(getUserDetailes()?.id) || userId;
+        const userDetails = getUserDetailes();
+        const userId: number = userDetails ? Number(userDetails.id) : 0;
         const response = await axios.get(`${baseUrl}/api/UploadedFile/user/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -54,7 +55,7 @@ const UserFileGallery = ({ userId }: { userId: number }) => {
     };
 
     fetchFiles();
-  }, [userId]);
+  },  []);
 
   const loadViewUrl = async (filePath: string) => {
     if (viewUrls[filePath]) return;
