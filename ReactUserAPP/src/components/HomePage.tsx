@@ -1236,9 +1236,14 @@ export default function Homepage() {
          <Container maxWidth="xl">
   <Typography variant="body2" color="text.secondary">
     © 2024 EduShare. כל הזכויות שמורות.{" "}
-    <a href="mailto:tamar36603@gmail.com" style={{ color: "inherit", textDecoration: "underline" }}>
-      tamar36603@gmail.com
-    </a>
+    <a
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=tamar36603@gmail.com&su=פנייה%20מאתר%20InvitationLine&body=שלום%20רציתי%20לפנות%20בנוגע%20ל..."
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: '#0077cc', textDecoration: 'none', marginLeft: '5px' }}
+        >
+          support@EDUShare.co.il
+        </a>
   </Typography>
 </Container>
 
