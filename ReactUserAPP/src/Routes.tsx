@@ -12,6 +12,9 @@ import UserFileGallery from './components/UserFileGallery';
 import LessonDisplay from './components/foldersAndFilesPage/LessonDisplay';
 import LessonsList from './components/foldersAndFilesPage/LessonsList';
 import RecycleBin from './components/RecycleBin';
+import SubjectsPage from './components/pages/SubjectsPage';
+import LessonsPage from './components/pages/LessonsPage';
+import LessonDisplayPage from './components/pages/LessonDisplayPage';
 // import LessonCard from './components/foldersAndFilesPage/LessonCard';
 
 const RoutesComponent: React.FC = () => {
@@ -43,9 +46,29 @@ const RoutesComponent: React.FC = () => {
                                 <Route path='userFilesPage' element={<UserFilesPage type='PERSONAL' />} />
                                 <Route path='publicPage' element={<UserFilesPage type='PUBLIC' />} />
                                 <Route path="/myFiles" element={<UserFileGallery />} />
-                                <Route path="/lessonDisplay" element={<LessonDisplay />} />
+                                <Route path="/lessonDisplay" element={<LessonDisplay lesson={{
+                                    id: 0,
+                                    name: '',
+                                    createdAt: '',
+                                    updatedAt: '',
+                                    subjectId: 0,
+                                    ownerId: 0,
+                                    permission: 0,
+                                    originalSummary: undefined,
+                                    orginalSummaryId: 0,
+                                    processedSummary: undefined,
+                                    processedSummaryId: 0
+                                }} subjectId={0} onGoBack={function (): void {
+                                    throw new Error('Function not implemented.');
+                                } } />} />
                                 <Route path="/lessonList/:subjectId" element={<LessonsList selectedSubjectLessons={null} subjectId={0} type={'PERSONAL'} />} />
+                                <Route path="/subjects" element={<SubjectsPage />} />
 
+{/* Lessons list for a specific subject */}
+<Route path="/subjects/:subjectId/lessons" element={<LessonsPage />} />
+
+{/* Specific lesson content */}
+<Route path="/subjects/:subjectId/lessons/:lessonId" element={<LessonDisplayPage />} />
                                 {/* <Route path="/singleLesson" element={<LessonCard id={0} name={''} createdAt={''} updatedAt={''} subjectId={0} ownerId={0} permission={0} />} /> */}
                             </Routes>
                         </div>
