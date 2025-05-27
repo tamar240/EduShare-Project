@@ -15,6 +15,7 @@ import RecycleBin from './components/RecycleBin';
 import SubjectsPage from './components/pages/SubjectsPage';
 import LessonsPage from './components/pages/LessonsPage';
 import LessonDisplayPage from './components/pages/LessonDisplayPage';
+import UserProfile from './components/pages/UserProfile';
 // import LessonCard from './components/foldersAndFilesPage/LessonCard';
 
 const RoutesComponent: React.FC = () => {
@@ -41,6 +42,7 @@ const RoutesComponent: React.FC = () => {
                             <Routes>
                                 {!isUserLoggedIn && <Route path='/' element={<Homepage />} />}
                                 <Route path='login' element={<Login />} />
+                                <Route path='profile' element={<UserProfile />} />
                                 <Route path='upload' element={<FileUpload />} />
                                 <Route path='recycleBin' element={<RecycleBin />} />
                                 <Route path='userFilesPage' element={<UserFilesPage type='PERSONAL' />} />
