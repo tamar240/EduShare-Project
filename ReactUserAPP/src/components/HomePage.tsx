@@ -1237,7 +1237,7 @@ export default function Homepage() {
   <Typography variant="body2" color="text.secondary">
     © 2024 EduShare. כל הזכויות שמורות.{" "}
     <a
-          href="https://mail.google.com/mail/?view=cm&fs=1&to=tamar36603@gmail.com&su=פנייה%20מאתר%20InvitationLine&body=שלום%20רציתי%20לפנות%20בנוגע%20ל..."
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=tamar36603@gmail.com&su=פנייה%20מאתר%20EduShare&body=שלום%20רציתי%20לפנות%20בנוגע%20ל..."
           target="_blank"
           rel="noopener noreferrer"
           style={{ color: '#0077cc', textDecoration: 'none', marginLeft: '5px' }}
