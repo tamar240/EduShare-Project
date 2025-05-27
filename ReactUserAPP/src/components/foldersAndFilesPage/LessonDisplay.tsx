@@ -239,10 +239,14 @@ const LessonDisplay: React.FC<LessonDisplayProps> = ({ lesson, onGoBack }) => {
 
   const getDownloadUrl = async (fileKey: string): Promise<string | null> => {
     try {
-      const res = await axios.get(`${baseUrl}/api/upload/download-url/${encodeURIComponent(fileKey)}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      return res.data.downloadUrl
+      const res = await axios.get(
+        `${baseUrl}/api/upload/download-url/${encodeURIComponent(fileKey)}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return res.data.downloadUrl;
+      
+      return res.data.downloadUrl;
+      
     } catch (err) {
       console.error("Error getting download URL:", err)
       showSnackbar("שגיאה בקבלת קישור הורדה", "error")
