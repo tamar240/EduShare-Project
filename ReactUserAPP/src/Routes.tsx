@@ -35,7 +35,7 @@ const RoutesComponent: React.FC = () => {
                 <div className="content">
                     <div style={{ display: 'flex', flexDirection: 'row-reverse', flex: 1, padding: '20px' }}>
                         {isUserLoggedIn && <Sidebar />}
-                        <div style={{ flex: 1 }}>
+                        <div style={{ flex: 1 ,marginTop:'70px'}}>
                             <Routes>
                                 {!isUserLoggedIn && <Route path='/' element={<Homepage />} />}
                                 <Route path='login' element={<Login />} />
@@ -69,7 +69,7 @@ const RoutesComponent: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                {isUserLoggedIn && <Footer />}
+                {isUserLoggedIn && <Footer/>}
             </div>
         </BrowserRouter>
     );

@@ -11,7 +11,7 @@ namespace EduShare.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class SubjectController : ControllerBase
     {
         private readonly ISubjectService _subjectService;
