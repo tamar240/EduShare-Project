@@ -98,7 +98,6 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
 
   return (
     <Box className="px-4 md:px-8 lg:px-16 py-4">
-      {/* סינון ומיון */}
       <Box
         display="flex"
         flexDirection={{ xs: "column", sm: "row" }}
@@ -135,7 +134,6 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
         )}
       </Box>
 
-      {/* הצגת המקצועות */}
       {filteredSubjects.length === 0 && (
         <div style={{
           display: 'flex',
@@ -230,7 +228,6 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
         ))}
       </Grid>
 
-      {/* תפריט הקשר */}
       {contextMenu && (
         <SubjectContextMenu
           mouseX={contextMenu.mouseX}
@@ -241,7 +238,6 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, onShowLessons, ty
         />
       )}
 
-      {/* גריד של שיעורים */}
       {selectedSubject && (
         <LessonsGrid
           subjectId={selectedSubject.id}

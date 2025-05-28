@@ -34,7 +34,7 @@ const LessonDisplay: React.FC<LessonDisplayProps> = ({ lesson, onGoBack }) => {
   const token = getCookie("auth_token")
   const baseUrl = import.meta.env.VITE_API_URL
 
-  // State
+  
   const [lessonFiles, setLessonFiles] = useState<UploadedFileData[]>([])
   const [originalSummary, setOriginalSummary] = useState<UploadedFileData>()
   const [processedSummary, setProcessedSummary] = useState<UploadedFileData>()

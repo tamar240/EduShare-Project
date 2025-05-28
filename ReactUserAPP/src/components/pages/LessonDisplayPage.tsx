@@ -22,14 +22,12 @@ const LessonDisplayPage = () => {
 
   useEffect(() => {
     const fetchLesson = async () => {
-      // First try to get lesson from navigation state
       if (location.state?.lesson) {
         setLesson(location.state.lesson)
         setLoading(false)
         return
       }
 
-      // If no lesson in state, fetch from API
       if (!lessonId) {
         setError("מזהה שיעור לא תקין")
         setLoading(false)

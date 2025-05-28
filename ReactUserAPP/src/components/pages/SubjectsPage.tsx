@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom"
 
 const SubjectsPage = () => {
   const location = useLocation()
-  const type = location.state?.type || "PUBLIC" // ברירת מחדל אם לא הגיע כלום
+  const type = location.state?.type || "PUBLIC" 
   console.log("type in subjects page:", type);
   
 

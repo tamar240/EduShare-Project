@@ -1,16 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-
-// interface JwtPayload {
-//   name: string;
-//   nameid: string;
-//   role: string | string[];
-//   exp: number;
-// }
 
 
 
@@ -29,17 +21,7 @@ export const getCookie = (name: string) => {
     return '';
 }
 
-// export const getUserDetailes = () => {
-    
-//     const token = getCookie("auth_token");
-//     if (token) {
-//         const decodedToken: JwtPayload = jwtDecode(token);
-//         console.log("de token", decodedToken.name);
-        
-//         return { name: decodedToken.name, id: decodedToken.nameid, role: decodedToken.role };
-//     }
-//     return null;
-// };
+
 export const getUserDetailes = () => {
     const token = getCookie("auth_token");
     if (token) {
@@ -96,7 +78,6 @@ const Login = () => {
             console.log("Login successful", getCookie("auth_token"));
             setOpen(false);
             resetForm();
-            // navigate('/userFilesPage');
             navigate('/userFilesPage', { state: { type: 'PERSONAL' } });
 
         } catch (error) {
@@ -108,7 +89,7 @@ const Login = () => {
     };
     const handleRegister = async (e: any) => {
         e.preventDefault();
-        setIsLoading(true); // בתחילת הפעולה
+        setIsLoading(true);
 
         const registerData = { name, password, email, roleName: "Teacher" };
 

@@ -6,7 +6,7 @@ const Footer: React.FC = () => {
       backgroundColor: "white",
       padding: "10px",
       textAlign: "center",
-      marginTop: "auto", // הסוד כאן
+      marginTop: "auto", 
     }}>
       <p>Created by Tamar Vurzel</p>
       <p><a

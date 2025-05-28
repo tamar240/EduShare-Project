@@ -79,7 +79,6 @@ const LessonsGrid = ({ subjectId, type, subjectName }: LessonsGridProps) => {
   }
 
   const handleLessonClick = (lesson: Lesson) => {
-    // Navigate to lesson content with proper URL structure
     navigate(`/subjects/${subjectId}/lessons/${lesson.id}`, {
       state: { lesson, subjectId, subjectName,type },
     })
@@ -87,7 +86,6 @@ const LessonsGrid = ({ subjectId, type, subjectName }: LessonsGridProps) => {
 
   return (
     <Box sx={{ p: 3 }}>
-      {/* Header with back button and subject info */}
       <Box sx={{ mb: 4, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <Button variant="outlined" startIcon={<ArrowForwardIcon />} onClick={handleGoBackToSubjects} sx={{ mb: 2 }}>
           חזרה לרשימת המקצועות

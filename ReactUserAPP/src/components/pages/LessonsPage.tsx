@@ -8,9 +8,8 @@ const LessonsPage = () => {
   const { subjectId } = useParams<{ subjectId: string }>()
   const location = useLocation()
 
-  // Get additional data from navigation state if available
   const subjectName = location.state?.subjectName
-  const lessonType = location.state?.type || "PERSONAL" // Default to PERSONAL
+  const lessonType = location.state?.type || "PERSONAL" 
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>

@@ -233,7 +233,6 @@ const UserFileGallery = () => {
     </Typography>
   </CardContent>
 
-  {/* כפתור מחיקה – צד שמאל למטה */}
   <Box
     sx={{
       position: 'absolute',

@@ -114,7 +114,6 @@ const AWSFileUpload: React.FC<AWSFileUploadProps> = ({ lessonId, onUploadComplet
 
   return (
     <Stack spacing={3}>
-      {/* אזור גרירה או בחירה */}
       <Paper
         elevation={dragActive ? 6 : 2}
         onDragOver={handleDragOver}
@@ -145,7 +144,6 @@ const AWSFileUpload: React.FC<AWSFileUploadProps> = ({ lessonId, onUploadComplet
         )}
       </Paper>
 
-      {/* כפתור העלאה */}
       <Button
         variant="contained"
         color="primary"
@@ -155,7 +153,6 @@ const AWSFileUpload: React.FC<AWSFileUploadProps> = ({ lessonId, onUploadComplet
         העלה קובץ
       </Button>
 
-      {/* פס טעינה */}
       {progress > 0 && (
         <Box sx={{ width: '100%' }}>
           <LinearProgress variant="determinate" value={progress} />

@@ -100,7 +100,7 @@ const FileContentViewer: React.FC<{
           borderRadius: 2,
           border: "1px solid",
           borderColor: "grey.200",
-          bgcolor: "#1e1e1e", // VS Code dark theme
+          bgcolor: "#1e1e1e",
           color: "#d4d4d4",
           fontFamily: '"Fira Code", "Consolas", "Monaco", monospace',
           fontSize: "0.875rem",

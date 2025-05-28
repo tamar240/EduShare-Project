@@ -21,7 +21,6 @@ import {
 } from "@mui/material"
 import { Visibility, VisibilityOff, Person, Email, Lock, Edit, Save, Cancel, AccountCircle } from "@mui/icons-material"
 import axios from "axios"
-// וודא שאתה מייבא את הפונקציות הנכונות מהקובץ שלך
 import { getCookie, getUserDetailes } from "../login/Login"
 
 interface User {

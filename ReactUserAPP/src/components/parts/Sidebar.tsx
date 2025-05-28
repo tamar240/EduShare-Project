@@ -85,7 +85,6 @@ const Sidebar: React.FC = () => {
       <CssBaseline />
       <Drawer
         variant="permanent"
-        // anchor="right"
         anchor="right"
         sx={{
           width: collapsed ? collapsedWidth : drawerWidth,
