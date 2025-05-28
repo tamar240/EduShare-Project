@@ -1,12 +1,30 @@
+/* הקוד כולל תוספות של סינון, מיון דו-כיווני, מיון לפי הרשאה, כפתור איפוס וסגנון קומפקטי */
 "use client"
 
 import { useEffect, useState } from "react"
-import {  useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import type { Lesson, LessonListProps } from "../typies/types"
 import { getCookie } from "../login/Login"
 import axios from "axios"
-import { Button, Grid, Box, Typography } from "@mui/material"
-import { ArrowForward as ArrowForwardIcon } from "@mui/icons-material"
+import {
+  Button,
+  Grid,
+  Box,
+  Typography,
+  TextField,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  IconButton,
+  Tooltip
+} from "@mui/material"
+import {
+  ArrowForward as ArrowForwardIcon,
+  ArrowUpward,
+  ArrowDownward,
+  Clear as ClearIcon
+} from "@mui/icons-material"
 import LessonItem from "./LessonItem"
 import AddLesson from "./AddLesson"
 
@@ -15,10 +33,11 @@ interface LessonsGridProps extends LessonListProps {
 }
 
 const LessonsGrid = ({ subjectId, type, subjectName }: LessonsGridProps) => {
-  console.log("type2", type);
-  
   const [lessons, setLessons] = useState<Lesson[]>([])
-  const [addLessonDialogOpen, setAddLessonDialogOpen] = useState<boolean>(false)
+  const [addLessonDialogOpen, setAddLessonDialogOpen] = useState(false)
+  const [filterText, setFilterText] = useState("")
+  const [sortOption, setSortOption] = useState("createdAt")
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc")
   const navigate = useNavigate()
 
   const baseUrl = import.meta.env.VITE_API_URL
@@ -73,21 +92,41 @@ const LessonsGrid = ({ subjectId, type, subjectName }: LessonsGridProps) => {
   }
 
   const handleGoBackToSubjects = () => {
-    console.log("type", type);
-    
-    navigate("/subjects", { state: { type: type } })
+    navigate("/subjects", { state: { type } })
   }
 
   const handleLessonClick = (lesson: Lesson) => {
     navigate(`/subjects/${subjectId}/lessons/${lesson.id}`, {
-      state: { lesson, subjectId, subjectName,type },
+      state: { lesson, subjectId, subjectName, type },
     })
   }
+
+  const handleResetFilters = () => {
+    setFilterText("")
+    setSortOption("createdAt")
+    setSortDirection("desc")
+  }
+
+  const filteredLessons = [...lessons]
+    .filter((lesson) => lesson.name.toLowerCase().includes(filterText.toLowerCase()))
+    .sort((a, b) => {
+      let value = 0
+      if (sortOption === "createdAt") {
+        value = new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      } else if (sortOption === "updatedAt") {
+        value = new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()
+      } else if (sortOption === "name") {
+        value = a.name.localeCompare(b.name)
+      } else if (sortOption === "permission") {
+        value = a.permission - b.permission
+      }
+      return sortDirection === "asc" ? value : -value
+    })
 
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ mb: 4, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Button variant="outlined" startIcon={<ArrowForwardIcon />} onClick={handleGoBackToSubjects} sx={{ mb: 2 }}>
+        <Button variant="outlined" startIcon={<ArrowForwardIcon />} onClick={handleGoBackToSubjects}>
           חזרה לרשימת המקצועות
         </Button>
 
@@ -96,21 +135,61 @@ const LessonsGrid = ({ subjectId, type, subjectName }: LessonsGridProps) => {
             {subjectName || `מקצוע ${subjectId}`}
           </Typography>
           <Typography variant="subtitle1" color="text.secondary">
-            {lessons.length} שיעורים
+            {filteredLessons.length} שיעורים
           </Typography>
         </Box>
       </Box>
 
-      <Grid container spacing={2}>
-        <Grid item xs={12} sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+      <Grid container spacing={2} sx={{ mb: 2 }} alignItems="center">
+        <Grid item xs={12} sm={4} md={3}>
+          <TextField
+            fullWidth
+            size="small"
+            label="חיפוש לפי שם"
+            value={filterText}
+            onChange={(e) => setFilterText(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} sm={4} md={3}>
+          <FormControl fullWidth size="small">
+            <InputLabel>מיון לפי</InputLabel>
+            <Select
+              value={sortOption}
+              label="מיון לפי"
+              onChange={(e) => setSortOption(e.target.value)}
+            >
+              <MenuItem value="createdAt">תאריך יצירה</MenuItem>
+              <MenuItem value="updatedAt">תאריך עדכון</MenuItem>
+              <MenuItem value="name">שם</MenuItem>
+              <MenuItem value="permission">הרשאה</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        {(sortOption === "createdAt" || sortOption === "updatedAt" || sortOption === "permission") && (
+          <Grid item>
+            <IconButton onClick={() => setSortDirection(sortDirection === "asc" ? "desc" : "asc")}> 
+              {sortDirection === "asc" ? <ArrowUpward /> : <ArrowDownward />} 
+            </IconButton>
+          </Grid>
+        )}
+        <Grid item>
+          <Tooltip title="איפוס סינון ומיון">
+            <IconButton size="small" onClick={handleResetFilters} sx={{ ml: -1 }}>
+              <ClearIcon />
+            </IconButton>
+          </Tooltip>
+        </Grid>
+        <Grid item xs={12} sm={12} md sx={{ display: "flex", justifyContent: "flex-end" }}>
           {type === "PERSONAL" && (
-            <Button variant="contained" onClick={() => setAddLessonDialogOpen(true)}>
+            <Button variant="contained" size="small" onClick={() => setAddLessonDialogOpen(true)}>
               הוסף שיעור
             </Button>
           )}
         </Grid>
+      </Grid>
 
-        {lessons.map((lesson) => (
+      <Grid container spacing={2}>
+        {filteredLessons.map((lesson) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={lesson.id}>
             <LessonItem
               lesson={lesson}

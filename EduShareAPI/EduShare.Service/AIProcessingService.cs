@@ -167,16 +167,18 @@ namespace EduShare.Service
             var root = jsonDoc.RootElement;
 
             var fileKey = root.GetProperty("fileKey").GetString();
+            var size = root.GetProperty("size").GetInt64();
+
 
             var processedFile = new UploadedFile
             {
                 FileName = $"lessonId_{lessonId}_summary",
                 FileType = "pdf",
                 FilePath = fileKey,
-                S3Key = fileKey,
+                S3Key = $"{fileKey}.pdf",
                 LessonId = lessonId,
                 OwnerId = userId,
-                Size = 0,
+                Size = size,
                 UploadedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 IsDeleted = false

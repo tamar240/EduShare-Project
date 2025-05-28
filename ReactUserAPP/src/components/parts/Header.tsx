@@ -19,7 +19,7 @@ const Header: React.FC = () => {
  
 
   return (
-    <AppBar position="static" elevation={0} sx={{ backgroundColor: 'transparent' }}>
+    <AppBar elevation={0} sx={{ backgroundColor: 'White' }}>
     <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <IconButton component={Link} to="/profile" sx={{ ml: 2 }}>

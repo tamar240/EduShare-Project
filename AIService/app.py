@@ -242,7 +242,8 @@ async def process_file(body: FileUrl, authorization: str = Header(None)):
         return JSONResponse(content={
             "file_name": f"lessonId_{lesson_id}_summary.pdf",
             "fileKey": file_key,
-            "viewUrl": view_url
+            "viewUrl": view_url,
+            "size": os.path.getsize(pdf_path),
         })
     
     except Exception as e:
