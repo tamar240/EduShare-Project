@@ -15,7 +15,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
 
- 
+
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
@@ -28,9 +28,6 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<IAmazonS3>(provider =>
 {
-    //var configuration = provider.GetRequiredService<IConfiguration>();
-    //var awsOptions = configuration.GetSection("AWS");
-
     var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID");
     var secretKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
     var region = Environment.GetEnvironmentVariable("AWS_REGION") ?? "eu-north-1";
@@ -82,14 +79,12 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 
 builder.Services.AddScoped<IUserRolesRepository, UserRolesRepository>();
 
-// הזרקות לשירותים (Services)
 
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<ILessonService, LessonService>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 
 
-// הזרקות לרפוזיטוריות (Repositories)
 builder.Services.AddScoped<IFileRepository, FileRepository>();
 
 builder.Services.AddScoped<ILessonRepository, LessonRepository>();
@@ -127,12 +122,12 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// הוספת הרשאות מבוססות-תפקידים
 builder.Services.AddAuthorization(options =>
 
 {
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
     options.AddPolicy("TeacherOnly", policy => policy.RequireRole("Teacher"));
+
 });
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
@@ -141,10 +136,13 @@ builder.Services.AddCors(options =>
                       policy =>
                       {
 
-                          policy.WithOrigins("https://edushare-er29.onrender.com")
-                                                 .AllowAnyHeader()
-                                                 .AllowAnyMethod()
-                                                 .AllowCredentials();
+                          policy.WithOrigins(
+                             "https://edushare-er29.onrender.com",
+                             "http://localhost:5173" 
+                          )
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();
 
                       });
 });
@@ -161,15 +159,13 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 
-app.UseCors(MyAllowSpecificOrigins); // <--- הוסף שורה זו כאן
+app.UseCors(MyAllowSpecificOrigins); 
 
 
-app.UseAuthentication();//JWT
+app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllers();
-
-
 
 app.Run();
