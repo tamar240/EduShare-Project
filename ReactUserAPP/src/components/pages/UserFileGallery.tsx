@@ -262,8 +262,8 @@ const UserFileGallery = () => {
         open={dialogOpen}
         onClose={() => setDialogOpen(false)}
         onConfirm={handleDeleteFile}
-        message="האם אתה בטוח שברצונך למחוק את הקובץ? פעולה זו אינה הפיכה."
-      />
+        message="האם אתה בטוח שברצונך להעביר את הקובץ לסל המיחזור?"
+        />
     </Box>
   );
 };

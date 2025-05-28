@@ -77,7 +77,7 @@ namespace EduShare.API.Controllers
                 }
             }
             catch (Exception ex) { 
-                Console.WriteLine("error in ai");
+                Console.WriteLine("error in ai",ex);
             }
 
             await _lessonService.UpdateAsync(newLesson.Id, newLesson, userId);

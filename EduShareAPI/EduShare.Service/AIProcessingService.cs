@@ -154,7 +154,7 @@ namespace EduShare.Service
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
             }
             //        
-            var response = await _httpClient.PostAsync("http://127.0.0.1:8000/process-file", content);
+            var response = await _httpClient.PostAsync("https://edushare-project.onrender.com/process-file", content);
 
 
             if (!response.IsSuccessStatusCode)
