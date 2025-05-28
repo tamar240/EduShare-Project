@@ -13,8 +13,8 @@ import {
   IconButton,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getCookie, getUserDetailes } from './login/Login';
-import PopupDialog from './parts/PopupDialog';
+import { getCookie, getUserDetailes } from '../login/Login';
+import PopupDialog from '../parts/PopupDialog';
 
 export interface UploadedFile {
   id: number;
@@ -196,29 +196,7 @@ const UserFileGallery = () => {
       <Grid container spacing={3}>
         {files.map(file => (
           <Grid item xs={12} sm={6} md={4} key={file.id}>
-            {/* <Card
-              sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-              ref={previewRef(file)}
-            >
-              {renderPreview(file)}
-              <CardContent>
-                <Typography variant="body1">📄 {file.fileName}</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  סוג: {file.fileType} | גודל: {(file.size / 1024).toFixed(1)} KB
-                </Typography>
-                <Button
-                  startIcon={<DeleteIcon />}
-                  color="error"
-                  onClick={() => {
-                    setSelectedFileId(file.id);
-                    setDialogOpen(true);
-                  }}
-                  sx={{ mt: 1 }}
-                >
-                  מחק קובץ
-                </Button>
-              </CardContent>
-            </Card> */}
+           
            <Card
   sx={{
     height: '100%',

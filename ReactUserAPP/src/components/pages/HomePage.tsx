@@ -28,7 +28,7 @@ import {
   PlayArrow as PlayArrowIcon,
   KeyboardArrowDown as KeyboardArrowDownIcon,
 } from "@mui/icons-material"
-import Login from "./login/Login"
+import Login from "../login/Login"
 
 const theme = createTheme({
   direction: "rtl",

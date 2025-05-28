@@ -11,8 +11,8 @@ import {
 import { DeleteForever, RestoreFromTrash } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-import PopupDialog from './parts/PopupDialog';
-import { getCookie } from './login/Login';
+import PopupDialog from '../parts/PopupDialog';
+import { getCookie } from '../login/Login';
 import { UploadedFile } from './UserFileGallery';
 
 const baseUrl = import.meta.env.VITE_API_URL;

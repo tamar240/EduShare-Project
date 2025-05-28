@@ -15,6 +15,8 @@ interface LessonsGridProps extends LessonListProps {
 }
 
 const LessonsGrid = ({ subjectId, type, subjectName }: LessonsGridProps) => {
+  console.log("type2", type);
+  
   const [lessons, setLessons] = useState<Lesson[]>([])
   const [addLessonDialogOpen, setAddLessonDialogOpen] = useState<boolean>(false)
   const navigate = useNavigate()
@@ -71,13 +73,15 @@ const LessonsGrid = ({ subjectId, type, subjectName }: LessonsGridProps) => {
   }
 
   const handleGoBackToSubjects = () => {
+    console.log("type", type);
+    
     navigate("/subjects", { state: { type: type } })
   }
 
   const handleLessonClick = (lesson: Lesson) => {
     // Navigate to lesson content with proper URL structure
     navigate(`/subjects/${subjectId}/lessons/${lesson.id}`, {
-      state: { lesson, subjectId, subjectName },
+      state: { lesson, subjectId, subjectName,type },
     })
   }
 

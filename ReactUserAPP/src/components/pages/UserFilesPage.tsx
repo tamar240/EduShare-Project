@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Box, Menu, MenuItem, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Button, CircularProgress, Alert } from "@mui/material";
-import LessonsList from "./foldersAndFilesPage/LessonsList"; // אחראית על הצגת השיעורים
-import SubjectsList from "./SubjectList"; // אחראית על הצגת המקצועות
+import LessonsList from "../foldersAndFilesPage/LessonsList"; // אחראית על הצגת השיעורים
+import SubjectsList from "../SubjectList"; // אחראית על הצגת המקצועות
 import axios from "axios"; // אם אתה שולף את הנתונים מ-API
-import { Lesson, Subject, UserFilesPageProps } from "./typies/types";
-import { getCookie } from "./login/Login";
+import { Lesson, Subject, UserFilesPageProps } from "../typies/types";
+import { getCookie } from "../login/Login";
 
 const UserFilesPage: React.FC<UserFilesPageProps> = ({ type }) => {
   const [subjects, setSubjects] = useState<Subject[]>([]); // הסטייט עבור רשימת המקצועות

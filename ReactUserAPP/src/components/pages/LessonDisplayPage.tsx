@@ -16,6 +16,8 @@ const LessonDisplayPage = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  const lessonType = location.state?.type || "PERSONAL"; // נשמר רק אם הגיע
+
   const baseUrl = import.meta.env.VITE_API_URL
 
   useEffect(() => {
@@ -57,9 +59,11 @@ const LessonDisplayPage = () => {
     fetchLesson()
   }, [lessonId, location.state, navigate, baseUrl])
 
-  const handleGoBack = () => {
-    navigate(`/subjects/${subjectId}/lessons`)
-  }
+const handleGoBack = () => {
+  navigate(`/subjects/${subjectId}/lessons`, {
+    state: { type: lessonType }
+  });
+};
 
   if (loading) {
     return (

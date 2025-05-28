@@ -2,20 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login, {  isLogin } from './components/login/Login';
 import FileUpload from './components/file/FileUploader';
-import Sidebar from './components/parts/Sidebar';
 import './App.css';
-import UserFilesPage from './components/UserFilesPage';
+import UserFilesPage from './components/pages/UserFilesPage';
 import Header from './components/parts/Header';
 import Footer from './components/parts/Footer';
-import Homepage from './components/HomePage';
-import UserFileGallery from './components/UserFileGallery';
+import Homepage from './components/pages/HomePage';
+import UserFileGallery from './components/pages/UserFileGallery';
 import LessonDisplay from './components/foldersAndFilesPage/LessonDisplay';
 import LessonsList from './components/foldersAndFilesPage/LessonsList';
-import RecycleBin from './components/RecycleBin';
+import RecycleBin from './components/pages/RecycleBin';
 import SubjectsPage from './components/pages/SubjectsPage';
 import LessonsPage from './components/pages/LessonsPage';
 import LessonDisplayPage from './components/pages/LessonDisplayPage';
 import UserProfile from './components/pages/UserProfile';
+import Sidebar from './components/parts/Sidebar';
 // import LessonCard from './components/foldersAndFilesPage/LessonCard';
 
 const RoutesComponent: React.FC = () => {

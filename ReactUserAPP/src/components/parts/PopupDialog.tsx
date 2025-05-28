@@ -10,8 +10,8 @@ interface ConfirmDialogProps {
 
 const PopupDialog = ({ open, onClose, onConfirm, message }: ConfirmDialogProps) => {
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>אישור פעולה</DialogTitle>
+    <Dialog open={open} onClose={onClose} dir="rtl">
+      <DialogTitle  sx={{ fontWeight: 'bold' }}>אישור פעולה</DialogTitle >
       <DialogContent>
         <DialogContentText>
           {message}
