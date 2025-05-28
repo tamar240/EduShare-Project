@@ -5,7 +5,6 @@ import axios from "axios";
 import LessonsGrid from "./foldersAndFilesPage/LessonsList";
 import { Subject } from "./typies/types";
 import folderImage from '../assets/folder2.png';
-import "../styles/style.css";
 import { getCookie } from "./login/Login";
 import SubjectContextMenu from "./foldersAndFilesPage/SubjectContextMenu";
 import ClearIcon from '@mui/icons-material/Clear';
