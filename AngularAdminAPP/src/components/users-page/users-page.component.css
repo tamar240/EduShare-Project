@@ -57,4 +57,10 @@
   button {
     margin-inline-start: 8px;
   }
+  .toggle-buttons {
+    margin: 10px 0;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+  }
   
