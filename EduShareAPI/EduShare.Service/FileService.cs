@@ -28,7 +28,7 @@ namespace EduShare.Data.Services
         public async Task<UploadedFile> AddFileAsync(UploadedFile file,int userId)
         {
             file.OwnerId = userId;
-            file.S3Key = $"{userId}/{file.FileName}";
+            file.S3Key = file.S3Key;
 
             await _repositoryManager.Files.AddAsync(file);
             await _repositoryManager.SaveAsync();
