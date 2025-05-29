@@ -32,9 +32,6 @@ builder.Services.AddSingleton<IAmazonS3>(provider =>
     var secretKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
     var region = Environment.GetEnvironmentVariable("AWS_REGION") ?? "eu-north-1";
 
-    Console.WriteLine("Access Key: " + accessKey);
-    Console.WriteLine("secretKey Key: " + secretKey);
-
     return new AmazonS3Client(accessKey, secretKey, Amazon.RegionEndpoint.EUNorth1);
 });
 builder.Services.AddSwaggerGen(options =>
@@ -157,7 +154,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 
 app.UseCors(MyAllowSpecificOrigins); 

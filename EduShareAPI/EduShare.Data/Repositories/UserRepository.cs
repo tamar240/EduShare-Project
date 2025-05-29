@@ -35,7 +35,7 @@ namespace EduShare.Data.Repositories
 
         public async Task<User> GetUserByEmailAsync(string email)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && !u.IsDeleted);
             if (user == null)
             {
                 throw new KeyNotFoundException($"User with email {email} not found.");
