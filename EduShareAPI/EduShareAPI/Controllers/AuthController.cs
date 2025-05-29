@@ -33,7 +33,7 @@ public class AuthController : ControllerBase
         if (userRole != null )
         {
             var user=await _userService.GetUserByIdAsync(userRole.User.Id);
-            if (user != null) {
+            if (user == null) {
 
                 return Unauthorized();
             }

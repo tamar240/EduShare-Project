@@ -157,15 +157,16 @@ const Login = () => {
     return (
         <div>
             <Button variant="contained" onClick={() => setOpen(true)}>התחבר</Button>
-            <Dialog open={open} onClose={() => setOpen(false)}>
+            <Dialog open={open} onClose={() => setOpen(false)}  dir="rtl">
                 <DialogTitle>התחבר</DialogTitle>
-                <DialogContent>
+                <DialogContent sx={{ textAlign: 'right' }}>
                     <TextField
                         fullWidth
                         label="שם משתמש"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         margin="dense"
+                        
                     />
                     {status === 'register' &&
                         <TextField
@@ -175,6 +176,7 @@ const Login = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             margin="dense"
+                            
                         />
                     }
                     <TextField

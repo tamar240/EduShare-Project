@@ -447,7 +447,7 @@ export default function Homepage() {
                     color: "#1e293b",
                   }}
                 >
-                  למה לבחור ב-EduShare?
+                 ?EduShare למה לבחור ב
                 </Typography>
                 <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: "auto" }}>
                   פלטפורמה מתקדמת עם כלים חכמים שיעזרו לכם להפוך את ההוראה לחוויה מעולה
@@ -509,10 +509,10 @@ export default function Homepage() {
                   color: "#1e293b",
                 }}
               >
-                איך זה עובד?
+              ?איך זה עובד
               </Typography>
               <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: "auto" }}>
-                4 שלבים פשוטים להתחיל להשתמש בפלטפורמה
+             שלבים פשוטים להתחיל להשתמש בפלטפורמה  4 
               </Typography>
             </Box>
 
@@ -582,7 +582,7 @@ export default function Homepage() {
                 color: "#1e293b",
               }}
             >
-              מוכנים להתחיל?
+             ? מוכנים להתחיל
             </Typography>
             <Typography variant="h6" color="text.secondary" sx={{ mb: 4 }}>
               הצטרפו לאלפי המורים שכבר משתמשים ב-EduShare ומשפרים את חוויית ההוראה שלהם
