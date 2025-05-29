@@ -147,10 +147,7 @@ const LessonDisplay: React.FC<LessonDisplayProps> = ({ lesson, onGoBack }) => {
   }
 
   const handleViewFile = async (file: UploadedFileData) => {
-
-    if(file.fileType == "application/pdf" ||"pdf")
-       file.s3Key=`${file.s3Key}.pdf`
-      
+   
     const url = await getPresignedUrl(file.s3Key)
     if (url) {
       if (file.fileName.toLowerCase().endsWith(".doc") || file.fileName.toLowerCase().endsWith(".docx")) {

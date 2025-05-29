@@ -652,7 +652,7 @@ async def process_file(body: FileUrl, authorization: str = Header(None)):
         # החזרת פרטים לשמירה ב-DB
         return JSONResponse(content={
             "file_name": f"lessonId_{lesson_id}_summary.pdf",
-            "fileKey": file_key,
+            "fileKey": f"{file_key}.pdf",
             "viewUrl": view_url,
             "size": pdf_size,
             "status": "success",
