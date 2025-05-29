@@ -252,7 +252,6 @@
     
 #     except Exception as e:
 #         raise HTTPException(status_code=500, detail=str(e))
-# הוספה של העלאה לAWS דרך הAPI
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Header, Request
 from fastapi.responses import JSONResponse

@@ -35,12 +35,12 @@ public class S3Service
         return $"https://{bucketName}.s3.amazonaws.com/{fileName}";
     }
 
-    public async Task<string> GetDownloadUrlAsync(string userId, string fileName)
+    public async Task<string> GetDownloadUrlAsync(string userId, string fileKey)
     {
         var request = new GetPreSignedUrlRequest
         {
             BucketName = "edushare-files",
-            Key = fileName,
+            Key = fileKey,
             Verb = HttpVerb.GET,
             Expires = DateTime.UtcNow.AddDays(7),
         };

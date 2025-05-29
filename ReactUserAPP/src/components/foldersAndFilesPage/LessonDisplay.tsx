@@ -77,7 +77,7 @@ const LessonDisplay: React.FC<LessonDisplayProps> = ({ lesson, onGoBack }) => {
 
   const getDownloadUrl = async (fileKey: string): Promise<string | null> => {
     try {
-      const res = await axios.get(`${baseUrl}/api/upload/download-url/${encodeURIComponent(fileKey)}`, {
+      const res = await axios.get(`${baseUrl}/api/upload/download-url/${fileKey}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       return res.data.downloadUrl
