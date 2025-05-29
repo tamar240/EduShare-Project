@@ -230,20 +230,24 @@ async def process_file(body: FileUrl, authorization: str = Header(None)):
         # בקשת URL לצפייה
         view_url = get_presigned_view_url(file_key, token)
 
-        # ניקיון
-        os.remove(temp_path)
-        os.remove(pdf_path)
+  
 
         print(f"file  url : {file_url}")
         print(f"file  view url : {view_url}")
         print(f"file  key : {file_key}")
+
+
+        pdf_size = os.path.getsize(pdf_path)
+        os.remove(temp_path)
+        os.remove(pdf_path)
+
        
         # החזרת פרטים לשמירה ב-DB
         return JSONResponse(content={
             "file_name": f"lessonId_{lesson_id}_summary.pdf",
             "fileKey": file_key,
             "viewUrl": view_url,
-            "size": os.path.getsize(pdf_path),
+            "size": pdf_size,
         })
     
     except Exception as e:
