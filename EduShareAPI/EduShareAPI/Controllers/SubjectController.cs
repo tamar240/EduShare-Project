@@ -41,7 +41,7 @@ namespace EduShare.API.Controllers
             return Ok(subjectResult);
         }
 
-        [HttpGet]
+        [HttpGet("my")]
         public async Task<IActionResult> GetSubjects()
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
