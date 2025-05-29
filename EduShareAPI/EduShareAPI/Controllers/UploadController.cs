@@ -83,14 +83,14 @@ public class UploadController : ControllerBase
 
     //    return _s3Client.GetPreSignedURL(request);
     //}
-    [HttpGet("download-url/{fileName}")]
-    public async Task<IActionResult> GetDownloadUrl([FromRoute] string fileName)
+    [HttpGet("download-url/{fileKey}")]
+    public async Task<IActionResult> GetDownloadUrl([FromRoute] string filekey)
     {
-        var userId = User.FindFirst("id")?.Value;
+        var userId = User.FindFirst("id")?.Value ;
         if (userId == null)
-            return Unauthorized("User ID not found in token");
+            userId = "0"; 
 
-        var url = await _s3Service.GetDownloadUrlAsync(userId, fileName);
+        var url = await _s3Service.GetDownloadUrlAsync(userId, filekey);
         return Ok(new { downloadUrl = url });
     }
 

@@ -71,7 +71,7 @@ namespace EduShare.Infrastructure.Repositories
             if (lesson == null || lesson.IsDeleted)
                 throw new KeyNotFoundException("this lesson not exist");
 
-            if (lesson.OwnerId != userId)
+            if (lesson.Permission == FileAccessTypeEnum.Private && lesson.OwnerId != userId)
                 throw new Exception("You are not the owner of this lesson");
 
             return lesson;
@@ -113,7 +113,7 @@ namespace EduShare.Infrastructure.Repositories
         {
             var currentLesson = await _context.Lessons.FindAsync(id);
 
-            if (currentLesson.OwnerId != userId)
+            if ( currentLesson.OwnerId != userId)
                 throw new UnauthorizedAccessException("You do not have permission to modify this object.");
 
             var newPermission = currentLesson.Permission == FileAccessTypeEnum.Private ? FileAccessTypeEnum.Public : FileAccessTypeEnum.Private;

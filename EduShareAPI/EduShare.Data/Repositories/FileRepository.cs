@@ -43,10 +43,10 @@ public class FileRepository : IFileRepository
             throw new KeyNotFoundException($"File with ID {id} not found.");
         }
 
-        if (file.OwnerId != userId)
-        {
-            throw new UnauthorizedAccessException("You do not have permission to access this file.");
-        }
+        //if (file.OwnerId != userId)
+        //{
+        //    throw new UnauthorizedAccessException("You do not have permission to access this file.");
+        //}
 
         return file;
     }
@@ -72,6 +72,8 @@ public class FileRepository : IFileRepository
             .Where(f => f.LessonId == lessonId  && f.Id! !=lesson.OrginalSummaryId && f.Id! != lesson.ProcessedSummaryId &&!f.IsDeleted) // מסנן רק קבצים ששייכים לשיעור
             .ToListAsync();
     }
+
+
 
     public async Task<List<UploadedFile>> GetAllByUserIdAsync(int id)//מיותר בעיקרון
     {
@@ -143,9 +145,5 @@ public class FileRepository : IFileRepository
             file.IsDeleted = false;
         }
     }
-
-
-
-
 
 }
