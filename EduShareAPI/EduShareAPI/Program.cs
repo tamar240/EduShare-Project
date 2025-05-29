@@ -138,7 +138,8 @@ builder.Services.AddCors(options =>
 
                           policy.WithOrigins(
                              "https://edushare-er29.onrender.com",
-                             "http://localhost:5173" 
+                             "http://localhost:5173" ,
+                             "https://edushare-admin.onrender.com"
                           )
                           .AllowAnyHeader()
                           .AllowAnyMethod()

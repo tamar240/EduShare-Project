@@ -360,7 +360,6 @@ def generate_lesson_plan(text):
 
 # === הפיכת כיוון טקסט עברי - הפונקציה המושלמת! ===
 def reverse_rtl_text(text: str) -> str:
-    """הופכת את כיוון הטקסט העברי כך שיוצג נכון ב-PDF"""
     reversed_lines = []
     for line in text.split('\n'):
         # הפיכת כל שורה בנפרד
