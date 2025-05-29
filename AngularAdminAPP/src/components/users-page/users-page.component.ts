@@ -71,7 +71,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 @Component({
   selector: 'app-users-page',
   standalone: true,
@@ -80,7 +80,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatCardModule,
     MatDividerModule,
     CommonModule,
-    MatIconModule
+    MatIconModule,
+    MatButtonToggleModule
   ],
   templateUrl: './users-page.component.html',
   styleUrl: './users-page.component.css'
@@ -103,6 +104,10 @@ export class UsersPageComponent {
     return this.users.filter(user => user.isDeleted === this.showDeleted);
   }
 
+  toggleView(value: 'active' | 'archived') {
+    this.showDeleted = value === 'archived';
+  }
+  
   deleteUser(userId: number): void {
     this.usersService.deleteUser(userId).subscribe(() => {
       this.users = this.users.map(user =>
