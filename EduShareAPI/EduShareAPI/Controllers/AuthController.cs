@@ -30,9 +30,13 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> LoginAsync([FromBody] LoginModel model)
     {
         var userRole = await _userService.GetUserByNameAndPassword(model.Name, model.Password);
-        if (userRole != null)
+        if (userRole != null )
         {
+            var user=await _userService.GetUserByIdAsync(userRole.User.Id);
+            if (user != null) {
 
+                return Unauthorized();
+            }
             if (userRole.Role.RoleName == "Admin")
             {
                 var token = _authService.GenerateJwtToken(model.Name,userRole.User.Id,new[] { "Admin" });
