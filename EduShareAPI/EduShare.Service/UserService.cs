@@ -40,7 +40,7 @@ namespace EduShare.Service
             if (user == null)
                 return null;
 
-            var role = _managerRepository.UserRoles.GetAllAsync().Result.FirstOrDefault(u => u.UserId == user.Id);
+            var role = _managerRepository.UserRoles.GetAllAsync().Result.FirstOrDefault(u => u.UserId == user.Id && !user.IsDeleted);
             return role;
         }
 
