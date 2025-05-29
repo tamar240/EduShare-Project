@@ -95,11 +95,11 @@ public class FileRepository : IFileRepository
         // עדכון שדות רלוונטיים בלבד
         existingFile.FileName = updatedFile.FileName;
         existingFile.FileType = updatedFile.FileType;
-        //existingFile.FilePath = updatedFile.FilePath; // אם הנתיב השתנה
+        existingFile.FilePath = updatedFile.FilePath; // אם הנתיב השתנה
         //existingFile.IsDeleted = updatedFile.IsDeleted;
         existingFile.UpdatedAt = DateTime.UtcNow; // עדכון זמן העריכה
-        //existingFile.S3Key = updatedFile.S3Key; // במידה והקובץ הועלה מחדש
-        //existingFile.Size = updatedFile.Size; // עדכון גודל קובץ במקרה של העלאה מחודשת
+        existingFile.S3Key = updatedFile.FilePath; // במידה והקובץ הועלה מחדש
+        existingFile.Size = updatedFile.Size; // עדכון גודל קובץ במקרה של העלאה מחודשת
 
     }
 
