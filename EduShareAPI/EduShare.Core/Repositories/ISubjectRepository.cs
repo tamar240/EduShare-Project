@@ -11,12 +11,13 @@ namespace EduShare.Core.Repositories
     {
         Task<Subject> AddAsync(Subject subject);
         Task<List<Subject>> GetAllAsync( int userId);
-        Task<List<Subject>> GetAllMyAsync(int userId);
         Task<Subject> GetByIdAsync(int id, int userId);
 
         Task UpdateAsync(int id, Subject subject, int userId);
         Task DeleteAsync(int id, int userId);
+        Task DeleteAllUserFilesAsync( int userId);
         Task<List<Subject>> GetPublicSubjectsAsync( int userId);
+
     }
 
 }

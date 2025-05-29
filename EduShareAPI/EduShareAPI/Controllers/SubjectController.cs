@@ -50,21 +50,9 @@ namespace EduShare.API.Controllers
             return Ok(_mapper.Map<List<SubjectGetDTO>>(subjects));
         }
 
-        [HttpGet("my")]
+    
 
-        public async Task<IActionResult> GetUserSubjects()
-        {
-
-            //var c = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            //var c2 = ClaimTypes.NameIdentifier;
-
-            //var userId = int.Parse(ClaimTypes.NameIdentifier);
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-
-            var subjects = await _subjectService.GetAllMyAsync(userId);
-            return Ok(_mapper.Map<List<SubjectGetDTO>>(subjects));
-        }
+       
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSubjectById(int id)

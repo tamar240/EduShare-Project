@@ -80,6 +80,7 @@ namespace EduShare.Service
 
         public async Task DeleteUserAsync(int id)
         {
+            await _managerRepository.Subjects.DeleteAllUserFilesAsync(id);
             await _managerRepository.Users.DeleteUserAsync(id);
             await _managerRepository.SaveAsync();
         }
@@ -90,12 +91,12 @@ namespace EduShare.Service
 
         public async Task<bool> HardDeleteUserAsync(int userId)
         {
-           var res= await _managerRepository.Users.HardDeleteUserAsync(userId);
+            await _managerRepository.Subjects.DeleteAllUserFilesAsync(userId); 
+            var res= await _managerRepository.Users.HardDeleteUserAsync(userId);
             await _managerRepository.SaveAsync();
             return res;
         }
-
-
+      
 
     }
 }

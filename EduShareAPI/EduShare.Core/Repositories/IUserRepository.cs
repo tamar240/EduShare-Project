@@ -17,5 +17,6 @@ namespace EduShare.Core.Repositories
         Task<bool> HardDeleteUserAsync(int userId);
 
 
+
     }
 }

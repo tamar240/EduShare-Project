@@ -82,6 +82,7 @@ namespace EduShare.Data.Repositories
             user.IsDeleted = true;
         }
 
+       
         public async Task<int[]> GetUsersPerMonthAsync()
         {
             // יוצר מערך בגודל 12 (לכל חודש בשנה)
@@ -112,5 +113,7 @@ namespace EduShare.Data.Repositories
             _context.Users.Remove(user);
             return true;
         }
+
+
     }
 }

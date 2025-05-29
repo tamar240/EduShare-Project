@@ -29,11 +29,7 @@ namespace EduShare.Infrastructure.Repositories
         {
             return await _context.Subjects.Where(s => !s.IsDeleted && s.OwnerId == userId).ToListAsync();
         }
-        public async Task<List<Subject>> GetAllMyAsync(int userId)
-        {
-
-            return await _context.Subjects.Where(s => !s.IsDeleted && s.OwnerId == userId).ToListAsync();
-        }
+ 
 
         public async Task<Subject> GetByIdAsync(int id, int userId)
         {
@@ -81,6 +77,16 @@ namespace EduShare.Infrastructure.Repositories
             }
         }
 
+        public async Task DeleteAllUserFilesAsync( int userId)
+        {
+          
+            var subjects=await GetAllAsync(userId);
+
+            foreach (var subject in subjects)
+            {
+                await DeleteAsync(subject.Id, userId);
+            }
+        }
 
 
 

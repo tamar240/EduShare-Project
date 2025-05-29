@@ -40,10 +40,7 @@ namespace EduShare.Core.Services
         {
             return await _subjectRepository.GetByIdAsync(id,userId);
         }
-        public async Task<List<Subject>> GetAllMyAsync(int userId)
-        {
-            return await _subjectRepository.GetAllMyAsync(userId);
-        }
+
        
         public async Task UpdateSubjectAsync(int id, Subject subject, int userId)
         {
@@ -58,6 +55,12 @@ namespace EduShare.Core.Services
             await _subjectRepository.DeleteAsync(id, userId);
             await _managerRepository.SaveAsync();
         }
+
+        //public async Task DeleteAllUserSubjectsAsync(int userId)
+        //{
+        //   var subjects= await _subjectRepository.GetAllMyAsync(id, userId);
+        //    await _managerRepository.SaveAsync();
+        //}
         //public async Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId)//מיותר
         //{
         //    return await _lessonService.GetAllPublicLessonsAsyncBySubject(subjectId);
@@ -67,6 +70,11 @@ namespace EduShare.Core.Services
             return await _subjectRepository.GetPublicSubjectsAsync(userId);
 
         }
+        public async  Task DeleteAllUserFilesAsync(int userId)
+        {
+             await _subjectRepository.DeleteAllUserFilesAsync( userId);
+        }
 
+      
     }
 }

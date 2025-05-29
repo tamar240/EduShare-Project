@@ -85,7 +85,7 @@ namespace EduShare.API.Controllers
             return Ok(new { message = "User deleted successfully." });
         }
 
-
+       
         [HttpGet("per-month")]
         public async Task<ActionResult<int[]>> GetUsersPerMonth()
         {
@@ -101,6 +101,8 @@ namespace EduShare.API.Controllers
 
             return Ok("User permanently deleted.");
         }
+
+
 
     }
 }
