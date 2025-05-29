@@ -359,15 +359,17 @@ def generate_lesson_plan(text):
     except Exception:
         return ""
 
-# === הפיכת כיוון טקסט עברי - חזרת הפונקציה המקורית! ===
+# === הפיכת כיוון טקסט עברי - הפונקציה המושלמת! ===
 def reverse_rtl_text(text: str) -> str:
+    """הופכת את כיוון הטקסט העברי כך שיוצג נכון ב-PDF"""
     reversed_lines = []
     for line in text.split('\n'):
+        # הפיכת כל שורה בנפרד
         reversed_line = ''.join(reversed(line))
         reversed_lines.append(reversed_line)
     return '\n'.join(reversed_lines)
 
-# === יצירת PDF מעוצב ומושלם ===
+# === יצירת PDF מעוצב ומושלם עם תיקון כותרת ופוטר ===
 def save_to_pdf(content: str, output_path: str):
     try:
         pdf = FPDF()
@@ -391,7 +393,7 @@ def save_to_pdf(content: str, output_path: str):
         pdf.set_top_margin(25)
         pdf.set_auto_page_break(auto=True, margin=25)
         
-        # הוספת כותרת ראשית מעוצבת
+        # הוספת כותרת ראשית מעוצבת - עם תיקון הכיוון!
         pdf.set_fill_color(41, 128, 185)  # כחול יפה
         pdf.rect(0, 0, pdf.w, 15, 'F')
         
@@ -401,7 +403,9 @@ def save_to_pdf(content: str, output_path: str):
         else:
             pdf.set_font("Alef", '', 18)
         
-        header_text = "מערך שיעור - EduShare"
+        # תיקון הכותרת - הפיכת הכיוון!
+        header_text_original = "מערך שיעור - EduShare"
+        header_text = reverse_rtl_text(header_text_original)
         pdf.set_xy((pdf.w - pdf.get_string_width(header_text)) / 2, 5)
         pdf.cell(0, 8, header_text, 0, 1, 'C')
         
@@ -517,7 +521,7 @@ def save_to_pdf(content: str, output_path: str):
                 pdf.set_text_color(0, 0, 0)
                 pdf.ln(3)
         
-        # Footer מעוצב
+        # Footer מעוצב - עם תיקון הכיוון!
         pdf.ln(15)
         pdf.set_font("Alef", '', 10)
         pdf.set_text_color(127, 140, 141)
@@ -527,7 +531,9 @@ def save_to_pdf(content: str, output_path: str):
         pdf.line(pdf.l_margin, pdf.get_y(), pdf.w - pdf.r_margin, pdf.get_y())
         pdf.ln(8)
         
-        footer_text = "נוצר באמצעות מערכת EduShare AI"
+        # תיקון הפוטר - הפיכת הכיוון!
+        footer_text_original = "נוצר באמצעות מערכת EduShare AI"
+        footer_text = reverse_rtl_text(footer_text_original)
         footer_width = pdf.get_string_width(footer_text)
         pdf.set_xy((pdf.w - footer_width) / 2, pdf.get_y())
         pdf.cell(footer_width, 8, footer_text, 0, 0, 'C')
@@ -569,7 +575,7 @@ def remove_undefined_suffix(text: str) -> str:
         return text[:-len("undefined")]
     return text
 
-# === נקודת קצה ראשית לעיבוד קובץ ===
+# === נקודת קצה ראשית לעיבוד קובץ - מושלמת! ===
 @app.post("/process-file")
 async def process_file(body: FileUrl, authorization: str = Header(None)):
     if not authorization:
@@ -581,36 +587,44 @@ async def process_file(body: FileUrl, authorization: str = Header(None)):
 
     try:
         # הורדת הקובץ
-        print("file url bb", file_url)
+        print("מתחיל להוריד קובץ:", file_url)
         response = requests.get(file_url)
-        print("file url aa", file_url)
         if response.status_code != 200:
-            print("response status code", response.status_code)
+            print("שגיאה בהורדת הקובץ - קוד סטטוס:", response.status_code)
             raise HTTPException(status_code=400, detail="Failed to download file")
 
         ext = file_url.split('.')[-1].split('?')[0]
-        print("ext", ext)   
+        print("סוג הקובץ:", ext)   
         with tempfile.NamedTemporaryFile(delete=False, suffix=f".{ext}") as temp:
             temp.write(response.content)
             temp.flush()
             temp_path = temp.name
 
         # שליפת טקסט
+        print("מחלץ טקסט מהקובץ...")
         extracted_text = extract_text(temp_path)
+        print("טקסט חולץ בהצלחה, אורך:", len(extracted_text))
 
         # יצירת מערך שיעור
+        print("יוצר מערך שיעור עם OpenAI...")
         lesson_plan = generate_lesson_plan(extracted_text)
+        print("מערך שיעור נוצר בהצלחה")
         
-        # הפיכת כיוון הטקסט - הפונקציה החשובה!
+        # הפיכת כיוון הטקסט - השלב הקריטי!
+        print("מהפך את כיוון הטקסט העברי...")
         lesson_plan = reverse_rtl_text(lesson_plan)
+        print("כיוון הטקסט הופך בהצלחה")
         
-        # שמירה ל-PDF המעוצב
+        # שמירה ל-PDF המעוצב והמושלם
+        print("יוצר PDF מעוצב...")
         pdf_path = temp_path + ".pdf"
         save_to_pdf(lesson_plan, pdf_path)
+        print("PDF נוצר בהצלחה")
 
         tmp_file_name = f"lessonId_{lesson_id}_summary.pdf"
 
         # בקשת URL חתום להעלאה
+        print("מבקש URL להעלאה...")
         presigned_data = get_presigned_upload_url(tmp_file_name, "application/pdf", token)
         upload_url = presigned_data["url"]
 
@@ -618,18 +632,24 @@ async def process_file(body: FileUrl, authorization: str = Header(None)):
         file_key = upload_url.split(".com/")[1].split("?")[0]
 
         # העלאת הקובץ
+        print("מעלה קובץ ל-S3...")
         upload_file_to_s3(upload_url, pdf_path, "application/pdf")
+        print("קובץ הועלה בהצלחה")
 
         # בקשת URL לצפייה
+        print("מבקש URL לצפייה...")
         view_url = get_presigned_view_url(file_key, token)
 
-        print(f"file url : {file_url}")
-        print(f"file view url : {view_url}")
-        print(f"file key : {file_key}")
+        print(f"קישור מקורי: {file_url}")
+        print(f"קישור לצפייה: {view_url}")
+        print(f"מפתח קובץ: {file_key}")
 
         pdf_size = os.path.getsize(pdf_path)
+        
+        # ניקוי קבצים זמניים
         os.remove(temp_path)
         os.remove(pdf_path)
+        print("קבצים זמניים נמחקו")
 
         # החזרת פרטים לשמירה ב-DB
         return JSONResponse(content={
@@ -637,7 +657,20 @@ async def process_file(body: FileUrl, authorization: str = Header(None)):
             "fileKey": file_key,
             "viewUrl": view_url,
             "size": pdf_size,
+            "status": "success",
+            "message": "PDF נוצר והועלה בהצלחה עם טקסט עברי תקין!"
         })
     
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"שגיאה כללית: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"שגיאה בעיבוד הקובץ: {str(e)}")
+
+# === הוספת endpoint לבדיקת מצב השירות ===
+@app.get("/health")
+def health_check():
+    return {
+        "status": "healthy",
+        "service": "EduShare AI Service",
+        "version": "2.0",
+        "features": ["Hebrew RTL Support", "Beautiful PDF Generation", "AWS S3 Integration"]
+    }
