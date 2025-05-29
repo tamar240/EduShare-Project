@@ -187,7 +187,7 @@ const FileContentViewer: React.FC<{
           {fileName.length > 20 ? `${fileName.substring(0, 20)}...` : fileName}
         </Typography>
         <Typography variant="caption" color="text.secondary">
-          מסמך Word - לחץ לצפייה
+          מסמך Word 
         </Typography>
       </Box>
     )

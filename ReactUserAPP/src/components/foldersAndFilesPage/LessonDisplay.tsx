@@ -147,10 +147,14 @@ const LessonDisplay: React.FC<LessonDisplayProps> = ({ lesson, onGoBack }) => {
   }
 
   const handleViewFile = async (file: UploadedFileData) => {
+
+    if(file.fileType == "application/pdf" ||"pdf")
+       file.s3Key=`${file.s3Key}.pdf`
+      
     const url = await getPresignedUrl(file.s3Key)
     if (url) {
       if (file.fileName.toLowerCase().endsWith(".doc") || file.fileName.toLowerCase().endsWith(".docx")) {
-        const googleDocsViewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(url)}&embedded=true`
+        const googleDocsViewerUrl =url;
         window.open(googleDocsViewerUrl, "_blank", "width=1200,height=800,scrollbars=yes,resizable=yes")
       } else {
         window.open(url, "_blank")
