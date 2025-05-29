@@ -374,7 +374,15 @@ def save_to_pdf(content: str, output_path: str):
         
         # הוספת פונט עברי
         pdf.add_font('Alef', '', 'fonts/Alef-Regular.ttf', uni=True)
-        pdf.add_font('Alef', 'B', 'fonts/Alef-Bold.ttf', uni=True)  # פונט מודגש
+        
+        # ניסיון להוסיף פונט מודגש (אם קיים)
+        bold_font_available = False
+        try:
+            pdf.add_font('Alef', 'B', 'fonts/Alef-Bold.ttf', uni=True)
+            bold_font_available = True
+        except:
+            print("הערה: פונט Alef-Bold לא נמצא, נשתמש בפונט רגיל גם לכותרות")
+            bold_font_available = False
         
         # הגדרת מרווחים
         pdf.set_right_margin(15)
@@ -394,7 +402,10 @@ def save_to_pdf(content: str, output_path: str):
             # זיהוי כותרות ראשיות (מתחילות ב-###)
             if line.startswith('###'):
                 pdf.ln(10)  # רווח לפני כותרת ראשית
-                pdf.set_font("Alef", 'B', 16)
+                if bold_font_available:
+                    pdf.set_font("Alef", 'B', 16)
+                else:
+                    pdf.set_font("Alef", '', 16)  # פונט רגיל בגודל גדול יותר
                 title_text = line.replace('###', '').strip()
                 
                 # הוספת רקע צבעוני לכותרת
@@ -414,7 +425,10 @@ def save_to_pdf(content: str, output_path: str):
             # זיהוי כותרות משניות (מתחילות ב-####)
             elif line.startswith('####'):
                 pdf.ln(8)
-                pdf.set_font("Alef", 'B', 14)
+                if bold_font_available:
+                    pdf.set_font("Alef", 'B', 14)
+                else:
+                    pdf.set_font("Alef", '', 14)  # פונט רגיל בגודל גדול יותר
                 subtitle_text = line.replace('####', '').strip()
                 
                 # רקע אפור בהיר לכותרת משנית
@@ -435,15 +449,17 @@ def save_to_pdf(content: str, output_path: str):
                 pdf.set_font("Alef", '', 12)
                 pdf.set_text_color(44, 62, 80)  # כחול כהה
                 
-                # הוספת נקודה צבעונית
-                bullet_x = pdf.w - pdf.r_margin - 5
-                pdf.set_xy(bullet_x, pdf.get_y() + 2)
-                pdf.set_fill_color(52, 152, 219)  # כחול
-                pdf.circle(bullet_x, pdf.get_y(), 1, 'F')
+                # הוספת סימן bullet טקסטואלי
+                bullet_symbol = "●"  # נקודה שחורה
+                bullet_x = pdf.w - pdf.r_margin - pdf.get_string_width(bullet_symbol) - 5
+                pdf.set_xy(bullet_x, pdf.get_y())
+                pdf.set_text_color(52, 152, 219)  # כחול
+                pdf.cell(pdf.get_string_width(bullet_symbol), 8, bullet_symbol, 0, 0, 'C')
+                pdf.set_text_color(44, 62, 80)  # חזרה לכחול כהה
                 
                 # הוספת הטקסט
-                text_width = pdf.w - pdf.l_margin - pdf.r_margin - 10
-                pdf.set_xy(pdf.w - pdf.r_margin - text_width, pdf.get_y() - 2)
+                text_width = pdf.w - pdf.l_margin - pdf.r_margin - 20
+                pdf.set_xy(pdf.w - pdf.r_margin - text_width, pdf.get_y())
                 
                 # פיצול טקסט ארוך למספר שורות
                 words = line.split()
