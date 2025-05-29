@@ -83,14 +83,13 @@ public class UploadController : ControllerBase
 
     //    return _s3Client.GetPreSignedURL(request);
     //}
-    [HttpGet("download-url/{fileKey}")]
-    public async Task<IActionResult> GetDownloadUrl([FromRoute] string filekey)
-    {
-        var userId = User.FindFirst("id")?.Value ;
-        if (userId == null)
-            userId = "0"; 
 
-        var url = await _s3Service.GetDownloadUrlAsync(userId, filekey);
+    [HttpPost("download-url")]
+    public async Task<IActionResult> GetDownloadUrlFromBody([FromBody] string fileKey)
+    {
+        var userId = User.FindFirst("id")?.Value ?? "0";
+
+        var url = await _s3Service.GetDownloadUrlAsync(userId, fileKey);
         return Ok(new { downloadUrl = url });
     }
 

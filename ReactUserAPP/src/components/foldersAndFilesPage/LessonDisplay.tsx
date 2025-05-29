@@ -77,9 +77,14 @@ const LessonDisplay: React.FC<LessonDisplayProps> = ({ lesson, onGoBack }) => {
 
   const getDownloadUrl = async (fileKey: string): Promise<string | null> => {
     try {
-      const res = await axios.get(`${baseUrl}/api/upload/download-url/${fileKey}`, {
-        headers: { Authorization: `Bearer ${token}` },
+      const res = await axios.post(`${baseUrl}/api/upload/download-url`, fileKey, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       })
+  
+      console.log(res)
       return res.data.downloadUrl
     } catch (err) {
       console.error("Error getting download URL:", err)
@@ -87,6 +92,8 @@ const LessonDisplay: React.FC<LessonDisplayProps> = ({ lesson, onGoBack }) => {
       return null
     }
   }
+  
+  
 
   const getFileTextContent = async (url: string, fileName: string): Promise<string> => {
     try {
