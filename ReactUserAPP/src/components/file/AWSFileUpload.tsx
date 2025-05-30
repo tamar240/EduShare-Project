@@ -91,7 +91,7 @@ const AWSFileUpload: React.FC<AWSFileUploadProps> = ({ lessonId, onUploadComplet
         filePath: viewUrl2,
         size: file.size,
         lessonId,
-        s3Key: ``,
+        s3Key:"",
       };
 
       const saveRes = await axios.post(`${baseUrl}/api/UploadedFile`, uploadedFile, {
