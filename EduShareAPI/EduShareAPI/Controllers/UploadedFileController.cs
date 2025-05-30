@@ -45,6 +45,8 @@ namespace EduShareAPI.Controllers
             if (file.LessonId == 0)
                 file.LessonId = null;
 
+            file.FilePath = $"{userId}/{file.FileName}";
+
             var addedFile = await _fileService.AddFileAsync(file, userId);
             return Ok(addedFile);
         }

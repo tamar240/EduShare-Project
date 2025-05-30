@@ -181,10 +181,10 @@ namespace EduShare.Service
 
             var processedFile = new UploadedFile
             {
-                FileName = $"lessonId_{lessonId}_summary",
+                FileName = $"lessonId_{lessonId}_summary.pdf",
                 FileType = "application/pdf",
                 FilePath = signature,
-                S3Key = $"{fileKey}.pdf",
+                S3Key = $"{userId}/lessonId_{lessonId}_summary.pdf",
                 LessonId = lessonId,
                 OwnerId = userId,
                 Size = size,
