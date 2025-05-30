@@ -138,6 +138,15 @@ namespace EduShare.Service
             _httpClient = httpClient;
             //_logger = logger;
         }
+        private string GenerateSignature(string input)
+        {
+            using (var sha256 = System.Security.Cryptography.SHA256.Create())
+            {
+                var bytes = System.Text.Encoding.UTF8.GetBytes(input);
+                var hash = sha256.ComputeHash(bytes);
+                return BitConverter.ToString(hash).Replace("-", "").ToLower();
+            }
+        }
         public async Task<UploadedFile?> ProcessLessonSummaryAsync(UploadedFile originalFile, int lessonId, int userId, string accessToken)
         {
             var payload = new
@@ -168,13 +177,13 @@ namespace EduShare.Service
 
             var fileKey = root.GetProperty("fileKey").GetString();
             var size = root.GetProperty("size").GetInt64();
-
+            var signature = GenerateSignature(fileKey);
 
             var processedFile = new UploadedFile
             {
                 FileName = $"lessonId_{lessonId}_summary",
-                FileType = "pdf",
-                FilePath = fileKey,
+                FileType = "application/pdf",
+                FilePath = signature,
                 S3Key = $"{fileKey}.pdf",
                 LessonId = lessonId,
                 OwnerId = userId,
