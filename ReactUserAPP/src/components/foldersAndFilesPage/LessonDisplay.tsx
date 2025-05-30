@@ -218,11 +218,15 @@ const LessonDisplay: React.FC<LessonDisplayProps> = ({ lesson, onGoBack }) => {
         })
         const processed = res.data
         setProcessedSummary(processed)
-        const url = await getPresignedUrl(processed.filePath)
+        const url = await getPresignedUrl(processed.s3Key)
+        console.log("url", url);
+
         if (url) {
+          console.log("processed file url", url);
           setProcessedUrl(url)
           const content = await getFileTextContent(url, processed.fileName)
           setProcessedContent(content)
+          console.log("processed content", content);
         }
       }
     } catch (err) {
