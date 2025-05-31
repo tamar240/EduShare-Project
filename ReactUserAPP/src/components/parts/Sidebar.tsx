@@ -30,8 +30,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import PublicIcon from "@mui/icons-material/Public";
 import MenuIcon from "@mui/icons-material/Menu";
 import AddIcon from "@mui/icons-material/Add";
-import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
-import ClassIcon from "@mui/icons-material/Class";
+
 import { getCookie } from "../login/Login";
 
 
@@ -116,7 +115,7 @@ const Sidebar: React.FC = () => {
             {!collapsed && "חדש"}
           </Button>
           <Menu anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
-            <MenuItem onClick={handleMenuClose}>
+            {/* <MenuItem onClick={handleMenuClose}>
               <ListItemIcon>
                 <CreateNewFolderIcon />
               </ListItemIcon>
@@ -127,7 +126,7 @@ const Sidebar: React.FC = () => {
                 <ClassIcon />
               </ListItemIcon>
               <ListItemText primary="צור שיעור חדש" />
-            </MenuItem>
+            </MenuItem> */}
             <MenuItem onClick={() => setOpenDialog(true)}>
               <ListItemIcon>
                 <SchoolIcon />

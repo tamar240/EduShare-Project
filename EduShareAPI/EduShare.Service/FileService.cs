@@ -35,8 +35,7 @@ namespace EduShare.Data.Services
             await _repositoryManager.Files.AddAsync(file);
             await _repositoryManager.SaveAsync();
 
-            return file;  // מחזיר את הקובץ שהוסף
-        }
+            return file; 
 
         public async Task<List<UploadedFile>> GetFilesByUserIdAsync(int userId)
         {

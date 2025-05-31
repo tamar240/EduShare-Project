@@ -20,26 +20,12 @@ namespace EduShare.Infrastructure.Repositories
 
         public async Task<Lesson> AddAsync(Lesson lesson)
         {
-            //var subject = await _context.Subjects
-            //      .Include(s => s.Lessons) // לוודא שטוענים את רשימת השיעורים
-            //      .FirstOrDefaultAsync(s => s.Id == lesson.SubjectId);
-
-            //if (subject != null)
-            //{
-            //    subject.Lessons.Add(lesson); // להוסיף את השיעור לרשימה של המקצוע
-            //}
-
-            //await _context.Lessons.AddAsync(lesson); // להוסיף את השיעור ל-DB
-            //await _context.SaveChangesAsync();//?
-            //await _context.SaveChangesAsync();//?
-            //return lesson;
 
             _context.Lessons.Add(lesson);
             await _context.SaveChangesAsync();
             return lesson;
         }
 
-        // מתודה שמחזירה את כל השעורים ה- PUBLIC, מלבד השעורים של המשתמש
         public async Task<List<Lesson>> GetAllPublicLessonsAsyncBySubject(int userId, int subjectId)
         {
             var l = await _context.Lessons
@@ -49,7 +35,6 @@ namespace EduShare.Infrastructure.Repositories
             return l;
         }
 
-        // מתודה שמחזירה את השעורים של המשתמש
         public async Task<List<Lesson>> GetMyLessonsAsyncBySubject(int userId, int subjectId)
         {
 
@@ -94,17 +79,17 @@ namespace EduShare.Infrastructure.Repositories
         public async Task DeleteAsync(int id)
         {
             var lesson = await _context.Lessons
-                .Include(l => l.Files) // טוען גם את הקבצים הקשורים לשיעור
+                .Include(l => l.Files) 
                 .FirstOrDefaultAsync(l => l.Id == id);
 
             if (lesson != null)
             {
-                foreach (var file in lesson.Files) // שימוש ישיר ברשימה שנשלפה
+                foreach (var file in lesson.Files)
                 {
                     file.IsDeleted = true;
                 }
 
-                lesson.IsDeleted = true; // סימון השיעור כמחוק
+                lesson.IsDeleted = true;
             }
         }
 

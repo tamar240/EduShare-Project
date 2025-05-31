@@ -19,23 +19,6 @@ public class UploadController : ControllerBase
         _s3Service = s3Service;
     }
 
-    //[HttpGet("presigned-url")]
-    //public async Task<IActionResult> GetPresignedUrl([FromQuery] string fileName)
-    //{
-    //    var request = new GetPreSignedUrlRequest
-    //    {
-    //        BucketName = "your-bucket-name",  // תצטרך לשים כאן את שם ה-Bucket שלך
-    //        Key = fileName,
-    //        Verb = HttpVerb.PUT,
-    //        Expires = DateTime.UtcNow.AddMinutes(5),
-    //        //ContentType = "image/jpeg/pdf/"  // תעדכן לפי סוג הקובץ שאתה מעלה
-    //        ContentType = "application / vnd.openxmlformats - officedocument.wordprocessingml.document"
-    //    };
-
-    //    string url = _s3Client.GetPreSignedURL(request);
-    //    return Ok(new { url });
-    //}
-
     [HttpGet("presigned-url")]
     public async Task<IActionResult> GetPresignedUrl([FromQuery] string fileName, [FromQuery] string contentType)
     {
@@ -70,19 +53,7 @@ public class UploadController : ControllerBase
         }
     }
 
-    //[HttpGet("download-url")]
-    //public async Task<string> GetDownloadUrlAsync([FromBody]string fileName)
-    //{
-    //    var request = new GetPreSignedUrlRequest
-    //    {
-    //        BucketName = "edushare-files",
-    //        Key = fileName,
-    //        Verb = HttpVerb.GET,
-    //        Expires = DateTime.UtcNow.AddDays(300),
-    //    };
 
-    //    return _s3Client.GetPreSignedURL(request);
-    //}
 
     [HttpPost("download-url")]
     public async Task<IActionResult> GetDownloadUrlFromBody([FromBody] string fileKey)
@@ -94,32 +65,6 @@ public class UploadController : ControllerBase
     }
 
 
-    //[HttpGet("presigned-url/view")]
-    //public async Task<IActionResult> GetPresignedUrlForViewing([FromQuery] string filePath)
-    //{
-    //    if (string.IsNullOrEmpty(filePath))
-    //        return BadRequest("File path is required.");
-
-    //    var decodedKey = Uri.UnescapeDataString(filePath);
-
-    //    var request = new GetPreSignedUrlRequest
-    //    {
-    //        BucketName = "edushare-files",
-    //        Key = decodedKey,
-    //        Verb = HttpVerb.GET,
-    //        Expires = DateTime.UtcNow.AddMinutes(15),
-    //    };
-
-    //    try
-    //    {
-    //        string url = _s3Client.GetPreSignedURL(request);
-    //        return Ok(new { url });
-    //    }
-    //    catch (AmazonS3Exception ex)
-    //    {
-    //        return StatusCode(500, $"Error generating presigned URL: {ex.Message}");
-    //    }
-    //}
     [HttpGet("presigned-url/view")]
     public async Task<IActionResult> GetPresignedUrlForViewing([FromQuery] string filePath)
     {

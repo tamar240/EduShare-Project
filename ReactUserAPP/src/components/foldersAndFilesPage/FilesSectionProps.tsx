@@ -94,7 +94,6 @@ const getDownloadUrl = async (s3Key: string): Promise<string> => {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        timeout: 30000,
       },
     )
 

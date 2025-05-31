@@ -85,7 +85,6 @@ namespace EduShare.Data.Repositories
        
         public async Task<int[]> GetUsersPerMonthAsync()
         {
-            // יוצר מערך בגודל 12 (לכל חודש בשנה)
             var usersPerMonth = new int[12];
 
             var users = await _context.Users

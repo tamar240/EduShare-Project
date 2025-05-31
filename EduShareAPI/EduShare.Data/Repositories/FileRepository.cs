@@ -11,7 +11,6 @@ public class FileRepository : IFileRepository
 {
     private readonly DataContext _context;
     private readonly ILessonRepository _lessonRepository;
-    //private readonly int userId;
 
 
     public FileRepository(DataContext context,ILessonRepository lessonRepository)
@@ -22,16 +21,8 @@ public class FileRepository : IFileRepository
 
     public async Task<UploadedFile> AddAsync(UploadedFile file)
     {
-        //var lesson = await _context.Lessons
-        //            .Include(l => l.Files) // לוודא שטוענים את רשימת השיעורים
-        //            .FirstOrDefaultAsync(l => l.Id == file.LessonId);
+       
 
-        //if (lesson != null)
-        //{
-        //   lesson.Files.Add(file); // להוסיף את השיעור לרשימה של המקצוע
-        //}
-
-        //_context.Files.Add(file);
         file.S3Key= $"{file.OwnerId}/{file.FileName}";
         _context.Files.Add(file);
         return file;
@@ -44,11 +35,7 @@ public class FileRepository : IFileRepository
             throw new KeyNotFoundException($"File with ID {id} not found.");
         }
 
-        //if (file.OwnerId != userId)
-        //{
-        //    throw new UnauthorizedAccessException("You do not have permission to access this file.");
-        //}
-
+     
         return file;
     }
     public async Task<UploadedFile> GetDeletedFileByIdAsync(int id, int userId)
@@ -93,14 +80,11 @@ public class FileRepository : IFileRepository
             throw new KeyNotFoundException($"File with ID {id} not found.");
         }
 
-        // עדכון שדות רלוונטיים בלבד
         existingFile.FileName = updatedFile.FileName;
         existingFile.FileType = updatedFile.FileType;
-        existingFile.FilePath = updatedFile.FilePath; // אם הנתיב השתנה
-        //existingFile.IsDeleted = updatedFile.IsDeleted;
-        existingFile.UpdatedAt = DateTime.UtcNow; // עדכון זמן העריכה
-        //existingFile.S3Key = updatedFile.FilePath; // במידה והקובץ הועלה מחדש
-        existingFile.Size = updatedFile.Size; // עדכון גודל קובץ במקרה של העלאה מחודשת
+        existingFile.FilePath = updatedFile.FilePath; 
+        existingFile.UpdatedAt = DateTime.UtcNow; 
+        existingFile.Size = updatedFile.Size;
 
     }
 

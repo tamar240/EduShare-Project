@@ -32,7 +32,6 @@ namespace EduShareAPI.Controllers
             return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
         }
 
-        // הוספת קובץ
         [HttpPost]
         public async Task<IActionResult> AddFileAsync([FromBody] UploadedFilePostDTO fileDTO)
         {
@@ -52,7 +51,6 @@ namespace EduShareAPI.Controllers
             return Ok(addedFile);
         }
 
-        // קבלת קובץ לפי ID
         [HttpGet("id/{id}")]
         public async Task<IActionResult> GetFileByIdAsync(int id)
         {
@@ -68,7 +66,6 @@ namespace EduShareAPI.Controllers
             }
         }
 
-        // קבלת כל הקבצים של משתמש מסוים
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetFilesByUserIdAsync(int userId)
         {
@@ -76,7 +73,6 @@ namespace EduShareAPI.Controllers
             return Ok(files);
         }
 
-        // קבלת כל הקבצים של שיעור מסוים
         [HttpGet("lesson/{lessonId}")]
         public async Task<IActionResult> GetFilesByLessonIdAsync(int lessonId)
         {
@@ -85,7 +81,6 @@ namespace EduShareAPI.Controllers
             return Ok(files);
         }
 
-        // קבלת כל הקבצים
         [HttpGet]
         public async Task<IActionResult> GetAllFilesAsync()
         {
@@ -93,7 +88,6 @@ namespace EduShareAPI.Controllers
             return Ok(files);
         }
 
-        // קבלת קבצים שנמחקו של המשתמש הנוכחי
         [HttpGet("deleted")]
         public async Task<IActionResult> GetDeletedFilesAsync()
         {
@@ -102,7 +96,6 @@ namespace EduShareAPI.Controllers
             return Ok(deletedFiles);
         }
 
-        // עדכון קובץ
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateFileAsync(int id, [FromBody] UploadedFile updatedFile)
         {
@@ -117,7 +110,6 @@ namespace EduShareAPI.Controllers
             }
         }
 
-        // מחיקה רכה של קובץ
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFileAsync(int id)
         {
@@ -133,7 +125,6 @@ namespace EduShareAPI.Controllers
             }
         }
 
-        // מחיקה קשיחה של קובץ
         [HttpDelete("hard-delete/{id}")]
         public async Task<IActionResult> HardDeleteFileAsync(int id)
         {
@@ -153,7 +144,6 @@ namespace EduShareAPI.Controllers
             }
         }
 
-        // שחזור קובץ שנמחק
         [HttpPut("restore/{fileId}")]
         public async Task<IActionResult> RestoreFileAsync(int fileId)
         {

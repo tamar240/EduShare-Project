@@ -11,21 +11,17 @@ namespace EduShare.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
     public class SubjectController : ControllerBase
     {
         private readonly ISubjectService _subjectService;
         private readonly IMapper _mapper;
-        //private readonly int userId;
         public SubjectController(ISubjectService subjectService, IMapper mapper)
         {
             _subjectService = subjectService;
             _mapper = mapper;
-             //userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
         }
 
         [HttpPost("add")]
-        //[Authorize]
         public async Task<IActionResult> AddSubject([FromBody] SubjectDTO subjectDTO)
         {
          
@@ -68,12 +64,9 @@ namespace EduShare.API.Controllers
 
 
         [HttpGet("public")]
-        //[Authorize]
         public async Task<IActionResult> GetPublicSubjects()
         {
-            //var   userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            ////var c2 = ClaimTypes.NameIdentifier;
-            ////var userId = User.FindFirst(ClaimTypes.NameIdentifier);
+
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             var subjects = await _subjectService.GetPublicSubjectsAsync( userId);

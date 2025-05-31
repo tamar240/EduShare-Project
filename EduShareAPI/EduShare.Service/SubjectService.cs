@@ -56,15 +56,7 @@ namespace EduShare.Core.Services
             await _managerRepository.SaveAsync();
         }
 
-        //public async Task DeleteAllUserSubjectsAsync(int userId)
-        //{
-        //   var subjects= await _subjectRepository.GetAllMyAsync(id, userId);
-        //    await _managerRepository.SaveAsync();
-        //}
-        //public async Task<List<Lesson>> GetLessonsBySubjectAsync(int subjectId)//מיותר
-        //{
-        //    return await _lessonService.GetAllPublicLessonsAsyncBySubject(subjectId);
-        //}
+  
         public async Task<List<Subject>> GetPublicSubjectsAsync(int userId)
         {
             return await _subjectRepository.GetPublicSubjectsAsync(userId);

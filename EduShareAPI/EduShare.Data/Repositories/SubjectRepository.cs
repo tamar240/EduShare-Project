@@ -48,7 +48,7 @@ namespace EduShare.Infrastructure.Repositories
         public async Task<List<Subject>> GetPublicSubjectsAsync(int userId)
         {
             return await _context.Subjects
-               .Where(s => s.AmountOfPublicLesson > 0 && s.OwnerId!=userId)
+               .Where(s => s.AmountOfPublicLesson > 0 && s.OwnerId!=userId && !s.IsDeleted)
                .ToListAsync();
 
         }

@@ -31,7 +31,6 @@ namespace EduShare.Service
         new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
     };
 
-            // הוספת תפקידים כ-Claims
             foreach (var role in roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));

@@ -17,7 +17,7 @@ namespace EduShare.Data
 
         public UserRolesRepository(DataContext context)
         {
-            _dbSet = context.UserRoles; // Assuming your DataContext has a DbSet<UserRole> property
+            _dbSet = context.UserRoles; 
         }
 
         public async Task<UserRoles> AddAsync(UserRoles userRole)

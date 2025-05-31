@@ -71,7 +71,6 @@ namespace EduShare.API.Controllers
 
 
 
-        // פעולה למחיקת משתמש
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(int id)
         {

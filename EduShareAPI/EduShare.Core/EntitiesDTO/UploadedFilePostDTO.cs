@@ -18,6 +18,8 @@ namespace EduShare.Core.EntitiesDTO
 
         public long Size { get; set; } // גודל הקובץ (ב-BYTES)
 
+        
+
         public int? LessonId { get; set; }  // זה ה-FK שלך
         public Lesson? Lesson { get; set; } // זה הניווט
 
