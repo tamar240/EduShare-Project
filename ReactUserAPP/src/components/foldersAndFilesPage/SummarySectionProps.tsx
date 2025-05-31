@@ -463,8 +463,8 @@ const FileContentViewer: React.FC<{
 }> = ({ fileName, url, content, height = 200 }) => {
   const [fileUrl, setFileUrl] = React.useState<string>("")
   const [isLoading, setIsLoading] = React.useState(false)
+  
   const [error, setError] = React.useState<string>("")
-  const [docxHtml, setDocxHtml] = React.useState<string>("")
 
   const isImageFile = (name: string) =>
     [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"].some((ext) => name.toLowerCase().endsWith(ext))
