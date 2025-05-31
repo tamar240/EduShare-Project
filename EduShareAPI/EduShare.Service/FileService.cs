@@ -25,7 +25,7 @@ namespace EduShare.Data.Services
             _s3Service = s3Service;
         }
 
-        public async Task<UploadedFile> AddFileAsync(UploadedFile file,int userId)
+        public async Task<UploadedFile> AddFileAsync(UploadedFile file, int userId)
         {
             file.OwnerId = userId;
             file.S3Key = $"{userId}/{file.FileName}";
@@ -35,7 +35,8 @@ namespace EduShare.Data.Services
             await _repositoryManager.Files.AddAsync(file);
             await _repositoryManager.SaveAsync();
 
-            return file; 
+            return file;
+        }
 
         public async Task<List<UploadedFile>> GetFilesByUserIdAsync(int userId)
         {
@@ -114,11 +115,6 @@ namespace EduShare.Data.Services
     }
 
 
-    //public async Task UpdateFileAccessTypeAsync(int fileId, FileAccessTypeEnum newAccessType)
-    //{
-    //    await _repositoryManager.Files.UpdateFileAccessTypeAsync(fileId, newAccessType);
-    //    await _repositoryManager.SaveAsync();
-    //}
 
 }
 
