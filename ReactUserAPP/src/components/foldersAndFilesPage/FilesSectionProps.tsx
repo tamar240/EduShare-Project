@@ -881,7 +881,7 @@ const FileCard: React.FC<{
   onDownload: (file: UploadedFileData) => void
   onDelete: (file: UploadedFileData) => void
   isDeleting: boolean
-}> = ({ file, previewUrl, content, onView, onDownload, onDelete, isDeleting }) => {
+}> = ({ file, content, onView, onDelete, isDeleting }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const [downloading, setDownloading] = useState(false)
 
