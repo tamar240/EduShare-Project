@@ -46,6 +46,7 @@ namespace EduShareAPI.Controllers
                 file.LessonId = null;
 
             file.FilePath = fileDTO.FilePath;
+            file.S3Key=$"{userId}/{fileDTO.FileName}"; 
 
             var addedFile = await _fileService.AddFileAsync(file, userId);
             return Ok(addedFile);
