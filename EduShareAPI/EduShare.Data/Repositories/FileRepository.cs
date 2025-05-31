@@ -99,7 +99,7 @@ public class FileRepository : IFileRepository
         existingFile.FilePath = updatedFile.FilePath; // אם הנתיב השתנה
         //existingFile.IsDeleted = updatedFile.IsDeleted;
         existingFile.UpdatedAt = DateTime.UtcNow; // עדכון זמן העריכה
-        existingFile.S3Key = updatedFile.FilePath; // במידה והקובץ הועלה מחדש
+        //existingFile.S3Key = updatedFile.FilePath; // במידה והקובץ הועלה מחדש
         existingFile.Size = updatedFile.Size; // עדכון גודל קובץ במקרה של העלאה מחודשת
 
     }
