@@ -581,7 +581,7 @@ const getViewUrl = async (s3Key: string): Promise<string> => {
 
 const getDownloadUrl = async (s3Key: string): Promise<string> => {
   try {
-    const token = getAuthToken()
+    const token = getCookie("auth_token")
     if (!token) {
       throw new Error("No authentication token found")
     }
