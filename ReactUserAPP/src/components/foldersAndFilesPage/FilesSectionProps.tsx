@@ -507,6 +507,7 @@
 import type React from "react"
 import { useState, useEffect, useCallback } from "react"
 import {
+  
   Box,
   Typography,
   Paper,
@@ -546,8 +547,6 @@ interface FilesSectionProps {
   onDelete: (file: UploadedFileData) => void
   deletingFiles: Set<string>
 }
-
-
 
 const getViewUrl = async (s3Key: string): Promise<string> => {
   try {
@@ -875,10 +874,8 @@ const FileContentViewer: React.FC<{
 
 const FileCard: React.FC<{
   file: UploadedFileData
-  previewUrl: string
   content: string
   onView: (file: UploadedFileData) => void
-  onDownload: (file: UploadedFileData) => void
   onDelete: (file: UploadedFileData) => void
   isDeleting: boolean
 }> = ({ file, content, onView, onDelete, isDeleting }) => {
@@ -927,7 +924,6 @@ const FileCard: React.FC<{
       document.body.removeChild(link)
     } catch (error) {
       console.error("Error downloading file:", error)
-      // You might want to show a toast notification here
     } finally {
       setDownloading(false)
     }
@@ -1119,11 +1115,9 @@ const FileCard: React.FC<{
 
 export const FilesSection: React.FC<FilesSectionProps> = ({
   files,
-  filePreviews,
   fileContents,
   loading,
   onView,
-  onDownload,
   onDelete,
   deletingFiles,
 }) => {
@@ -1187,10 +1181,8 @@ export const FilesSection: React.FC<FilesSectionProps> = ({
             <Grid item xs={12} sm={6} md={4} xl={3} key={file.id}>
               <FileCard
                 file={file}
-                previewUrl={filePreviews[file.s3Key] || ""}
                 content={fileContents[file.s3Key] || ""}
                 onView={onView}
-                onDownload={onDownload}
                 onDelete={onDelete}
                 isDeleting={deletingFiles.has(file.id.toString())}
               />
