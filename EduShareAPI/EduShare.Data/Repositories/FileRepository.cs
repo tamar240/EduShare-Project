@@ -32,6 +32,7 @@ public class FileRepository : IFileRepository
         //}
 
         //_context.Files.Add(file);
+        file.S3Key= $"{file.OwnerId}/{file.FileName}";
         _context.Files.Add(file);
         return file;
     }
