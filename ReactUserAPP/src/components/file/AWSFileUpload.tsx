@@ -92,6 +92,7 @@ const AWSFileUpload: React.FC<AWSFileUploadProps> = ({ lessonId, onUploadComplet
         size: file.size,
         lessonId,
         s3Key:`${getUserDetailes()?.id}/${file.name}`,
+        ownerId: getUserDetailes()?.id || 0,
       };
 console.log('Uploaded File:', uploadedFile);
 

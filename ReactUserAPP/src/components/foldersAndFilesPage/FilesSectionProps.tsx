@@ -34,15 +34,17 @@ import {
 import type { UploadedFileData } from "../typies/types"
 import { getCookie } from "../login/Login"
 
-interface FilesSectionProps {
-  files: UploadedFileData[]
-  fileContents: { [key: string]: string }
-  loading: boolean
-  onView: (file: UploadedFileData) => void
-  onDelete: (file: UploadedFileData) => void
-  deletingFiles: Set<string>
-}
 
+export interface FilesSectionProps {
+  files: UploadedFileData[];
+  filePreviews: { [key: string]: string };
+  fileContents: { [key: string]: string };
+  loading: boolean;
+  onView: (file: UploadedFileData) => Promise<void>;
+  onDownload: (file: UploadedFileData) => Promise<void>;
+  onDelete: (file: any) => void;
+  deletingFiles: Set<string>;
+}
 const getViewUrl = async (s3Key: string): Promise<string> => {
   try {
     const token = getCookie("auth_token")
