@@ -208,7 +208,7 @@ export default function Homepage() {
               content: '""',
               position: "absolute",
               top: "20%",
-              left: "10%", // Changed from right to left for RTL
+              left: "10%", 
               width: "300px",
               height: "300px",
               background: "radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%)",
@@ -219,7 +219,7 @@ export default function Homepage() {
               content: '""',
               position: "absolute",
               bottom: "20%",
-              right: "10%", // Changed from left to right for RTL
+              right: "10%",  
               width: "200px",
               height: "200px",
               background: "radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 70%)",
@@ -251,7 +251,7 @@ export default function Homepage() {
                 justifyContent: "space-between",
                 alignItems: "center",
                 py: 2,
-                flexDirection: "row-reverse", // RTL direction
+                flexDirection: "row-reverse",
               }}
             >
               <Typography

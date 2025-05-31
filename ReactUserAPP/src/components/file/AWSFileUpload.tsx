@@ -9,7 +9,7 @@ import {
   Stack,
   Paper,
 } from '@mui/material';
-import { getCookie } from '../login/Login';
+import { getCookie, getUserDetailes } from '../login/Login';
 import { UploadedFileData } from '../typies/types';
 
 interface AWSFileUploadProps {
@@ -91,8 +91,9 @@ const AWSFileUpload: React.FC<AWSFileUploadProps> = ({ lessonId, onUploadComplet
         filePath: viewUrl2,
         size: file.size,
         lessonId,
-        s3Key:"",
+        s3Key:`${getUserDetailes()?.id}/${file.name}`,
       };
+console.log('Uploaded File:', uploadedFile);
 
       const saveRes = await axios.post(`${baseUrl}/api/UploadedFile`, uploadedFile, {
         headers: {

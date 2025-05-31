@@ -47,6 +47,7 @@ export type Subject = {
   lessonId: string;
   s3Key: string;
   mimeType?: string; // Added mimeType property
+  ownerId: number;
 
 }
 

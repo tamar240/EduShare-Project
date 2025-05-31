@@ -7,7 +7,6 @@ import { getUserDetailes, removeCookie } from '../login/Login';
 const Header: React.FC = () => {
   const navigate = useNavigate(); 
 
-  // פונקציה ללוגאאוט
   const handleLogout = () => {
    removeCookie("auth_token");
    navigate('/');

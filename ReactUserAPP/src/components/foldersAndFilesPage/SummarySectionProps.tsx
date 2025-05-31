@@ -1,420 +1,7 @@
-// "use client"
 
-// import type React from "react"
-// import { Grid, Paper, Card, CardContent, Box, Typography, Stack, IconButton, Tooltip, Skeleton } from "@mui/material"
-// import {
-//   Article as ArticleIcon,
-//   AutoStories as AutoStoriesIcon,
-//   Visibility as VisibilityIcon,
-//   GetApp as GetAppIcon,
-//   DeleteOutline as DeleteOutlineIcon,
-//   Description as DescriptionIcon,
-//   Code as CodeIcon,
-// } from "@mui/icons-material"
-// import type { UploadedFileData } from "../typies/types"
-// import { log } from "console"
-
-// interface SummarySectionProps {
-//   originalSummary?: UploadedFileData
-//   processedSummary?: UploadedFileData
-//   originalUrl: string
-//   processedUrl: string
-//   originalContent: string
-//   processedContent: string
-//   loading: boolean
-//   onView: (file: UploadedFileData) => void
-//   onDownload: (file: UploadedFileData) => void
-//   onDelete: (file: UploadedFileData, type: "original" | "processed") => void
-//   deletingFiles: Set<string>
-// }
-
-// const FileContentViewer: React.FC<{
-//   fileName: string
-//   url: string
-//   content?: string
-//   height?: number
-// }> = ({ fileName, url, content, height = 200 }) => {
-//   const isImageFile = (name: string) =>
-//     [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"].some((ext) => name.toLowerCase().endsWith(ext))
-
-//   const isPdfFile = (name: string) => name.toLowerCase().endsWith(".pdf")
-
-//   const isTextFile = (name: string) =>
-//     [".txt", ".md", ".json", ".js", ".ts", ".jsx", ".tsx", ".css", ".html"].some((ext) =>
-//       name.toLowerCase().endsWith(ext),
-//     )
-
-//   const isWordFile = (name: string) => name.toLowerCase().endsWith(".doc") || name.toLowerCase().endsWith(".docx")
-
-//   if (isImageFile(fileName)) {
-//     return (
-//       <Box
-//         sx={{
-//           width: "100%",
-//           height,
-//           display: "flex",
-//           justifyContent: "center",
-//           alignItems: "center",
-//           borderRadius: 2,
-//           overflow: "hidden",
-//           bgcolor: "grey.50",
-//           border: "1px solid",
-//           borderColor: "grey.200",
-//         }}
-//       >
-//         <img
-//           src={url || "/placeholder.svg"}
-//           alt={fileName}
-//           style={{
-//             maxWidth: "100%",
-//             maxHeight: "100%",
-//             objectFit: "contain",
-//           }}
-//         />
-//       </Box>
-//     )
-//   }
-
-//   if (isPdfFile(fileName)) {
-//     return (
-//       <Box
-//         sx={{
-//           width: "100%",
-//           height,
-//           borderRadius: 2,
-//           overflow: "hidden",
-//           border: "1px solid",
-//           borderColor: "grey.200",
-//         }}
-//       >
-// {/* <iframe src={url} width="100%" height="100%" style={{ border: "none" }} title={fileName} /> */}
-// <iframe
-//   src={url}
-//   width="100%"
-//   height="600px"
-//   style={{ border: 'none' }}
-// />
-
-
-// </Box>
-//     )
-//   }
-
-//   if (isTextFile(fileName) && content) {
-//     return (
-//       <Box
-//         sx={{
-//           width: "100%",
-//           height,
-//           borderRadius: 2,
-//           border: "1px solid",
-//           borderColor: "grey.200",
-//           bgcolor: "#1e1e1e",
-//           color: "#d4d4d4",
-//           fontFamily: '"Fira Code", "Consolas", "Monaco", monospace',
-//           fontSize: "0.875rem",
-//           overflow: "auto",
-//           position: "relative",
-//         }}
-//       >
-//         <Box
-//           sx={{
-//             position: "sticky",
-//             top: 0,
-//             bgcolor: "#2d2d30",
-//             borderBottom: "1px solid #3e3e42",
-//             px: 2,
-//             py: 1,
-//             display: "flex",
-//             alignItems: "center",
-//             gap: 1,
-//             zIndex: 1,
-//           }}
-//         >
-//           <CodeIcon sx={{ fontSize: 16, color: "#569cd6" }} />
-//           <Typography
-//             variant="caption"
-//             sx={{
-//               color: "#cccccc",
-//               fontWeight: 500,
-//               fontFamily: '"Segoe UI", sans-serif',
-//             }}
-//           >
-//             {fileName}
-//           </Typography>
-//         </Box>
-//         <Box sx={{ p: 2 }}>
-//           <pre
-//             style={{
-//               margin: 0,
-//               whiteSpace: "pre-wrap",
-//               wordBreak: "break-word",
-//               lineHeight: 1.5,
-//             }}
-//           >
-//             {content}
-//           </pre>
-//         </Box>
-//       </Box>
-//     )
-//   }
-
-//   if (isWordFile(fileName)) {
-//     return (
-//       <Box
-//         sx={{
-//           width: "100%",
-//           height,
-//           display: "flex",
-//           flexDirection: "column",
-//           justifyContent: "center",
-//           alignItems: "center",
-//           borderRadius: 2,
-//           bgcolor: "#f8fafc",
-//           border: "1px solid",
-//           borderColor: "primary.main",
-//         }}
-//       >
-//         <DescriptionIcon sx={{ fontSize: 48, color: "primary.main", mb: 2 }} />
-//         <Typography variant="h6" sx={{ fontWeight: 600, color: "primary.main", mb: 1 }}>
-//           {fileName}
-//         </Typography>
-//         <Typography variant="body2" color="text.secondary">
-//           מסמך Word - לחץ לצפייה
-//         </Typography>
-//       </Box>
-//     )
-//   }
-
-//   return (
-//     <Box
-//       sx={{
-//         width: "100%",
-//         height,
-//         display: "flex",
-//         flexDirection: "column",
-//         justifyContent: "center",
-//         alignItems: "center",
-//         borderRadius: 2,
-//         bgcolor: "grey.50",
-//         border: "1px solid",
-//         borderColor: "grey.300",
-//       }}
-//     >
-//       <DescriptionIcon sx={{ fontSize: 48, color: "grey.400", mb: 2 }} />
-//       <Typography variant="body1" sx={{ fontWeight: 500, color: "grey.600", mb: 1 }}>
-//         {fileName}
-//       </Typography>
-//       <Typography variant="body2" color="text.secondary">
-//         תצוגה מקדימה לא זמינה
-//       </Typography>
-
-//     </Box>
-//   )
-// }
-
-// const SummaryCard: React.FC<{
-//   file?: UploadedFileData
-//   title: string
-//   url: string
-//   content: string
-//   type: "original" | "processed"
-//   icon: React.ReactNode
-//   loading: boolean
-//   onView: (file: UploadedFileData) => void
-//   onDownload: (file: UploadedFileData) => void
-//   onDelete: (file: UploadedFileData) => void
-//   isDeleting: boolean
-// }> = ({ file, title, url, content, type, icon, loading, onView, onDownload, onDelete, isDeleting }) => {
-//   return (
-//     <Card
-//       sx={{
-//         height: "100%",
-//         display: "flex",
-//         flexDirection: "column",
-//         bgcolor: "background.paper",
-//       }}
-//     >
-//       <CardContent sx={{ p: 0, flexGrow: 1, display: "flex", flexDirection: "column" }}>
-//         <Box
-//           sx={{
-//             p: 3,
-//             borderBottom: "1px solid",
-//             borderColor: "grey.200",
-//             bgcolor: type === "processed" ? "primary.50" : "secondary.50",
-//           }}
-//         >
-//           <Stack direction="row" alignItems="center" justifyContent="space-between">
-//             <Box
-//               sx={{
-//                 width: 40,
-//                 height: 40,
-//                 borderRadius: 2,
-//                 bgcolor: type === "processed" ? "primary.main" : "secondary.main",
-//                 display: "flex",
-//                 alignItems: "center",
-//                 justifyContent: "center",
-//                 color: "white",
-//               }}
-//             >
-//               {icon}
-//             </Box>
-//             <Typography variant="h6" sx={{ fontWeight: 600, color: "text.primary" }}>
-//               {title}
-//             </Typography>
-//           </Stack>
-//         </Box>
-
-//         <Box sx={{ flexGrow: 1, p: 3 }}>
-//           {loading ? (
-//             <Skeleton variant="rectangular" height={300} sx={{ borderRadius: 2 }} />
-//           ) : url && file ? (
-//             <FileContentViewer fileName={file.fileName} url={url} content={content} height={300} />
-//           ) : (
-//             <Box
-//               sx={{
-//                 display: "flex",
-//                 flexDirection: "column",
-//                 justifyContent: "center",
-//                 alignItems: "center",
-//                 height: 300,
-//                 bgcolor: "grey.50",
-//                 borderRadius: 2,
-//                 border: "2px dashed",
-//                 borderColor: "grey.300",
-//               }}
-//             >
-//               <Typography variant="h6" color="text.secondary" sx={{ mb: 1 }}>
-//                 אין {type === "original" ? "סיכום מקורי" : "סיכום מעובד"}
-//               </Typography>
-//               <Typography variant="body2" color="text.secondary">
-//                 לא נמצא קובץ עבור סוג זה
-//               </Typography>
-//             </Box>
-//           )}
-//         </Box>
-
-//         {file && (
-//           <Box
-//             sx={{
-//               display: "flex",
-//               justifyContent: "center",
-//               gap: 1,
-//               p: 3,
-//               borderTop: "1px solid",
-//               borderColor: "grey.200",
-//               bgcolor: "grey.50",
-//             }}
-//           >
-//             <Tooltip title="צפייה בקובץ">
-//               <IconButton
-//                 onClick={() => onView(file)}
-//                 sx={{
-//                   bgcolor: "primary.main",
-//                   color: "white",
-//                   "&:hover": { bgcolor: "primary.dark" },
-//                 }}
-//               >
-//                 <VisibilityIcon />
-//               </IconButton>
-//             </Tooltip>
-
-//             <Tooltip title="הורדת קובץ">
-//               <IconButton
-//                 onClick={() => onDownload(file)}
-//                 sx={{
-//                   bgcolor: "success.main",
-//                   color: "white",
-//                   "&:hover": { bgcolor: "success.dark" },
-//                 }}
-//               >
-//                 <GetAppIcon />
-//               </IconButton>
-//             </Tooltip>
-
-//             <Tooltip title="מחיקת קובץ">
-//               <IconButton
-//                 onClick={() => onDelete(file)}
-//                 disabled={isDeleting}
-//                 sx={{
-//                   bgcolor: "error.main",
-//                   color: "white",
-//                   "&:hover": { bgcolor: "error.dark" },
-//                   "&:disabled": { bgcolor: "grey.300" },
-//                 }}
-//               >
-//                 <DeleteOutlineIcon />
-//               </IconButton>
-//             </Tooltip>
-//           </Box>
-//         )}
-//       </CardContent>
-//     </Card>
-//   )
-// }
-
-// export const SummarySection: React.FC<SummarySectionProps> = ({
-//   originalSummary,
-//   processedSummary,
-//   originalUrl,
-//   processedUrl,
-//   originalContent,
-//   processedContent,
-//   loading,
-//   onView,
-//   onDownload,
-//   onDelete,
-//   deletingFiles,
-// }) => {
-//   return (
-//     <Paper
-//       elevation={0}
-//       sx={{
-//         p: { xs: 3, sm: 4 },
-//         mb: 4,
-//         bgcolor: "background.paper",
-//       }}
-//     >
-//       <Grid container spacing={4} direction="row-reverse">
-//         <Grid item xs={12} lg={8}>
-//           <SummaryCard
-//             file={processedSummary}
-//             title="סיכום מעובד"
-//             url={processedUrl}
-//             content={processedContent}
-//             type="processed"
-//             icon={<AutoStoriesIcon />}
-//             loading={loading}
-//             onView={onView}
-//             onDownload={onDownload}
-//             onDelete={(file) => onDelete(file, "processed")}
-//             isDeleting={processedSummary ? deletingFiles.has(processedSummary.id.toString()) : false}
-//           />
-//         </Grid>
-
-//         <Grid item xs={12} lg={4}>
-//           <SummaryCard
-//             file={originalSummary}
-//             title="סיכום מקורי"
-//             url={originalUrl}
-//             content={originalContent}
-//             type="original"
-//             icon={<ArticleIcon />}
-//             loading={loading}
-//             onView={onView}
-//             onDownload={onDownload}
-//             onDelete={(file) => onDelete(file, "original")}
-//             isDeleting={originalSummary ? deletingFiles.has(originalSummary.id.toString()) : false}
-//           />
-//         </Grid>
-//       </Grid>
-//     </Paper>
-//   )
-// }
 "use client"
 
 import React from "react"
-
 import type { ReactElement } from "react"
 import {
   Grid,
@@ -428,18 +15,19 @@ import {
   Tooltip,
   Skeleton,
   Button,
+  CircularProgress,
 } from "@mui/material"
 import {
   Article as ArticleIcon,
   AutoStories as AutoStoriesIcon,
-  Visibility as VisibilityIcon,
-  GetApp as GetAppIcon,
   DeleteOutline as DeleteOutlineIcon,
   Description as DescriptionIcon,
   Code as CodeIcon,
   OpenInNew as OpenInNewIcon,
+  GetApp as GetAppIcon,
 } from "@mui/icons-material"
 import type { UploadedFileData } from "../typies/types"
+import { getUserDetailes } from "../login/Login"
 
 interface SummarySectionProps {
   originalSummary?: UploadedFileData
@@ -460,10 +48,9 @@ const FileContentViewer: React.FC<{
   url: string
   content?: string
   height?: number
-}> = ({ fileName, url, content, height = 200 }) => {
+}> = ({ fileName, url, content, height = 400 }) => {
   const [fileUrl, setFileUrl] = React.useState<string>("")
   const [isLoading, setIsLoading] = React.useState(false)
-  
   const [error, setError] = React.useState<string>("")
 
   const isImageFile = (name: string) =>
@@ -822,7 +409,8 @@ const SummaryCard: React.FC<{
   onDownload: (file: UploadedFileData) => void
   onDelete: (file: UploadedFileData) => void
   isDeleting: boolean
-}> = ({ file, title, url, content, type, icon, loading, onView, onDownload, onDelete, isDeleting }) => {
+  isOwner: boolean
+}> = ({ file, title, url, content, type, icon, loading,onDelete, isDeleting, isOwner }) => {
   return (
     <Card
       sx={{
@@ -856,7 +444,8 @@ const SummaryCard: React.FC<{
             >
               {icon}
             </Box>
-            <Typography variant="h6" sx={{ fontWeight: 600, color: "text.primary" }}>
+            {/* שינוי צבע הכותרת לכחול */}
+            <Typography variant="h6" sx={{ fontWeight: 600, color: "primary.main" }}>
               {title}
             </Typography>
           </Stack>
@@ -864,9 +453,9 @@ const SummaryCard: React.FC<{
 
         <Box sx={{ flexGrow: 1, p: 3 }}>
           {loading ? (
-            <Skeleton variant="rectangular" height={300} sx={{ borderRadius: 2 }} />
+            <Skeleton variant="rectangular" height={400} sx={{ borderRadius: 2 }} />
           ) : url && file ? (
-            <FileContentViewer fileName={file.fileName} url={url} content={content} height={300} />
+            <FileContentViewer fileName={file.fileName} url={url} content={content} height={400} />
           ) : (
             <Box
               sx={{
@@ -874,14 +463,15 @@ const SummaryCard: React.FC<{
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                height: 300,
+                height: 400,
                 bgcolor: "grey.50",
                 borderRadius: 2,
                 border: "2px dashed",
                 borderColor: "grey.300",
               }}
             >
-              <Typography variant="h6" color="text.secondary" sx={{ mb: 1 }}>
+              {/* שינוי צבע הכותרת לכחול גם כאן */}
+              <Typography variant="h6" color="primary.main" sx={{ mb: 1 }}>
                 אין {type === "original" ? "סיכום מקורי" : "סיכום מעובד"}
               </Typography>
               <Typography variant="body2" color="text.secondary">
@@ -891,44 +481,19 @@ const SummaryCard: React.FC<{
           )}
         </Box>
 
-        {file && (
+        {/* הצג כפתור מחיקה רק עבור הקובץ המעובד (לא המקורי) */}
+        {file && isOwner && type === "processed" && (
           <Box
             sx={{
               display: "flex",
               justifyContent: "center",
-              gap: 1,
+              alignItems: "center",
               p: 3,
               borderTop: "1px solid",
               borderColor: "grey.200",
               bgcolor: "grey.50",
             }}
           >
-            <Tooltip title="צפייה בקובץ">
-              <IconButton
-                onClick={() => onView(file)}
-                sx={{
-                  bgcolor: "primary.main",
-                  color: "white",
-                  "&:hover": { bgcolor: "primary.dark" },
-                }}
-              >
-                <VisibilityIcon />
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title="הורדת קובץ">
-              <IconButton
-                onClick={() => onDownload(file)}
-                sx={{
-                  bgcolor: "success.main",
-                  color: "white",
-                  "&:hover": { bgcolor: "success.dark" },
-                }}
-              >
-                <GetAppIcon />
-              </IconButton>
-            </Tooltip>
-
             <Tooltip title="מחיקת קובץ">
               <IconButton
                 onClick={() => onDelete(file)}
@@ -940,7 +505,7 @@ const SummaryCard: React.FC<{
                   "&:disabled": { bgcolor: "grey.300" },
                 }}
               >
-                <DeleteOutlineIcon />
+                {isDeleting ? <CircularProgress size={20} color="inherit" /> : <DeleteOutlineIcon />}
               </IconButton>
             </Tooltip>
           </Box>
@@ -949,6 +514,7 @@ const SummaryCard: React.FC<{
     </Card>
   )
 }
+
 
 export const SummarySection: React.FC<SummarySectionProps> = ({
   originalSummary,
@@ -962,7 +528,32 @@ export const SummarySection: React.FC<SummarySectionProps> = ({
   onDownload,
   onDelete,
   deletingFiles,
-}) => {
+}: SummarySectionProps) => {
+  const [currentUserId, setCurrentUserId] = React.useState<string | null>(null)
+
+  // קבלת פרטי המשתמש הנוכחי
+  React.useEffect(() => {
+    const getCurrentUser = async () => {
+      try {
+        const userDetails = await getUserDetailes()
+        if (userDetails && userDetails.id) {
+          setCurrentUserId(userDetails.id)
+        }
+      } catch (error) {
+        console.error("Error getting user details:", error)
+        setCurrentUserId(null)
+      }
+    }
+
+    getCurrentUser()
+  }, [])
+
+  // בדיקה אם המשתמש הוא הבעלים של הקובץ המקורי
+  const isOriginalOwner = originalSummary && currentUserId && originalSummary.ownerId === Number(currentUserId)
+
+  // בדיקה אם המשתמש הוא הבעלים של הקובץ המעובד
+  const isProcessedOwner = processedSummary && currentUserId && processedSummary.ownerId === Number(currentUserId)
+
   return (
     <Paper
       elevation={0}
@@ -986,6 +577,7 @@ export const SummarySection: React.FC<SummarySectionProps> = ({
             onDownload={onDownload}
             onDelete={(file) => onDelete(file, "processed")}
             isDeleting={processedSummary ? deletingFiles.has(processedSummary.id.toString()) : false}
+            isOwner={isProcessedOwner || false}
           />
         </Grid>
 
@@ -1002,6 +594,7 @@ export const SummarySection: React.FC<SummarySectionProps> = ({
             onDownload={onDownload}
             onDelete={(file) => onDelete(file, "original")}
             isDeleting={originalSummary ? deletingFiles.has(originalSummary.id.toString()) : false}
+            isOwner={isOriginalOwner || false}
           />
         </Grid>
       </Grid>

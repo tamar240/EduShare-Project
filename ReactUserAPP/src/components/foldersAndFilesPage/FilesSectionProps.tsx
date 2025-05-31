@@ -4,7 +4,6 @@
 import type React from "react"
 import { useState, useEffect, useCallback } from "react"
 import {
-
   Box,
   Typography,
   Paper,
@@ -30,17 +29,16 @@ import {
   DeleteOutline as DeleteOutlineIcon,
   Description as DescriptionIcon,
   Code as CodeIcon,
+  OpenInNew as OpenInNewIcon,
 } from "@mui/icons-material"
 import type { UploadedFileData } from "../typies/types"
 import { getCookie } from "../login/Login"
 
 interface FilesSectionProps {
   files: UploadedFileData[]
-  filePreviews: { [key: string]: string }
   fileContents: { [key: string]: string }
   loading: boolean
   onView: (file: UploadedFileData) => void
-  onDownload: (file: UploadedFileData) => void
   onDelete: (file: UploadedFileData) => void
   deletingFiles: Set<string>
 }
@@ -52,10 +50,12 @@ const getViewUrl = async (s3Key: string): Promise<string> => {
       throw new Error("No authentication token found")
     }
 
-    const response = await fetch(
+    // Import axios dynamically
+    const axios = (await import("axios")).default
+
+    const response = await axios.get(
       `https://edushare-api.onrender.com/api/upload/presigned-url/view?filePath=${encodeURIComponent(s3Key)}`,
       {
-        method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -63,12 +63,7 @@ const getViewUrl = async (s3Key: string): Promise<string> => {
       },
     )
 
-    if (!response.ok) {
-      throw new Error(`Failed to get view URL: ${response.statusText}`)
-    }
-
-    const data = await response.json()
-    return data.url || data.presignedUrl || data
+    return response.data.url || response.data.presignedUrl || response.data
   } catch (error) {
     console.error("Error getting view URL:", error)
     throw error
@@ -82,23 +77,47 @@ const getDownloadUrl = async (s3Key: string): Promise<string> => {
       throw new Error("No authentication token found")
     }
 
-    const response = await fetch("https://edushare-api.onrender.com/api/upload/download-url", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ s3Key }),
-    })
+    console.log("Requesting download URL for S3 key:", s3Key)
 
-    if (!response.ok) {
-      throw new Error(`Failed to get download URL: ${response.statusText}`)
+    // Import axios dynamically
+    const axios = (await import("axios")).default
+
+    // שליחת המחרוזת ישירות כפי שהשרת מצפה
+    const response = await axios.post(
+      "https://edushare-api.onrender.com/api/upload/download-url",
+      s3Key, // שליחת המחרוזת ישירות!
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        timeout: 30000,
+      },
+    )
+
+    console.log("Download URL response:", response.data)
+
+    const downloadUrl =
+      response.data.url ||
+      response.data.downloadUrl ||
+      response.data.presignedUrl ||
+      response.data.signedUrl ||
+      response.data
+
+    if (!downloadUrl || typeof downloadUrl !== "string") {
+      console.error("Invalid download URL response:", response.data)
+      throw new Error("Invalid download URL received from server")
     }
 
-    const data = await response.json()
-    return data.url || data.downloadUrl || data
-  } catch (error) {
+    return downloadUrl
+  } catch (error: any) {
     console.error("Error getting download URL:", error)
+    if (error.response) {
+      console.error("Response status:", error.response.status)
+      console.error("Response data:", error.response.data)
+      throw new Error(`Failed to get download URL: ${error.response.status} - ${JSON.stringify(error.response.data)}`)
+    }
     throw error
   }
 }
@@ -125,30 +144,82 @@ const FileContentViewer: React.FC<{
 
   const isWordFile = (name: string) => name.toLowerCase().endsWith(".doc") || name.toLowerCase().endsWith(".docx")
 
-  // Load file URL when component mounts
-  useEffect(() => {
-    const loadFileUrl = async () => {
-      if (!file.s3Key) {
-        setError("No S3 key available")
-        setLoading(false)
-        return
-      }
-
-      try {
-        setLoading(true)
-        setError("")
-        const url = await getViewUrl(file.s3Key)
-        setFileUrl(url)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load file")
-        console.error("Error loading file URL:", err)
-      } finally {
-        setLoading(false)
-      }
+  const getMimeType = (fileType: string) => {
+    const mimeTypes: { [key: string]: string } = {
+      pdf: "application/pdf",
+      doc: "application/msword",
+      docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      jpg: "image/jpeg",
+      jpeg: "image/jpeg",
+      png: "image/png",
+      gif: "image/gif",
+      bmp: "image/bmp",
+      webp: "image/webp",
+      txt: "text/plain",
+      md: "text/markdown",
+      json: "application/json",
+      js: "text/javascript",
+      ts: "text/typescript",
+      jsx: "text/javascript",
+      tsx: "text/typescript",
+      css: "text/css",
+      html: "text/html",
     }
 
-    loadFileUrl()
-  }, [file.s3Key])
+    const extension = fileType.toLowerCase().replace(".", "")
+    return mimeTypes[extension] || "application/octet-stream"
+  }
+
+  const downloadAndCreateBlobUrl = async () => {
+    if (!file.s3Key) {
+      setError("No S3 key available")
+      return
+    }
+
+    try {
+      setLoading(true)
+      setError("")
+
+      const url = await getViewUrl(file.s3Key)
+
+      // Import axios dynamically
+      const axios = (await import("axios")).default
+
+      const response = await axios.get(url, {
+        responseType: "arraybuffer",
+        timeout: 30000,
+      })
+
+      const fileExtension = fileName.split(".").pop()?.toLowerCase() || ""
+
+      const blobUrl = window.URL.createObjectURL(
+        new Blob([response.data], {
+          type: getMimeType(fileExtension),
+        }),
+      )
+
+      setFileUrl(blobUrl)
+    } catch (error: any) {
+      console.error("Error downloading for preview:", error)
+      setError(`שגיאה בטעינת הקובץ: ${error.message || "Unknown error"}`)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (file.s3Key && (isPdfFile(fileName) || isWordFile(fileName) || isImageFile(fileName))) {
+      downloadAndCreateBlobUrl()
+    } else {
+      setLoading(false)
+    }
+
+    return () => {
+      if (fileUrl) {
+        window.URL.revokeObjectURL(fileUrl)
+      }
+    }
+  }, [file.s3Key, fileName])
 
   if (loading) {
     return (
@@ -170,7 +241,7 @@ const FileContentViewer: React.FC<{
     )
   }
 
-  if (error || !fileUrl) {
+  if (error) {
     return (
       <Box
         sx={{
@@ -191,7 +262,7 @@ const FileContentViewer: React.FC<{
           {fileName.length > 20 ? `${fileName.substring(0, 20)}...` : fileName}
         </Typography>
         <Typography variant="caption" color="error.main">
-          {error || "לא ניתן לטעון את הקובץ"}
+          {error}
         </Typography>
       </Box>
     )
@@ -240,18 +311,36 @@ const FileContentViewer: React.FC<{
           overflow: "hidden",
           border: "1px solid",
           borderColor: "grey.200",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        <iframe
-          src={fileUrl}
-          width="100%"
-          height="100%"
-          style={{ border: "none" }}
-          title={fileName}
-          onError={() => {
-            console.error(`Failed to load PDF: ${fileUrl}`)
+        <Box sx={{ position: "relative", flexGrow: 1 }}>
+          <iframe src={fileUrl} width="100%" height="100%" style={{ border: "none" }} title={fileName} />
+        </Box>
+
+        <Box
+          sx={{
+            p: 1,
+            bgcolor: "grey.100",
+            borderTop: "1px solid",
+            borderColor: "grey.200",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
-        />
+        >
+          <Typography variant="caption" color="text.secondary">
+            {fileName}
+          </Typography>
+          <Stack direction="row" spacing={0.5}>
+            <Tooltip title="פתח בחלון חדש">
+              <IconButton size="small" onClick={() => window.open(fileUrl, "_blank")}>
+                <OpenInNewIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </Stack>
+        </Box>
       </Box>
     )
   }
@@ -330,14 +419,16 @@ const FileContentViewer: React.FC<{
           bgcolor: "#f8fafc",
           border: "1px solid",
           borderColor: "primary.main",
+          cursor: "pointer",
         }}
+        onClick={() => window.open(fileUrl, "_blank")}
       >
         <DescriptionIcon sx={{ fontSize: 40, color: "primary.main", mb: 1 }} />
         <Typography variant="body2" sx={{ fontWeight: 600, color: "primary.main", mb: 0.5, textAlign: "center" }}>
           {fileName.length > 20 ? `${fileName.substring(0, 20)}...` : fileName}
         </Typography>
         <Typography variant="caption" color="text.secondary">
-          מסמך Word
+          מסמך Word - לחץ לצפייה
         </Typography>
       </Box>
     )
@@ -404,23 +495,35 @@ const FileCard: React.FC<{
   const handleDownload = useCallback(async () => {
     if (!file.s3Key) {
       console.error("No S3 key available for download")
+      alert("שגיאה: לא נמצא מזהה קובץ")
       return
     }
 
     try {
       setDownloading(true)
-      const downloadUrl = await getDownloadUrl(file.s3Key)
+      console.log("Starting download for file:", file.fileName, "S3 key:", file.s3Key)
 
-      // Create a temporary link and trigger download
+      const downloadUrl = await getDownloadUrl(file.s3Key)
+      console.log("Got download URL:", downloadUrl)
+
+      // יצירת קישור זמני והפעלת הורדה
       const link = document.createElement("a")
       link.href = downloadUrl
       link.download = file.fileName
       link.target = "_blank"
+      link.rel = "noopener noreferrer"
+
+      // הוספה לדום, לחיצה והסרה
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
+
+      console.log("Download initiated successfully")
+      alert("ההורדה החלה בהצלחה! 🎉")
     } catch (error) {
       console.error("Error downloading file:", error)
+      const errorMessage = error instanceof Error ? error.message : "שגיאה לא ידועה"
+      alert(`שגיאה בהורדת הקובץ: ${errorMessage}`)
     } finally {
       setDownloading(false)
     }
@@ -434,10 +537,9 @@ const FileCard: React.FC<{
 
     try {
       const viewUrl = await getViewUrl(file.s3Key)
-      window.open(viewUrl, "_blank")
+      window.open(viewUrl, "_blank", "noopener,noreferrer")
     } catch (error) {
       console.error("Error getting view URL:", error)
-      // Fallback to the original onView function
       onView(file)
     }
   }, [file.s3Key, file, onView])
@@ -493,7 +595,7 @@ const FileCard: React.FC<{
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
                 maxWidth: "70%",
-                color: "text.primary",
+                color: "primary.main",
               }}
             >
               {file.fileName}
@@ -641,7 +743,7 @@ export const FilesSection: React.FC<FilesSectionProps> = ({
         >
           <FolderIcon />
         </Box>
-        <Typography variant="h5" sx={{ fontWeight: 600, color: "text.primary" }}>
+        <Typography variant="h5" sx={{ fontWeight: 600, color: "primary.main" }}>
           חומרי עזר נוספים ({files.length})
         </Typography>
       </Stack>
@@ -665,7 +767,7 @@ export const FilesSection: React.FC<FilesSectionProps> = ({
           }}
         >
           <FolderIcon sx={{ fontSize: 64, color: "grey.400", mb: 2 }} />
-          <Typography variant="h6" color="text.secondary" sx={{ mb: 1 }}>
+          <Typography variant="h6" color="primary.main" sx={{ mb: 1 }}>
             אין קבצים נוספים
           </Typography>
           <Typography variant="body2" color="text.secondary">
