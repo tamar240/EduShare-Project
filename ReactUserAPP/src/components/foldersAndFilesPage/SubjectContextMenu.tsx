@@ -21,7 +21,6 @@ const SubjectContextMenu: React.FC<SubjectContextMenuProps> = ({ mouseX, mouseY,
 
 
   const handleDeleteSubject = async () => {
-    console.log("Deleting subject with ID:", subject.id);
     
     try {
       const token = getCookie("auth_token");

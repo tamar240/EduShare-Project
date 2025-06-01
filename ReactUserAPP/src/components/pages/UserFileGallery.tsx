@@ -23,6 +23,7 @@ export interface UploadedFile {
   filePath: string;
   size: number;
   lessonId: number;
+  s3Key: string; 
 }
 
 const UserFileGallery = () => {
@@ -57,44 +58,49 @@ const UserFileGallery = () => {
     fetchFiles();
   },  []);
 
-  const loadViewUrl = async (filePath: string) => {
-    if (viewUrls[filePath]) return;
+
+  const loadViewUrl = async (s3Key: string) => {
+    if (viewUrls[s3Key]) return;
     try {
       const token = getCookie('auth_token');
-      const res = await axios.get(`${baseUrl}/api/upload/presigned-url/view`, {
-        params: { filePath },
+      const encodedPath = encodeURIComponent(s3Key);
+      const url = `${baseUrl}/api/upload/presigned-url/view?filePath=${encodedPath}`;
+      
+      const res = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setViewUrls(prev => ({ ...prev, [filePath]: res.data.url }));
+  
+      setViewUrls(prev => ({ ...prev, [s3Key]: res.data.url }));
     } catch (err) {
-      console.error(`שגיאה בטעינת URL עבור ${filePath}:`, err);
+      console.error(`שגיאה בטעינת URL עבור ${s3Key}:`, err);
     }
   };
+  
 
   const previewRef = (file: UploadedFile) => {
     const ref = (node: HTMLDivElement | null) => {
-      if (node && !viewUrls[file.filePath]) {
+      if (node && !viewUrls[file.s3Key]) {
         if (!observer.current) {
           observer.current = new IntersectionObserver(entries => {
             entries.forEach(entry => {
               if (entry.isIntersecting) {
-                const filePath = entry.target.getAttribute('data-filepath');
-                if (filePath) loadViewUrl(filePath);
+                const s3Key = entry.target.getAttribute('data-s3key');
+                if (s3Key) loadViewUrl(s3Key);
               }
             });
           });
         }
-        node.setAttribute('data-filepath', file.filePath);
+        node.setAttribute('data-s3key', file.s3Key);
         observer.current.observe(node);
       }
     };
     return ref;
   };
-
+  
   const renderPreview = (file: UploadedFile) => {
-    const url = viewUrls[file.filePath];
+    const url = viewUrls[file.s3Key];
     const type = file.fileType;
 
     if (!url) {

@@ -65,8 +65,7 @@ const RecycleBin: React.FC = () => {
     try {
       if (actionType === 'restore') {
 
-        console.log("restore: selectedFile", selectedFile);
-        console.log("restore: token", token);
+
         await axios.put(
           `${baseUrl}/api/UploadedFile/restore/${selectedFile.id}`,
           {},
@@ -76,8 +75,8 @@ const RecycleBin: React.FC = () => {
             }
           }
         );
-        console.log("hard: selectedFile", selectedFile);
-        console.log("hard: token", token);
+
+
         
         
       } else if (actionType === 'delete') {

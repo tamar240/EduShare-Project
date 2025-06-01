@@ -157,7 +157,6 @@ const FileUploader: React.FC = () => {
               <AWSFileUpload
                 lessonId={selectedLesson}
                 onUploadComplete={(uploadedFile) => {
-                  console.log("📦 כל המידע של הקובץ:", uploadedFile);
                   setViewUrl(uploadedFile.viewUrl);
                 }}
               />

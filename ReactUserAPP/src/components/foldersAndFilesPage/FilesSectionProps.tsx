@@ -74,54 +74,53 @@ const getViewUrl = async (s3Key: string): Promise<string> => {
 
 const getDownloadUrl = async (s3Key: string): Promise<string> => {
   try {
-    const token = getCookie("auth_token")
+    const token = getCookie("auth_token");
     if (!token) {
-      throw new Error("No authentication token found")
+      throw new Error("No authentication token found");
     }
 
-    console.log("Requesting download URL for S3 key:", s3Key)
+    const axios = (await import("axios")).default;
 
-    // Import axios dynamically
-    const axios = (await import("axios")).default
-
-    // שליחת המחרוזת ישירות כפי שהשרת מצפה
-    const response = await axios.post(
+   const response= await axios.post(
       "https://edushare-api.onrender.com/api/upload/download-url",
-      s3Key, // שליחת המחרוזת ישירות!
+      JSON.stringify(s3Key), 
       {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
-          Accept: "application/json",
         },
-      },
-    )
-
-    console.log("Download URL response:", response.data)
+      }
+    );
+    
 
     const downloadUrl =
       response.data.url ||
       response.data.downloadUrl ||
       response.data.presignedUrl ||
       response.data.signedUrl ||
-      response.data
+      response.data;
 
     if (!downloadUrl || typeof downloadUrl !== "string") {
-      console.error("Invalid download URL response:", response.data)
-      throw new Error("Invalid download URL received from server")
+      console.error("Invalid download URL response:", response.data);
+      throw new Error("Invalid download URL received from server");
     }
 
-    return downloadUrl
+    return downloadUrl;
   } catch (error: any) {
-    console.error("Error getting download URL:", error)
+    console.error("Error getting download URL:", error);
     if (error.response) {
-      console.error("Response status:", error.response.status)
-      console.error("Response data:", error.response.data)
-      throw new Error(`Failed to get download URL: ${error.response.status} - ${JSON.stringify(error.response.data)}`)
+      console.error("Response status:", error.response.status);
+      console.error("Response data:", error.response.data);
+      throw new Error(
+        `Failed to get download URL: ${error.response.status} - ${JSON.stringify(
+          error.response.data
+        )}`
+      );
     }
-    throw error
+    throw error;
   }
-}
+};
+
 
 const FileContentViewer: React.FC<{
   fileName: string
@@ -502,10 +501,8 @@ const FileCard: React.FC<{
 
     try {
       setDownloading(true)
-      console.log("Starting download for file:", file.fileName, "S3 key:", file.s3Key)
 
       const downloadUrl = await getDownloadUrl(file.s3Key)
-      console.log("Got download URL:", downloadUrl)
 
       // יצירת קישור זמני והפעלת הורדה
       const link = document.createElement("a")
@@ -519,7 +516,6 @@ const FileCard: React.FC<{
       link.click()
       document.body.removeChild(link)
 
-      console.log("Download initiated successfully")
       alert("ההורדה החלה בהצלחה! 🎉")
     } catch (error) {
       console.error("Error downloading file:", error)

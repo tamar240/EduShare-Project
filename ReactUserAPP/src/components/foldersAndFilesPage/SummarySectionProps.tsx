@@ -101,7 +101,6 @@ const FileContentViewer: React.FC<{
       setIsLoading(true)
       setError("")
 
-      console.log("Downloading file for preview from:", url)
 
       // Import axios dynamically
       const axios = (await import("axios")).default

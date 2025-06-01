@@ -27,7 +27,6 @@ export const getUserDetailes = () => {
     if (token) {
         const decodedToken: any = jwtDecode(token);
 
-        console.log("de token", decodedToken);
 
         return {
             name: decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
@@ -75,7 +74,6 @@ const Login = () => {
             const response = await axios.post(`${urlAuthAPI}${status}`, loginData);
             const { token } = response.data;
             document.cookie = `auth_token=${token}; path=/; secure; samesite=strict;`;
-            console.log("Login successful", getCookie("auth_token"));
             setOpen(false);
             resetForm();
             navigate('/userFilesPage', { state: { type: 'PERSONAL' } });
@@ -88,6 +86,7 @@ const Login = () => {
         }
     };
     const handleRegister = async (e: any) => {
+        
         if (password.length < 6) {
             setError('הסיסמה חייבת להכיל לפחות 6 תווים');
             setIsLoading(false);
@@ -105,7 +104,6 @@ const Login = () => {
             const { token } = response.data;
             document.cookie = `auth_token=${token}; path=/; secure; samesite=strict;`;
 
-            console.log("Registration successful", getCookie("auth_token"));
 
             setOpen(false);
             resetForm();

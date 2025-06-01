@@ -12,7 +12,6 @@ const Header: React.FC = () => {
    navigate('/');
   };
   const user = getUserDetailes();
-  console.log("user", user);
   
   const firstLetter = user?.name?.charAt(0).toUpperCase() ?? '?';
  

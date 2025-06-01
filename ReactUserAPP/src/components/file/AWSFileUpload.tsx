@@ -94,7 +94,6 @@ const AWSFileUpload: React.FC<AWSFileUploadProps> = ({ lessonId, onUploadComplet
         s3Key:`${getUserDetailes()?.id}/${file.name}`,
         ownerId: getUserDetailes()?.id || 0,
       };
-console.log('Uploaded File:', uploadedFile);
 
       const saveRes = await axios.post(`${baseUrl}/api/UploadedFile`, uploadedFile, {
         headers: {

@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
-import { Box, Menu, MenuItem, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Button, CircularProgress, Alert } from "@mui/material";
+import { Box,  Typography, Dialog, DialogTitle, DialogContent, DialogActions, Button, CircularProgress, Alert } from "@mui/material";
 import LessonsList from "../foldersAndFilesPage/LessonsList";
 import SubjectsList from "../SubjectList";
 import axios from "axios"; 
-import { Lesson, Subject, UserFilesPageProps } from "../typies/types";
+import {  Subject, UserFilesPageProps } from "../typies/types";
 import { getCookie } from "../login/Login";
 
 const UserFilesPage: React.FC<UserFilesPageProps> = ({ type }) => {
   const [subjects, setSubjects] = useState<Subject[]>([]); 
   const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null); 
-  const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
-  const [selectedLesson] = useState<Lesson | null>(null);
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
   const [page, setPage] = useState<"subjects" | "lessons">("subjects"); 
   const [loading, setLoading] = useState<boolean>(false); 
@@ -76,9 +74,6 @@ const UserFilesPage: React.FC<UserFilesPageProps> = ({ type }) => {
         )}
       </Box>
 
-      <Menu anchorEl={menuAnchor} open={Boolean(menuAnchor)} onClose={() => setMenuAnchor(null)}>
-        <MenuItem onClick={() => console.log("Download", selectedLesson)}>הורדה</MenuItem>
-      </Menu>
 
       <Dialog open={openDetailsDialog} onClose={() => setOpenDetailsDialog(false)}>
         <DialogTitle>פרטי מקצוע</DialogTitle>
