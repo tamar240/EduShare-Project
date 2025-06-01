@@ -88,6 +88,12 @@ const Login = () => {
         }
     };
     const handleRegister = async (e: any) => {
+        if (password.length < 6) {
+            setError('הסיסמה חייבת להכיל לפחות 6 תווים');
+            setIsLoading(false);
+            return;
+        }
+        
         e.preventDefault();
         setIsLoading(true);
 
@@ -184,7 +190,11 @@ const Login = () => {
                         label="סיסמה"
                         type="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+                            if (error) setError('');
+                        }}
+                        
                         margin="dense"
                     />
                     {status == "login" &&
