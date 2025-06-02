@@ -151,11 +151,13 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 var app = builder.Build();
 
+app.UseCors(MyAllowSpecificOrigins);
+
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
 
-app.UseCors(MyAllowSpecificOrigins); 
 
 
 app.UseAuthentication();

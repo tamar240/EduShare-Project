@@ -83,7 +83,7 @@ const getDownloadUrl = async (s3Key: string): Promise<string> => {
 
    const response= await axios.post(
       "https://edushare-api.onrender.com/api/upload/download-url",
-      JSON.stringify(s3Key), 
+      s3Key, 
       {
         headers: {
           Authorization: `Bearer ${token}`,

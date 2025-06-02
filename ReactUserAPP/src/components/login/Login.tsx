@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import { Visibility, VisibilityOff } from '@mui/icons-material'; 
 
 
 
@@ -56,6 +57,7 @@ const Login = () => {
     const [status, setStatus] = useState('login');
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false); 
 
     const baseUrl = import.meta.env.VITE_API_URL;
     
@@ -66,8 +68,7 @@ const Login = () => {
     const handleLogin = async (e: any) => {
 
         e.preventDefault();
-        setIsLoading(true); // בתחילת הפעולה
-
+        setIsLoading(true); 
         const loginData = { name, password };
 
         try {
@@ -186,14 +187,25 @@ const Login = () => {
                     <TextField
                         fullWidth
                         label="סיסמה"
-                        type="password"
-                        value={password}
+                        type={showPassword ? 'text' : 'password'}                
                         onChange={(e) => {
                             setPassword(e.target.value);
                             if (error) setError('');
                         }}
                         
                         margin="dense"
+                        sx={{
+                            backgroundColor: '#e3f2fd', 
+                        }}
+                        InputProps={{ 
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                              </IconButton>
+                            </InputAdornment>
+                          )
+                        }}
                     />
                     {status == "login" &&
                         <Typography variant="body2" align="center" sx={{ mt: 2 }}>
