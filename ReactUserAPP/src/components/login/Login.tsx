@@ -3,13 +3,13 @@ import axios from 'axios';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import { Visibility, VisibilityOff } from '@mui/icons-material'; 
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 
 
-export const isLogin=()=>{
-const token = getCookie("auth_token");
-return token!=""
+export const isLogin = () => {
+    const token = getCookie("auth_token");
+    return token != ""
 }
 export const getCookie = (name: string) => {
 
@@ -57,10 +57,11 @@ const Login = () => {
     const [status, setStatus] = useState('login');
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [showPassword, setShowPassword] = useState(false); 
+    const [showPassword, setShowPassword] = useState(false);
+    const [passwordTouched, setPasswordTouched] = useState(false);
 
     const baseUrl = import.meta.env.VITE_API_URL;
-    
+
     const navigate = useNavigate();
 
     const urlAuthAPI = `${baseUrl}/api/Auth/`;
@@ -68,7 +69,7 @@ const Login = () => {
     const handleLogin = async (e: any) => {
 
         e.preventDefault();
-        setIsLoading(true); 
+        setIsLoading(true);
         const loginData = { name, password };
 
         try {
@@ -82,18 +83,18 @@ const Login = () => {
         } catch (error) {
             setError('שם משתמש או סיסמה לא נכונים');
         }
-        finally{
+        finally {
             setIsLoading(false);
         }
     };
     const handleRegister = async (e: any) => {
-        
+
         if (password.length < 6) {
             setError('הסיסמה חייבת להכיל לפחות 6 תווים');
             setIsLoading(false);
             return;
         }
-        
+
         e.preventDefault();
         setIsLoading(true);
 
@@ -113,22 +114,22 @@ const Login = () => {
         } catch (error) {
             setError('הרשמה נכשלה, נסה שנית');
         }
-        finally{
+        finally {
             setIsLoading(false);
         }
     };
 
     const LoadingAnimation = () => (
         <div style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "1rem",
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "1rem",
         }}>
-          <div className="dot" />
-          <div className="dot" />
-          <div className="dot" />
-          <style>
-            {`
+            <div className="dot" />
+            <div className="dot" />
+            <div className="dot" />
+            <style>
+                {`
               .dot {
                 width: 10px;
                 height: 10px;
@@ -155,14 +156,14 @@ const Login = () => {
                 }
               }
             `}
-          </style>
+            </style>
         </div>
-      );
-      
+    );
+
     return (
         <div>
             <Button variant="contained" onClick={() => setOpen(true)}>התחבר</Button>
-            <Dialog open={open} onClose={() => setOpen(false)}  dir="rtl">
+            <Dialog open={open} onClose={() => setOpen(false)} dir="rtl">
                 <DialogTitle>התחבר</DialogTitle>
                 <DialogContent sx={{ textAlign: 'right' }}>
                     <TextField
@@ -171,7 +172,7 @@ const Login = () => {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         margin="dense"
-                        
+
                     />
                     {status === 'register' &&
                         <TextField
@@ -181,30 +182,31 @@ const Login = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             margin="dense"
-                            
+
                         />
                     }
+               
                     <TextField
                         fullWidth
                         label="סיסמה"
-                        type={showPassword ? 'text' : 'password'}                
+                        type={showPassword ? 'text' : 'password'}
                         onChange={(e) => {
                             setPassword(e.target.value);
                             if (error) setError('');
                         }}
-                        
+                        onFocus={() => setPasswordTouched(true)}
                         margin="dense"
                         sx={{
-                            backgroundColor: '#e3f2fd', 
+                            backgroundColor: passwordTouched ? '#e3f2fd' : 'transparent',
                         }}
-                        InputProps={{ 
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                              </IconButton>
-                            </InputAdornment>
-                          )
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            )
                         }}
                     />
                     {status == "login" &&
@@ -217,19 +219,19 @@ const Login = () => {
                     }
                     {error && <Typography color="error">{error}</Typography>}
 
-                </DialogContent>  
-                  {isLoading && <LoadingAnimation />}
+                </DialogContent>
+                {isLoading && <LoadingAnimation />}
                 <DialogActions>
                     <Button onClick={() => { setOpen(false); resetForm() }}>סגור</Button>
                     <Button variant="contained" onClick={status === "login" ? handleLogin : handleRegister}>
                         {status === "login" ? "התחבר" : "הרשם"}
                     </Button>
-                     
+
                 </DialogActions>
             </Dialog>
-    
+
         </div>
-     
+
 
     );
 };
